@@ -1,0 +1,3 @@
+rootProject.name = 'Cordial'
+
+include ':app'
