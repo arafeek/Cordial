@@ -1,2 +1,2 @@
-# Cordial App
-An app for making better personal connections
+# Cordial
+A simple contact-sharing cross-platform mobile application.
