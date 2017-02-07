@@ -1,5 +1,9 @@
 import counter from './counter';
+import model from './model';
 
-export {
+const reducers = {
   counter,
-}
+  model
+};
+
+export default reducers;

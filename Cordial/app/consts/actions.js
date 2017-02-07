@@ -3,3 +3,6 @@
 
 export const INCREMENT_COUNTER = 'Counter/INCREMENT';
 export const DECREMENT_COUNTER = 'Counter/DECREMENT';
+
+export const PUT_MODEL = 'model/PUT';
+export const REGISTER_MODEL = 'model/REGISTER';
