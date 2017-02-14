@@ -7,8 +7,9 @@ import {
 import { StyleSheet } from 'react-native';
 
 import { TabIcon } from '../components/tab-icon';
-import CounterContainer from '../containers/counter-container';
+import ProfileContainer from '../containers/profile-container';
 import ContactsContainer from '../containers/contacts-container';
+import SettingsContainer from '../containers/settings-container';
 
 const styles = StyleSheet.create({
   tabBar: {
@@ -17,17 +18,26 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     opacity: 1,
   }
-})
+});
 export default routes = Actions.create(
   <Scene key="root">
     <Scene key="tabbar" tabs={true}>
-      <Scene key="counter" icon={TabIcon}
-        component={CounterContainer}
-        title="Counter" />
-      <Scene key="contacts"
+      <Scene
+        key="profile"
+        icon={TabIcon}
+        component={ProfileContainer}
+        title="Profile"
+        hideNavBar={true} />
+      <Scene
+        key="contacts"
         icon={TabIcon}
         component={ContactsContainer}
         title="Contacts" />
+      <Scene
+        key="settings"
+        icon={TabIcon}
+        component={SettingsContainer}
+        title="Settings" />
     </Scene>
   </Scene>
 );
