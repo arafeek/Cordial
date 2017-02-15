@@ -1,5 +1,6 @@
-import {setModel} from '../actions/model';
+import _ from 'lodash';
 
+import {setModel} from '../actions/model';
 import store from '../containers/store';
 import {registerModel} from '../actions/model';
 
@@ -22,13 +23,13 @@ class Model {
   _validateSchema(json) {
     return validate(json, this.schema);
   }
-  _publish(state) {
+  _publish() {
     // if the reference has changed, the model
     // has been updated
-    if (this._reference !== state) {
-      for (let fn in this.subscribers) {
-        fn(state);
-      }
+    const byId = this.byId();
+    if (this._reference !== byId) {
+      this._reference = byId;
+      _.forEach(this.subscribers, (fn) => fn(byId));
     }
   }
 
@@ -46,7 +47,8 @@ class Model {
   // Gets all model instances by id
   byId() {
     const state = store.getState();
-    return modelSelector(state)[this.model];
+    const byId = modelSelector(state)[this.model];
+    return byId;
   }
   // Update or create a model instance
   put(id, data) {

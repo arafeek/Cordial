@@ -4,12 +4,13 @@ const initialState = {};
 
 export default function model(state = initialState, action = {}) {
   switch (action.type) {
-    case actions.SET_MODEL: {
+    case actions.PUT_MODEL: {
       const {model, id, data} = action;
+      const previousState = state[model] || {};
       return {
         ...state,
         [model]: {
-          ...state[model],
+          ...previousState,
           [id]: data
         }
       };

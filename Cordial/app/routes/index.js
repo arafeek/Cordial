@@ -19,9 +19,9 @@ const styles = StyleSheet.create({
     opacity: 1,
   }
 });
-export default routes = Actions.create(
+const routes = Actions.create(
   <Scene key="root">
-    <Scene key="tabbar" tabs={true}>
+    <Scene key="tabbar" tabs={true} tabBarStyle={styles.tabBar}>
       <Scene
         key="profile"
         icon={TabIcon}
@@ -42,3 +42,4 @@ export default routes = Actions.create(
   </Scene>
 );
 
+export default routes;

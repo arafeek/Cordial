@@ -30,8 +30,8 @@ export default class ProfilePicture extends Component {
 					borderRadius: size,
 					borderWidth: borderWidth,
 					padding: 0,
-					margin: 0
-
+					margin: 0,
+					...this.props.style
 				}}
 			>
 				<Image
@@ -40,7 +40,7 @@ export default class ProfilePicture extends Component {
 						height: size - 2 * borderWidth,
 						width: size - 2 * borderWidth,
 						resizeMode: 'stretch',
-						borderRadius: size + 2 * borderWidth
+						borderRadius: size * 2
 					}}
 				/>
 			</View>
