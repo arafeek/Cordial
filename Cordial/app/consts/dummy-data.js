@@ -1,21 +1,12 @@
 // dummy data
 
-export const JohnDoeProfile = {
-	id: 'JOHNDOE',
-	email: 'johndoe@cogeco.net',
-	phone: '1-800-867-5309',
-	cards: ['JOHNDOE_1'],
-	ignoredContacts: [],
-	contacts: []
-};
-
 export const JohnDoeCard1 = {
 	id: 'JOHNDOE_1',
 	user: 'JOHNDOE',
 	displayName: 'John A. Doe',
 	type: 'Business',
 	profilePhoto: null,
-	displayPhoto: null,
+	displayPhoto: 'someID',
 	style: {
 		header: {
 			startColor: '#ffffff',
@@ -143,3 +134,13 @@ export const DennisCard1 = {
 };
 
 export const cards = [JohnDoeCard1, LinusTorvaldsCard1, TinusLorvaldsCard1, CharlieCard1, DennisCard1];
+
+export const JohnDoeProfile = {
+	id: 'JOHNDOE',
+	email: 'johndoe@cogeco.net',
+	phone: '1-800-867-5309',
+	cards: ['JOHNDOE_1'],
+	ignoredContacts: [],
+	contacts: [JohnDoeCard1.id, CharlieCard1.id, DennisCard1.id, LinusTorvaldsCard1.id],
+	pendingContacts: [TinusLorvaldsCard1.id]
+};

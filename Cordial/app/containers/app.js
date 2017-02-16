@@ -12,11 +12,12 @@ import CounterContainer from './counter-container';
 import store from './store';
 
 // ** Let's hydrate the store with some dummy data for now **
-import {cards} from '../consts/dummy-data.js';
+import {cards, JohnDoeProfile} from '../consts/dummy-data.js';
 import {putModel} from '../actions/model';
 
 cards.forEach(c => store.dispatch(putModel('Card', c.id, c)));
 
+store.dispatch(putModel('User', JohnDoeProfile.id, JohnDoeProfile));
 
 // **********************************************************
 

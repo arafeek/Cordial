@@ -7,7 +7,7 @@ function ConnectToModel(Component, model) {
 			super(props);
 			this.changeHandler = this.changeHandler.bind(this);
 			this.state = {
-				[model.model]: model.byId()
+				[model.model]: model
 			};
 		}
 		changeHandler(state) {
@@ -17,7 +17,7 @@ function ConnectToModel(Component, model) {
 		}
 		componentDidMount() {
 			subscription = model.subscribe(this.changeHandler);
-			this.setState({[model.model]: model.byId()});
+			this.setState({[model.model]: model});
 		}
 		componentWillUnmount() {
 			model.unsubscribe(subscription);

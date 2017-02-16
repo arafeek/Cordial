@@ -23,16 +23,17 @@ export default class ProfilePicture extends Component {
 		const {uri} = this.state;
 		return (
 			<View
-				style={{
+				style={[{
 					height: size,
 					width: size,
 					borderColor: brightBlue,
 					borderRadius: size,
 					borderWidth: borderWidth,
 					padding: 0,
-					margin: 0,
-					...this.props.style
-				}}
+					margin: 0
+				},
+					this.props.style
+				]}
 			>
 				<Image
 					source={{uri}}

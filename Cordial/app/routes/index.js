@@ -10,6 +10,8 @@ import { TabIcon } from '../components/tab-icon';
 import ProfileContainer from '../containers/profile-container';
 import ContactsContainer from '../containers/contacts-container';
 import SettingsContainer from '../containers/settings-container';
+import { FOOTER_HEIGHT } from '../consts/styles';
+
 
 const styles = StyleSheet.create({
   tabBar: {
@@ -17,6 +19,7 @@ const styles = StyleSheet.create({
     borderColor: '#b7b7b7',
     backgroundColor: 'white',
     opacity: 1,
+    height: FOOTER_HEIGHT
   }
 });
 const routes = Actions.create(
@@ -32,7 +35,8 @@ const routes = Actions.create(
         key="contacts"
         icon={TabIcon}
         component={ContactsContainer}
-        title="Contacts" />
+        title="Contacts"
+        hideNavBar={true} />
       <Scene
         key="settings"
         icon={TabIcon}
