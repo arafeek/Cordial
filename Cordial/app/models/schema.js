@@ -47,6 +47,7 @@ export const cardSchema = {
   properties: {
     id: GUID,
     user: GUID,
+    displayName: {type: 'string'},
     type: {type: 'string'},
     profilePhoto: GUID,
     displayPhoto: GUID,
