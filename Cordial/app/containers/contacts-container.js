@@ -13,6 +13,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import _ from 'lodash';
 
+import StatusBarBackground from '../components/statusbar-background';
 import ProfilePicture from '../components/profile-picture';
 import DisplayPicture from '../components/display-picture';
 import TileButton from '../components/tile-button';
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: brightBlue,
 		backgroundColor: lightBlue,
+		overflow: 'hidden',
 		left: 5,
 		bottom: 5,
 		position: 'absolute',
@@ -149,6 +151,7 @@ class ContactsContainer extends Component {
 				marginBottom: FOOTER_HEIGHT
 			}}
 			>
+				<StatusBarBackground />
 				<View style={{flex: 0, flexDirection: 'row', height: 40, justifyContent: 'center'}}>
 					<TileButton onPress={this.toggleMode} isActive={!this.state.viewPending}>
 						<Text>My Contacts</Text>
