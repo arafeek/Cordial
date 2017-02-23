@@ -12,12 +12,13 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import _ from 'lodash';
-
+import { Actions, ActionConst} from 'react-native-router-flux';
 import ProfilePicture from '../components/profile-picture';
 import DisplayPicture from '../components/display-picture';
 import TileButton from '../components/tile-button';
 import {Card, User} from '../models/Model';
 import ConnectToModel from '../models/connect-to-model';
+
 import {
 	brightBlue,
 	lightBlue,
@@ -84,9 +85,13 @@ const styles = StyleSheet.create({
 
 class Contact extends Component {
 	render() {
-		const {displayName, profilePhoto, displayPhoto, style} = this.props;
+		const {id, displayName, profilePhoto, displayPhoto, style} = this.props;
 
-		const name = <Text style={styles.name}>{displayName}</Text>;
+		const name =
+		<Text style={styles.name}
+		onPress={() => {
+			Actions.qrcode({id, displayName})
+		}}>{displayName}</Text>;
 
 		const profilePicture = <ProfilePicture
 			size={contactHeight / GOLDEN_RATIO}
