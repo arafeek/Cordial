@@ -8,7 +8,9 @@ import {
 	TextInput,
 	Button,
 	Navigator,
-	StyleSheet
+	StyleSheet,
+	Platform,
+	StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import _ from 'lodash';
@@ -151,7 +153,13 @@ class ContactsContainer extends Component {
 				marginBottom: FOOTER_HEIGHT
 			}}
 			>
+			{ Platform.OS === 'ios' ?
 				<StatusBarBackground />
+			:
+				<StatusBar
+					backgroundColor={brightBlue}
+				/>
+			}
 				<View style={{flex: 0, flexDirection: 'row', height: 40, justifyContent: 'center'}}>
 					<TileButton onPress={this.toggleMode} isActive={!this.state.viewPending}>
 						<Text>My Contacts</Text>

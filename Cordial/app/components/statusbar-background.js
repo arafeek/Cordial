@@ -4,10 +4,6 @@ import { View } from 'react-native';
 import {brightBlue} from '../consts/styles';
 
 export default class StatusBarBackground extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	render() {
 		return (
 			<View
