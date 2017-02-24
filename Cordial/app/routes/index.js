@@ -3,6 +3,7 @@ import {
   Actions,
   Scene,
   TabBar,
+  ActionConst,
 } from 'react-native-router-flux';
 import { StyleSheet } from 'react-native';
 
@@ -12,6 +13,8 @@ import ContactsContainer from '../containers/contacts-container';
 import SettingsContainer from '../containers/settings-container';
 import QRCodeContainer from '../containers/qrcode-container';
 import QRCodeScannerContainer from '../containers/qrcode-scanner-container';
+import WelcomeContainer from '../containers/welcome-container';
+import LoginContainer from '../containers/login-container';
 import { FOOTER_HEIGHT } from '../consts/styles';
 
 const styles = StyleSheet.create({
@@ -25,6 +28,14 @@ const styles = StyleSheet.create({
 });
 const routes = Actions.create(
   <Scene key="root">
+    <Scene key="welcome"
+      component={WelcomeContainer}
+      title="Welcome"
+      hideNavBar={true}
+      initial={true} />
+    <Scene key="login"
+      component={LoginContainer}
+      hideNavBar={true} />
     <Scene key="tabbar" tabs={true} tabBarStyle={styles.tabBar}>
       <Scene
         key="profile"

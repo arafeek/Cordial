@@ -137,6 +137,7 @@ export const cards = [JohnDoeCard1, LinusTorvaldsCard1, TinusLorvaldsCard1, Char
 
 export const JohnDoeProfile = {
 	id: 'JOHNDOE',
+  name: 'John Doe',
 	email: 'johndoe@cogeco.net',
 	phone: '1-800-867-5309',
 	cards: ['JOHNDOE_1'],

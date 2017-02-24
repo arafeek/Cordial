@@ -24,6 +24,9 @@ export const userSchema = {
   type: 'object',
   properties: {
     id: GUID,
+    name: {
+      type: 'string',
+    },
     email: email,
     phone: phoneNumber,
     cards: {
