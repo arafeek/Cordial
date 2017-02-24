@@ -175,7 +175,7 @@ export var Base64String = {
 
 
   // private property
-  _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+  _keyStr : 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
 
   decompress : function (input) {
     var output = [];
@@ -230,7 +230,7 @@ export var Base64String = {
         enc1, enc2, enc3, enc4,
         i = 0, flush=false;
 
-    input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+    input = input.replace(/[^A-Za-z0-9\+\/\=]/g, '');
 
     while (i < input.length) {
 
@@ -282,4 +282,4 @@ export var Base64String = {
     return output;
 
   }
-}
+};
