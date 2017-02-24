@@ -27,6 +27,11 @@ export default function auth(state = initialState, action = {}) {
         me: null,
         error: action.payload,
       };
+    case actionTypes.LOGOUT_USER:
+      return {
+        ...state,
+        me: null,
+      };
     // TODO: write more actions
     default:
       return state;

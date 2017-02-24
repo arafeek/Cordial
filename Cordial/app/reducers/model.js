@@ -32,6 +32,26 @@ export default function model(state = initialState, action = {}) {
         [model]: {}
       };
     }
+    case actions.REMOVE_MODEL_FROM_STATE:
+      const {model, id} = action;
+      const prevState = state[model] || {};
+      if (id) {
+        return {
+          ...state,
+          [model]: {
+            ...prevState,
+            [id]: undefined,
+          },
+        };
+      }
+      else {
+        return {
+          ...state,
+          [model]: undefined, // meh
+        };
+      }
+    case actions.SAVE_TO_STORAGE: 
+    case actions.LOAD_FROM_STORAGE:
     default:
       return state;
   }
