@@ -13,6 +13,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import _ from 'lodash';
 
+import filter from '../utils/filter';
 import ProfilePicture from '../components/profile-picture';
 import DisplayPicture from '../components/display-picture';
 import TileButton from '../components/tile-button';
@@ -177,8 +178,7 @@ class ContactsContainer extends Component {
 					}}
 				>
 					{
-						_(cards)
-						.filter(c => c.displayName.indexOf(this.state.input) !== -1)
+						_(filter(cards, this.state.input))
 						.map((card, key) => <Contact key={key} {...card}/>)
 						.value()
 					}

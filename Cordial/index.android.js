@@ -9,3 +9,5 @@ import React, {
 import App from './app/containers/app';
 
 AppRegistry.registerComponent('Cordial', () => App);
+
+export default App;
