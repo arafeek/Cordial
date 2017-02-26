@@ -35,6 +35,7 @@
 		7AA11CD866194D4A9367008D /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4162E749A134A3F9181362A /* Octicons.ttf */; };
 		AA7F100BE9C54FF1BB978C92 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A797A8F6B3349858CB08699 /* SimpleLineIcons.ttf */; };
 		BC3CC5CFFD1A4AA4BE3EBB2D /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 872D6EC250464ED5A5D90525 /* Zocial.ttf */; };
+		64B93D9588A34ABD8C2F01C7 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BF8D54CDC35E4C21959247C5 /* libRCTCamera.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -259,6 +260,8 @@
 		E4162E749A134A3F9181362A /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		3A797A8F6B3349858CB08699 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		872D6EC250464ED5A5D90525 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7F589C422C0145E29B2E8B27 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; name = "RCTCamera.xcodeproj"; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		BF8D54CDC35E4C21959247C5 /* libRCTCamera.a */ = {isa = PBXFileReference; name = "libRCTCamera.a"; path = "libRCTCamera.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,6 +290,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				E5F2FC4CEB0844FF930E0192 /* libBVLinearGradient.a in Frameworks */,
 				D2979D26B4C04D048E424D97 /* libRNVectorIcons.a in Frameworks */,
+				64B93D9588A34ABD8C2F01C7 /* libRCTCamera.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +437,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				CB3BE75515A24BABABA1BCEF /* BVLinearGradient.xcodeproj */,
 				DA5BFB5B7A134EC29FB0C232 /* RNVectorIcons.xcodeproj */,
+				7F589C422C0145E29B2E8B27 /* RCTCamera.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -887,6 +892,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -903,6 +909,7 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cordial.app/Cordial";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);

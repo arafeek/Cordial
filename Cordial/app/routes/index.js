@@ -11,10 +11,11 @@ import { TabIcon } from '../components/tab-icon';
 import ProfileContainer from '../containers/profile-container';
 import ContactsContainer from '../containers/contacts-container';
 import SettingsContainer from '../containers/settings-container';
+import QRCodeContainer from '../containers/qrcode-container';
+import QRCodeScannerContainer from '../containers/qrcode-scanner-container';
 import WelcomeContainer from '../containers/welcome-container';
 import LoginContainer from '../containers/login-container';
 import { FOOTER_HEIGHT } from '../consts/styles';
-
 
 const styles = StyleSheet.create({
   tabBar: {
@@ -54,6 +55,16 @@ const routes = Actions.create(
         component={SettingsContainer}
         title="Settings" />
     </Scene>
+    <Scene
+      key="qrcode"
+      component={QRCodeContainer}
+      title="QR Code"
+      hideNavBar={true} />
+    <Scene
+        key="qrcodescanner"
+        component={QRCodeScannerContainer}
+        title="QR Code Scanner"
+        hideNavBar={true} />
   </Scene>
 );
 
