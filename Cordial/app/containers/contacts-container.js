@@ -16,11 +16,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import _ from 'lodash';
 
 import StatusBarBackground from '../components/statusbar-background';
+import { Actions, ActionConst} from 'react-native-router-flux';
+import filter from '../utils/filter';
 import ProfilePicture from '../components/profile-picture';
 import DisplayPicture from '../components/display-picture';
 import TileButton from '../components/tile-button';
 import {Card, User} from '../models/Model';
 import ConnectToModel from '../models/connect-to-model';
+
 import {
 	brightBlue,
 	lightBlue,
@@ -88,9 +91,13 @@ const styles = StyleSheet.create({
 
 class Contact extends Component {
 	render() {
-		const {displayName, profilePhoto, displayPhoto, style} = this.props;
+		const {id, displayName, profilePhoto, displayPhoto, style} = this.props;
 
-		const name = <Text style={styles.name}>{displayName}</Text>;
+		const name =
+		<Text style={styles.name}
+		onPress={() => {
+			Actions.qrcode({id, displayName})
+		}}>{displayName}</Text>;
 
 		const profilePicture = <ProfilePicture
 			size={contactHeight / GOLDEN_RATIO}
@@ -188,8 +195,7 @@ class ContactsContainer extends Component {
 					}}
 				>
 					{
-						_(cards)
-						.filter(c => c.displayName.indexOf(this.state.input) !== -1)
+						_(filter(cards, this.state.input))
 						.map((card, key) => <Contact key={key} {...card}/>)
 						.value()
 					}

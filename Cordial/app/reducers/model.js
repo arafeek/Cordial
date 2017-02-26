@@ -7,6 +7,16 @@ export default function model(state = initialState, action = {}) {
     case actions.PUT_MODEL: {
       const {model, id, data} = action;
       const previousState = state[model] || {};
+      // there should only be one "user"
+      // so always repalace user models
+      if (model === 'User') {
+        return {
+          ...state,
+          User: {
+            ...data
+          }
+        };
+      }
       return {
         ...state,
         [model]: {
