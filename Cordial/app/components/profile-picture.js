@@ -41,7 +41,7 @@ export default class ProfilePicture extends Component {
 						height: size - 2 * borderWidth,
 						width: size - 2 * borderWidth,
 						resizeMode: 'stretch',
-						borderRadius: size * 2
+						borderRadius: (size / 2) - 5
 					}}
 				/>
 			</View>
