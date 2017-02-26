@@ -20,10 +20,12 @@ const styles = StyleSheet.create({
   input: {
     borderColor: baseStyles.brightBlue,
     borderWidth: 2,
-    height: 60,
+    height: 40,
+    width: 250,
     lineHeight: 60,
-    fontSize: 24,
+    fontSize: 20,
     margin: 10,
-    alignSelf: 'stretch',
+    alignSelf: 'center',
+    textAlign: 'center',
   },
 })

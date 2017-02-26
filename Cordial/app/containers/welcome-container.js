@@ -5,10 +5,13 @@ import {
   Button,
   Image,
   Text,
+  Platform,
+  StatusBar
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import StatusBarBackground from '../components/statusbar-background';
 
 import * as authActions from '../actions/auth';
 import * as baseStyles from '../consts/styles';
@@ -44,7 +47,18 @@ class WelcomeContainer extends Component {
     }
     return (
       <View style={styles.container}>
+        { Platform.OS === 'ios' ?
+          <StatusBarBackground />
+        :
+          <StatusBar
+            backgroundColor={baseStyles.brightBlue}
+          />
+        }
+
         <View style={styles.logoContainer}>
+          <Text style={styles.welcomeText}>
+            Welcome to
+          </Text>
           <Image source={require('../assets/img/cordial.png')}
             style={styles.logo} />
         </View>
@@ -74,7 +88,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+    maxHeight: 250
   },
+  welcomeText: {
+    alignSelf: 'flex-start',
+    fontSize: 18
+  }
 })
 
 

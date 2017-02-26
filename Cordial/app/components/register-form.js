@@ -34,7 +34,7 @@ const RegisterForm = props => {
       <Field name="email"
         component={TextField}
         placeholder="Email"
-        keyboardType="email-address" 
+        keyboardType="email-address"
         autoCapitalize="none" />
       <TouchableOpacity style={styles.button}
         onPress={handleSubmit(submit)}>
@@ -51,19 +51,19 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    alignSelf: 'stretch',
+    alignSelf: 'center',
     backgroundColor: baseStyles.lightBlue,
     borderColor: baseStyles.brightBlue,
-    borderColor: baseStyles.brightBlue,
-    borderRadius: 5,
+    borderRadius: 10,
     borderWidth: 1,
     flexDirection: 'row',
-    height: 60,
+    height: 40,
+    width: 250,
     justifyContent: 'center',
     margin: 10,
   },
   buttonText: {
-    fontSize: 24,
+    fontSize: 20,
   }
 });
 
