@@ -49,6 +49,8 @@
         </dict>
       </dict>
     </dict>
+    <key>NSCameraUsageDescription</key>
+    <string>Allow us to scan documents and capture images.</string>
     <key>UIAppFonts</key>
     <array>
       <string>Entypo.ttf</string>

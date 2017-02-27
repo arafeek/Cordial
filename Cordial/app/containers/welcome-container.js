@@ -34,8 +34,8 @@ class WelcomeContainer extends Component {
     };
   }
   componentWillMount() {
-    this._isLoggedIn();
     this.props.actions.loadModelFromStorage(DEVICE_USER_KEY, DEVICE_USER_ID);
+    this._isLoggedIn();
   }
 
   componentDidUpdate() {
@@ -76,8 +76,10 @@ class WelcomeContainer extends Component {
             style={styles.logo} />
         </View>
         <RegisterForm onSubmit={actions.registerUser}/>
-        <Button onPress={Actions.login}
-          title="Already have an account?" />
+        <Text style={styles.existingAccount}
+          onPress={Actions.login} >
+          Already have an account?
+        </Text>
       </View>
     );
   }
@@ -106,6 +108,11 @@ const styles = StyleSheet.create({
   welcomeText: {
     alignSelf: 'flex-start',
     fontSize: 18
+  },
+  existingAccount: {
+    paddingTop: 10,
+    fontSize: 18,
+    alignSelf: 'center'
   }
 })
 
