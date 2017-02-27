@@ -2,7 +2,8 @@ import React, {
   Component
 } from 'react';
 import {
-  View
+  View,
+  StyleSheet,
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -17,21 +18,24 @@ class QRCodeScannerContainer extends Component {
   }
 
   render() {
-    const previewStyles = {
-      flex: 1,
-      justifyContent: 'flex-end',
-      alignItems: 'center'
-    };
-
     return (
       <View style={{flex: 1}}>
         <Camera ref={(camera) => { this._camera = camera; }}
-          style={previewStyles}
+          style={styles.previewStyles}
           onBarCodeRead={this.onBarCodeRead.bind(this)}>
           </Camera>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+    previewStyles: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      alignItems: 'center'
+    },
+
+});
 
 export default connect()(QRCodeScannerContainer);
