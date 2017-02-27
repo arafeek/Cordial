@@ -69,8 +69,10 @@ class WelcomeContainer extends Component {
             style={styles.logo} />
         </View>
         <RegisterForm onSubmit={actions.registerUser}/>
-        <Button onPress={Actions.login}
-          title="Already have an account?" />
+        <Text style={styles.existingAccount}
+          onPress={Actions.login} >
+          Already have an account?
+        </Text>
       </View>
     );
   }
@@ -99,6 +101,11 @@ const styles = StyleSheet.create({
   welcomeText: {
     alignSelf: 'flex-start',
     fontSize: 18
+  },
+  existingAccount: {
+    paddingTop: 10,
+    fontSize: 18,
+    alignSelf: 'center'
   }
 })
 
