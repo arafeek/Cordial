@@ -5,13 +5,21 @@ import {
   Button,
   Image,
   Text,
+  Platform,
+  StatusBar
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import StatusBarBackground from '../components/statusbar-background';
 
 import * as authActions from '../actions/auth';
+import * as modelActions from '../actions/model';
 import * as baseStyles from '../consts/styles';
+import {
+  DEVICE_USER_KEY,
+  DEVICE_USER_ID
+} from '../consts/strings';
 import RegisterForm from '../components/register-form';
 
 import {User} from '../models/Model';
@@ -24,6 +32,7 @@ class WelcomeContainer extends Component {
   }
   componentWillMount() {
     this._isLoggedIn();
+    this.props.actions.loadModelFromStorage(DEVICE_USER_KEY, DEVICE_USER_ID);
   }
 
   componentDidUpdate() {
@@ -47,7 +56,18 @@ class WelcomeContainer extends Component {
     }
     return (
       <View style={styles.container}>
+        { Platform.OS === 'ios' ?
+          <StatusBarBackground />
+        :
+          <StatusBar
+            backgroundColor={baseStyles.brightBlue}
+          />
+        }
+
         <View style={styles.logoContainer}>
+          <Text style={styles.welcomeText}>
+            Welcome to
+          </Text>
           <Image source={require('../assets/img/cordial.png')}
             style={styles.logo} />
         </View>
@@ -77,7 +97,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+    maxHeight: 250
   },
+  welcomeText: {
+    alignSelf: 'flex-start',
+    fontSize: 18
+  }
 })
 
 
@@ -89,7 +114,10 @@ export default connect(
     }
   }),
   (dispatch) => ({
-    actions: bindActionCreators(authActions, dispatch)
+    actions: bindActionCreators({
+      ...authActions,
+      ...modelActions,
+    }, dispatch)
   })
 )(WelcomeContainer);
 

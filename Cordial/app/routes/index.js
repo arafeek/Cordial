@@ -10,12 +10,13 @@ import ProfileContainer from '../containers/profile-container';
 import ContactsContainer from '../containers/contacts-container';
 import ContactContainer from '../containers/contact-container';
 import SettingsContainer from '../containers/settings-container';
+import QRCodeContainer from '../containers/qrcode-container';
+import QRCodeScannerContainer from '../containers/qrcode-scanner-container';
 import WelcomeContainer from '../containers/welcome-container';
 import LoginContainer from '../containers/login-container';
 import CardEditorContainer from '../containers/card-editor-container';
 import FieldPicker from '../containers/field-picker';
 import { FOOTER_HEIGHT } from '../consts/styles';
-
 
 const styles = StyleSheet.create({
   tabBar: {
@@ -73,6 +74,16 @@ const routes = Actions.create(
       title="Choose a field type"
       hideNavBar={false}
       direction="vertical" />
+    <Scene
+      key="qrcode"
+      component={QRCodeContainer}
+      title="QR Code"
+      hideNavBar={true} />
+    <Scene
+      key="qrcodescanner"
+      component={QRCodeScannerContainer}
+      title="QR Code Scanner"
+      hideNavBar={true} />
   </Scene>
 );
 

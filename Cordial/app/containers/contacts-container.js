@@ -5,17 +5,21 @@ import {
 	ScrollView,
 	TouchableHighlight,
 	TextInput,
-	StyleSheet
+	StyleSheet,
+	Platform,
+	StatusBar
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Actions} from 'react-native-router-flux';
 import _ from 'lodash';
+import StatusBarBackground from '../components/statusbar-background';
 import filter from '../utils/filter';
 import ProfilePicture from '../components/profile-picture';
 import DisplayPicture from '../components/display-picture';
 import TileButton from '../components/tile-button';
 import {Card, User} from '../models/Model';
 import ConnectToModel from '../models/connect-to-model';
+
 import {
 	brightBlue,
 	lightBlue,
@@ -35,6 +39,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: brightBlue,
 		backgroundColor: lightBlue,
+		overflow: 'hidden',
 		left: 5,
 		bottom: 5,
 		position: 'absolute',
@@ -89,9 +94,13 @@ class Contact extends Component {
 		Actions.contact({id: this.props.id});
 	}
 	render() {
-		const {displayName, profilePhoto, displayPhoto, style} = this.props;
+		const {id, displayName, profilePhoto, displayPhoto, style} = this.props;
 
-		const name = <Text style={styles.name}>{displayName}</Text>;
+		const name =
+		<Text style={styles.name}
+		onPress={() => {
+			Actions.qrcode({id, displayName});
+		}}>{displayName}</Text>;
 
 		const profilePicture = <ProfilePicture
 			size={contactHeight / GOLDEN_RATIO}
@@ -154,6 +163,13 @@ class ContactsContainer extends Component {
 				marginBottom: FOOTER_HEIGHT
 			}}
 			>
+			{ Platform.OS === 'ios' ?
+				<StatusBarBackground />
+			:
+				<StatusBar
+					backgroundColor={brightBlue}
+				/>
+			}
 				<View style={{flex: 0, flexDirection: 'row', height: 40, justifyContent: 'center'}}>
 					<TileButton onPress={this.toggleMode} isActive={!this.state.viewPending}>
 						<Text>My Contacts</Text>
