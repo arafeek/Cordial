@@ -3,11 +3,21 @@ import _ from 'lodash';
 import {putModel} from '../actions/model';
 import store from '../containers/store';
 import {registerModel} from '../actions/model';
-
+import * as modelActions from '../actions/model';
+import {
+  DEVICE_CARD_KEY,
+  DEVICE_USER_KEY,
+  DEVICE_USER_ID
+} from '../consts/strings';
 import validator, {
   userSchema,
   cardSchema
 } from './schema';
+
+const KEY = {
+  User: DEVICE_USER_KEY,
+  Card: DEVICE_CARD_KEY
+};
 
 const modelSelector = state => state.model;
 
@@ -61,6 +71,7 @@ class Model {
       throw new Error(`${this.model}: data failed schema validation. ${res}`);
     } else {
       store.dispatch(putModel(this.model, id, data));
+      store.dispatch(modelActions.saveModelToStorage(KEY[this.model], this.model === 'User' ? DEVICE_USER_ID : id, data));
     }
   }
 }
@@ -89,7 +100,7 @@ const cardSelectors = {
     return _.filter(byId, card => card.user === me);
   },
   myContacts: (byId) => {
-    const contacts = User.me().contacts;
+    const contacts = (User.me() || {}).contacts;
     return _.map(contacts, id => byId[id]);
   },
   pendingContacts: (byId) => {

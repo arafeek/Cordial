@@ -29,6 +29,9 @@ import {User} from '../models/Model';
 class WelcomeContainer extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      logInComplete: false
+    };
   }
   componentWillMount() {
     this._isLoggedIn();
@@ -36,15 +39,16 @@ class WelcomeContainer extends Component {
   }
 
   componentDidUpdate() {
-    // This causes problems for non-tabbar routes
-    //this._isLoggedIn();
+    //This causes problems for non-tabbar routes
+    this._isLoggedIn();
   }
 
   _isLoggedIn() {
     // TODO: check for token in local storage
     const { state } = this.props;
-    if (User.me()) {
+    if (User.me() && !this.state.logInComplete) {
       // go to profile page
+      this.setState({logInComplete: true});
       Actions.tabbar();
     }
   }

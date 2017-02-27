@@ -19,7 +19,7 @@ cards.forEach(c => store.dispatch(putModel('Card', c.id, c)));
 
 
 // Comment this out to regiser a new user
-store.dispatch(putModel('User', JohnDoeProfile.id, JohnDoeProfile));
+//store.dispatch(putModel('User', JohnDoeProfile.id, JohnDoeProfile));
 
 // **********************************************************
 

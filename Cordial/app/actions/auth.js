@@ -1,9 +1,12 @@
+import _ from 'lodash';
 import * as actionTypes from '../consts/actions';
 import * as modelActions from '../actions/model';
 import {
   DEVICE_USER_ID,
   DEVICE_USER_KEY
 } from '../consts/strings';
+import {User, Card} from '../models/Model';
+import {cards} from '../consts/dummy-data';
 
 export function registerUser(name, number, email) {
   // Checks user info
@@ -13,27 +16,63 @@ export function registerUser(name, number, email) {
     setTimeout(() => {
       // TODO: this is a stub, actually need to validate user
       dispatch(createUserSuccess(name));
-      let model = {
+      const cardId = email + '@0'; // TODO: Literally anything but this
+
+      const user = {
         id: email,
         email,
         phone: number,
         name,
-        cards: [],
+        cards: [cardId],
         ignoredContacts: [],
-        contacts: [],
+        contacts: _.map(cards, 'id'),
         pendingContacts: [],
       };
-      dispatch(modelActions.putModel('User', email, model))
-      dispatch(modelActions.saveModelToStorage(DEVICE_USER_KEY, DEVICE_USER_ID, model));
+
+      const card = {
+        displayName: name,
+        user: email,
+        id: cardId,
+        type: 'Personal',
+        profilePhoto: null,
+        displayPhoto: null,
+        style: {
+          header: {
+            startColor: '#ffffff',
+            endColor: '#888888'
+          },
+          body: {
+            startColor: '#beef1e',
+            endColor: '#ffffff'
+          }
+        },
+        fields: [
+          {
+            custom: false,
+            value: number,
+            displayName: 'Phone',
+            icon: 'phone-square'
+          },
+          {
+            custom: false,
+            value: email,
+            displayName: 'Email',
+            icon: 'envelope-square'
+          }
+        ]
+      };
+
+      User.put(email, user);
+      Card.put(cardId, card);
     }, 1500);
-  }
+  };
 }
 
 export function logout() {
   return dispatch => {
     //TODO: uncomment this when we actually want to delete the user
     //from the device storage
-    //dispatch(modelActions.removeModelFromStorage(DEVICE_USER_KEY, DEVICE_USER_ID))
+    dispatch(modelActions.removeModelFromStorage(DEVICE_USER_KEY, DEVICE_USER_ID));
     dispatch(modelActions.removeModel('User'));
     dispatch(logoutUser());
   }

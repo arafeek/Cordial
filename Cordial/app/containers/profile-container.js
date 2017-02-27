@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { View, Text, StyleSheet } from 'react-native';
 import { Actions} from 'react-native-router-flux';
 
-import {Card} from '../models/Model';
+import ConnectToModel from '../models/connect-to-model';
+import {Card, User} from '../models/Model';
 import CardContainer from '../containers/card-container';
 import TouchableIcon from '../components/touchable-icon';
 import {brightBlue, lightBlue} from '../consts/styles';
@@ -15,6 +16,9 @@ class ProfileContainer extends Component {
   render() {
     // TODO: This assumes user only has one card
     const cards = Card.myCards();
+    console.log('Cards:', Card.byId());
+    console.log('Users:', User.byId());
+    if (cards.length === 0) return <Text>No Card Found</Text>;
     return (
       <View style={{flex: 1}}>
         <View style={styles.titleContainer}>
@@ -67,4 +71,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default connect()(ProfileContainer);
+export default ConnectToModel(ProfileContainer, Card);
