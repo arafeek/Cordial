@@ -1,10 +1,10 @@
 import _ from 'lodash';
 
-import {setModel} from '../actions/model';
+import {putModel} from '../actions/model';
 import store from '../containers/store';
 import {registerModel} from '../actions/model';
 
-import validate, {
+import validator, {
   userSchema,
   cardSchema
 } from './schema';
@@ -25,7 +25,7 @@ class Model {
     });
   }
   _validateSchema(json) {
-    return validate(json, this.schema);
+    return validator.validate(json, this.schema);
   }
   _publish() {
     // if the reference has changed, the model
@@ -57,10 +57,10 @@ class Model {
   // Update or create a model instance
   put(id, data) {
     const res = this._validateSchema();
-    if(res !== undefined) {
-      throw new Error(`${this.model}: data failed schema validation. ${data.toJSON()}`);
+    if(!res.valid) {
+      throw new Error(`${this.model}: data failed schema validation. ${res}`);
     } else {
-      store.dispatch(setModel(this.model, id, data));
+      store.dispatch(putModel(this.model, id, data));
     }
   }
 }
@@ -76,7 +76,6 @@ function modelCreator(name, schema, customSelectors) {
 const userSelectors = {
   me: (byId) => {
     const res = _.sample(byId); // TODO: This assumes local storage will only ever have your own profile
-    console.log(byId, res);
     return res;
   }
 };
@@ -87,10 +86,9 @@ export const User = modelCreator('User', userSchema, userSelectors);
 const cardSelectors = {
   myCards: (byId) => {
     const me = User.me().id;
-    return _.filter(card => card.user === me);
+    return _.filter(byId, card => card.user === me);
   },
   myContacts: (byId) => {
-    console.log(User.me());
     const contacts = User.me().contacts;
     return _.map(contacts, id => byId[id]);
   },

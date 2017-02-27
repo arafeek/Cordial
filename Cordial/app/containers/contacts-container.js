@@ -3,16 +3,13 @@ import {
 	Text,
 	View,
 	ScrollView,
-	Image,
 	TouchableHighlight,
 	TextInput,
-	Button,
-	Navigator,
 	StyleSheet
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {Actions} from 'react-native-router-flux';
 import _ from 'lodash';
-
 import filter from '../utils/filter';
 import ProfilePicture from '../components/profile-picture';
 import DisplayPicture from '../components/display-picture';
@@ -84,6 +81,13 @@ const styles = StyleSheet.create({
 });
 
 class Contact extends Component {
+	constructor(props) {
+		super(props);
+		this.openContact = this.openContact.bind(this);
+	}
+	openContact() {
+		Actions.contact({id: this.props.id});
+	}
 	render() {
 		const {displayName, profilePhoto, displayPhoto, style} = this.props;
 
@@ -97,7 +101,7 @@ class Contact extends Component {
 
 		if (displayPhoto) {
 			return (
-				<TouchableHighlight style={styles.contact}>
+				<TouchableHighlight style={styles.contact} onPress={this.openContact}>
 					<View style={styles.background}>
 						<DisplayPicture
 							imgID={displayPhoto}
@@ -111,7 +115,7 @@ class Contact extends Component {
 		} else {
 			const colors = [style.header.startColor, style.header.endColor];
 			return (
-				<TouchableHighlight style={styles.contact}>
+				<TouchableHighlight style={styles.contact} onPress={this.openContact}>
 					<LinearGradient style={styles.background}	colors={colors}>
 						{profilePicture}
 						{name}

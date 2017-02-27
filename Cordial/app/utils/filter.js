@@ -39,7 +39,7 @@ function hammingFilter(collection, queryString, hammingThreshold) {
 
 	// score a candidate based on it's best matching string
 	function scoreCandidate(tagList) {
-		res = _(tagList)
+		const res = _(tagList)
 						.map((str) => minHammingDistance(queryString, str))
 						.min();
 		return res;
@@ -52,7 +52,6 @@ function hammingFilter(collection, queryString, hammingThreshold) {
 
 function strictFilter(collection, queryString) {
 	function doesMatch(query, tagList) {
-		console.log(tagList);
 		return _.some(tagList, (str) => str.indexOf(query) !== -1);
 	}
 

@@ -13,7 +13,7 @@ export default function model(state = initialState, action = {}) {
         return {
           ...state,
           User: {
-            ...data
+            [id]: data
           }
         };
       }

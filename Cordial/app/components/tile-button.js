@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
-
+import _ from 'lodash';
 import {white, lightBlue, HEADER_HEIGHT} from '../consts/styles';
 
 const styles = StyleSheet.create({
@@ -34,9 +34,10 @@ export default class TileButton extends Component {
 		}
 	}
 	render() {
+		const style = _.concat(this.props.style || {}, this.props.isActive ? styles.button : [styles.button, styles.buttonPressed]);
 		return (
 			<TouchableOpacity	style={styles.buttonContainer} onPress={this.onPress}>
-				<View style={this.props.isActive ? styles.button : [styles.button, styles.buttonPressed]}>
+				<View style={style}>
 					{this.props.children}
 				</View>
 			</TouchableOpacity>
