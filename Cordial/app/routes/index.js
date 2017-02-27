@@ -36,7 +36,10 @@ const routes = Actions.create(
     <Scene key="login"
       component={LoginContainer}
       hideNavBar={true} />
-    <Scene key="tabbar" tabs={true} tabBarStyle={styles.tabBar}>
+    <Scene key="tabbar"
+      tabs={true}
+      tabBarStyle={styles.tabBar}
+      type={ActionConst.REPLACE}>
       <Scene
         key="profile"
         icon={TabIcon}
@@ -63,8 +66,7 @@ const routes = Actions.create(
     <Scene
         key="qrcodescanner"
         component={QRCodeScannerContainer}
-        title="QR Code Scanner"
-        hideNavBar={true} />
+        title="QR Code Scanner"/>
   </Scene>
 );
 

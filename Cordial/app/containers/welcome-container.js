@@ -29,8 +29,8 @@ class WelcomeContainer extends Component {
     super(props);
   }
   componentWillMount() {
-    this._isLoggedIn();
     this.props.actions.loadModelFromStorage(DEVICE_USER_KEY, DEVICE_USER_ID);
+    this._isLoggedIn();
   }
 
   componentDidUpdate() {
