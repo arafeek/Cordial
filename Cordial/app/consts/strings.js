@@ -7,3 +7,6 @@
 // in the device cache
 export const DEVICE_USER_KEY = '@UserStorage';
 export const DEVICE_USER_ID = 'ME';
+
+export const DEVICE_CARD_KEY = '@CardStorage';
+

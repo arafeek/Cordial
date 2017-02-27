@@ -22,7 +22,13 @@ export const JohnDoeCard1 = {
 			custom: false,
 			value: 'www.web.site',
 			displayName: 'Website',
-			icon: 'website'
+			icon: 'external-link-square'
+		},
+		{
+			custom: false,
+			value: 'www.face.book',
+			displayName: 'Facebook',
+			icon: 'facebook-official'
 		}
 	]
 };

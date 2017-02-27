@@ -22,11 +22,16 @@ import {
 } from '../consts/strings';
 import RegisterForm from '../components/register-form';
 
+import {User} from '../models/Model';
+
 // Welcome container is the first route visited regardless
 // As such, it should re route the user if they are already logged in
 class WelcomeContainer extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      logInComplete: false
+    };
   }
   componentWillMount() {
     this.props.actions.loadModelFromStorage(DEVICE_USER_KEY, DEVICE_USER_ID);
@@ -34,14 +39,16 @@ class WelcomeContainer extends Component {
   }
 
   componentDidUpdate() {
+    //This causes problems for non-tabbar routes
     this._isLoggedIn();
   }
 
   _isLoggedIn() {
     // TODO: check for token in local storage
     const { state } = this.props;
-    if (state.user && state.user.id) {
+    if (User.me() && !this.state.logInComplete) {
       // go to profile page
+      this.setState({logInComplete: true});
       Actions.tabbar();
     }
   }

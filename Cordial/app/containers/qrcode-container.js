@@ -7,6 +7,7 @@ import {
   View,
   StyleSheet,
   Button,
+  ActivityIndicator
 } from 'react-native';
 
 import {

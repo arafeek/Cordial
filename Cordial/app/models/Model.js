@@ -1,13 +1,23 @@
 import _ from 'lodash';
 
-import {setModel} from '../actions/model';
+import {putModel} from '../actions/model';
 import store from '../containers/store';
 import {registerModel} from '../actions/model';
-
-import validate, {
+import * as modelActions from '../actions/model';
+import {
+  DEVICE_CARD_KEY,
+  DEVICE_USER_KEY,
+  DEVICE_USER_ID
+} from '../consts/strings';
+import validator, {
   userSchema,
   cardSchema
 } from './schema';
+
+const KEY = {
+  User: DEVICE_USER_KEY,
+  Card: DEVICE_CARD_KEY
+};
 
 const modelSelector = state => state.model;
 
@@ -25,7 +35,7 @@ class Model {
     });
   }
   _validateSchema(json) {
-    return validate(json, this.schema);
+    return validator.validate(json, this.schema);
   }
   _publish() {
     // if the reference has changed, the model
@@ -57,10 +67,11 @@ class Model {
   // Update or create a model instance
   put(id, data) {
     const res = this._validateSchema();
-    if(res !== undefined) {
-      throw new Error(`${this.model}: data failed schema validation. ${data.toJSON()}`);
+    if(!res.valid) {
+      throw new Error(`${this.model}: data failed schema validation. ${res}`);
     } else {
-      store.dispatch(setModel(this.model, id, data));
+      store.dispatch(putModel(this.model, id, data));
+      store.dispatch(modelActions.saveModelToStorage(KEY[this.model], this.model === 'User' ? DEVICE_USER_ID : id, data));
     }
   }
 }
@@ -76,7 +87,6 @@ function modelCreator(name, schema, customSelectors) {
 const userSelectors = {
   me: (byId) => {
     const res = _.sample(byId); // TODO: This assumes local storage will only ever have your own profile
-    console.log(byId, res);
     return res;
   }
 };
@@ -87,11 +97,10 @@ export const User = modelCreator('User', userSchema, userSelectors);
 const cardSelectors = {
   myCards: (byId) => {
     const me = User.me().id;
-    return _.filter(card => card.user === me);
+    return _.filter(byId, card => card.user === me);
   },
   myContacts: (byId) => {
-    console.log(User.me());
-    const contacts = User.me().contacts;
+    const contacts = (User.me() || {}).contacts;
     return _.map(contacts, id => byId[id]);
   },
   pendingContacts: (byId) => {

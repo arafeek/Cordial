@@ -17,6 +17,10 @@ import {putModel} from '../actions/model';
 
 cards.forEach(c => store.dispatch(putModel('Card', c.id, c)));
 
+
+// Comment this out to regiser a new user
+//store.dispatch(putModel('User', JohnDoeProfile.id, JohnDoeProfile));
+
 // **********************************************************
 
 
