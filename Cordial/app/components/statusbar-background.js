@@ -1,20 +1,31 @@
 import React, {Component} from 'react';
-import { View } from 'react-native';
+import {
+  View,
+  StatusBar,
+  Platform,
+} from 'react-native';
 
 import {brightBlue} from '../consts/styles';
 
 export default class StatusBarBackground extends Component {
 	render() {
-		return (
-			<View
-				style={[{
-					backgroundColor: brightBlue,
-					height: 20
-				}
-				]}
-			>
-			</View>
-		);
+    if (Platform.OS === 'ios') {
+      return (
+        <View
+          style={[{
+            backgroundColor: brightBlue,
+            height: 20
+          }
+          ]}
+        >
+        </View>
+      );
+    }
+    else {
+      return (
+        <StatusBar backgroundColor={brightBlue} />
+      );
+    }
 	}
 }
 
