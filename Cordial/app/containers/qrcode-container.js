@@ -19,7 +19,7 @@ import {
 import { Actions, ActionConst} from 'react-native-router-flux';
 import {Card, User} from '../models/Model';
 import ConnectToModel from '../models/connect-to-model';
-import {Base64String} from '../compression/Base64String';
+import jsonpack from 'jsonpack'
 
 const contactHeight = DEVICE_WIDTH / DISPLAY_PHOTO_ASPECT_RATIO;
 
@@ -45,15 +45,34 @@ class QRCodeContainer extends Component {
 
   render() {
     const {id, displayName} = this.props;
-    const obj = this.props.Card.byId()[id];
+    const jsonObject = this.props.Card.byId()[id];
 
-    var jsonString = JSON.stringify(obj);
-    var compressedString = Base64String.compressToUTF16(jsonString);
+    const JohnDoeCard1 = {
+      id: 'harry1',
+      user: 'Harry*Potter',
+      displayName: 'Harry James Potter',
+      type: 'Business',
+      profilePhoto: null,
+      displayPhoto: null,
+      style: {
+        header: {
+          startColor: '#beef1e',
+          endColor: '#000000'
+        },
+        body: {
+          startColor: '#beef1e',
+          endColor: '#ffffff'
+        }
+      }
+    };
+
+    const compressedJsonString = jsonpack.pack(JohnDoeCard1);
 
     return (
       <View style={{flex: 1}}>
         <View style={styles.titleContainer}>
           <Text> Sharing... {displayName}</Text>
+
           <Button
               onPress={() => {
                 Actions.tabbar({type:ActionConst.RESET});
@@ -64,10 +83,9 @@ class QRCodeContainer extends Component {
           />
         </View>
         <View style={{flex: 1, alignItems: 'center', height: 40, justifyContent: 'center'}}>
-          <ActivityIndicator animating = {this.state.animating} color="#0000ff" />
+          <ActivityIndicator animating = {this.state.animating} color='#000000' />
           <QRCode
-
-            value={compressedString}
+            value={compressedJsonString}
             size={200}
             bgColor='blue'
             fgColor='white'/>
