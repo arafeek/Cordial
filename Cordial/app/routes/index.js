@@ -17,13 +17,13 @@ import WelcomeContainer from '../containers/welcome-container';
 import LoginContainer from '../containers/login-container';
 import CardEditorContainer from '../containers/card-editor-container';
 import FieldPicker from '../containers/field-picker';
-import { FOOTER_HEIGHT } from '../consts/styles';
+import { FOOTER_HEIGHT, paleBlue, brightBlue } from '../consts/styles';
 
 const styles = StyleSheet.create({
   tabBar: {
-    borderTopWidth: 0.5,
-    borderColor: '#b7b7b7',
-    backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderColor: brightBlue,
+    backgroundColor: paleBlue,
     opacity: 1,
     height: FOOTER_HEIGHT
   }
@@ -46,19 +46,19 @@ const routes = Actions.create(
         key="profile"
         icon={TabIcon}
         component={ProfileContainer}
-        title="Profile"
+        title="user"
         hideNavBar={true} />
       <Scene
         key="contacts"
         icon={TabIcon}
         component={ContactsContainer}
-        title="Contacts"
+        title="address-book-o"
         hideNavBar={true} />
       <Scene
         key="settings"
         icon={TabIcon}
         component={SettingsContainer}
-        title="Settings" />
+        title="cog" />
     </Scene>
     <Scene
       key="cardeditor"
