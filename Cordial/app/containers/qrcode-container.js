@@ -47,26 +47,7 @@ class QRCodeContainer extends Component {
     const {id, displayName} = this.props;
     const jsonObject = this.props.Card.byId()[id];
 
-    const JohnDoeCard1 = {
-      id: 'harry1',
-      user: 'Harry*Potter',
-      displayName: 'Harry James Potter',
-      type: 'Business',
-      profilePhoto: null,
-      displayPhoto: null,
-      style: {
-        header: {
-          startColor: '#beef1e',
-          endColor: '#000000'
-        },
-        body: {
-          startColor: '#beef1e',
-          endColor: '#ffffff'
-        }
-      }
-    };
-
-    const compressedJsonString = jsonpack.pack(JohnDoeCard1);
+    const compressedJsonString = jsonpack.pack(jsonObject);
 
     return (
       <View style={{flex: 1}}>
