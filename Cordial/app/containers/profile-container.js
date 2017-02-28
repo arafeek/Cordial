@@ -1,13 +1,18 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+} from 'react-native';
 import { Actions} from 'react-native-router-flux';
 
 import ConnectToModel from '../models/connect-to-model';
 import {Card, User} from '../models/Model';
 import CardContainer from '../containers/card-container';
 import TouchableIcon from '../components/touchable-icon';
+import StatusBarBackground from '../components/statusbar-background';
 import {brightBlue, lightBlue} from '../consts/styles';
 
 
@@ -21,8 +26,9 @@ class ProfileContainer extends Component {
     if (cards.length === 0) return <Text>No Card Found</Text>;
     return (
       <View style={{flex: 1}}>
+        <StatusBarBackground />
         <View style={styles.titleContainer}>
-          <Text style={styles.titleText}>Your Profile</Text>
+          <Text style={styles.titleText}>Your Contact Card</Text>
           <TouchableIcon
             style={styles.icon}
             key={'qrcode'}

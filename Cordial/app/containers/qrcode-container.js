@@ -15,6 +15,7 @@ import {
   DISPLAY_PHOTO_ASPECT_RATIO,
   DEVICE_WIDTH
 } from '../consts/styles';
+import StatusBarBackground from '../components/statusbar-background';
 
 import { Actions, ActionConst} from 'react-native-router-flux';
 import {Card, User} from '../models/Model';
@@ -52,6 +53,7 @@ class QRCodeContainer extends Component {
 
     return (
       <View style={{flex: 1}}>
+        <StatusBarBackground />
         <View style={styles.titleContainer}>
           <Text> Sharing... {displayName}</Text>
           <Button
