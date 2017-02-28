@@ -3,7 +3,7 @@ import {
 	Text,
 	StyleSheet,
 	TouchableOpacity,
-	TextInput
+	TextInput,
 } from 'react-native';
 import React, {Component} from 'react';
 import _ from 'lodash';
@@ -65,7 +65,8 @@ class EditableField extends Component {
 				{deleteAllowed &&
 					<TouchableIcon
 						style={styles.fieldEditIcon}
-						size={16} name='trash'
+						color={brightBlue}
+						size={20} name='trash-o'
 						onPress={this.onDelete}/>
 				}
 			</View>
@@ -134,22 +135,22 @@ class CardContainer extends Component {
 			<View style={styles.cardContainer}>
 				<DisplayPicture style={styles.displayPicture} uri={displayPhoto}/>
 				<View style={styles.displayPictureBorder}/>
+				{ !readOnly && !editMode &&
+					<TouchableOpacity	onPress={this.enableEdit}>
+						<View style={styles.editButton}>
+							<Icon style={styles.fieldEditIcon} color={brightBlue} size={20} name='pencil'/>
+							<Text style={styles.fieldEditText} >Edit</Text>
+						</View>
+					</TouchableOpacity>
+				}
 				<ProfilePicture
 					size={profilePictureSize}
 					uri={profilePhoto}
 					style={styles.profilePicture}
 				/>
-				{ !readOnly && !editMode &&
-					<TouchableOpacity	onPress={this.enableEdit}>
-						<View style={styles.editButton}>
-							<Icon style={styles.fieldEditIcon} size={16} name='pencil'/>
-							<Text>Edit</Text>
-						</View>
-					</TouchableOpacity>
-				}
 				<Field
 					style={styles.displayName}
-					textStyle={{fontSize: 18}}
+					textStyle={{fontSize: 24}}
 					value={displayName}
 					onChange={(v) => this.onChangeProp('displayName', v)}
 				/>
@@ -177,17 +178,17 @@ class CardContainer extends Component {
 					</View>
 				</View>
 				{ editMode &&
-					<TouchableOpacity	onPress={this.openFieldPicker}>
+					<TouchableOpacity	style={{paddingTop: 10}}onPress={this.openFieldPicker}>
 						<Text style={styles.addMore}>Add More</Text>
 					</TouchableOpacity>
 				}
 				{ editMode &&
 				<View style={styles.editTray}>
-					<TileButton style={styles.submitButton} onPress={this.submitEdit}>
-						<Text >Save</Text>
+					<TileButton style={[styles.submitButton, {backgroundColor: lightBlue}]} onPress={this.submitEdit}>
+						<Text style={styles.tileButtonText}>Save</Text>
 					</TileButton>
 					<TileButton style={styles.submitButton} onPress={this.cancelEdit}>
-						<Text >Cancel</Text>
+						<Text style={styles.tileButtonText}>Cancel</Text>
 					</TileButton>
 				</View>
 				}
@@ -205,15 +206,17 @@ const styles = StyleSheet.create({
 	},
 	editButton: {
 		position: 'relative',
-		alignSelf: 'flex-end',
+		justifyContent: 'flex-end',
+		right: 0,
 		flexDirection: 'row',
-		padding: 5,
+		paddingTop: 10,
+		paddingRight: 15,
 		zIndex: 1000,
 	},
 	profilePicture: {
 		alignSelf: 'center',
 		position: 'relative',
-		top: profilePictureSize / -2
+		top: (profilePictureSize / -2) - 30
 	},
 	displayName: {
 		alignSelf: 'center',
@@ -228,10 +231,12 @@ const styles = StyleSheet.create({
 	fieldGrid: {
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
-		paddingHorizontal: 10
+		paddingHorizontal: 10,
+		marginTop: 20
 	},
 	fieldKeys: {
-		flex: 0
+		flex: 0,
+		marginLeft: 5
 	},
 	fieldValues: {
 		flex: 1
@@ -239,27 +244,33 @@ const styles = StyleSheet.create({
 	field: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		padding: 4
+		padding: 6,
+		paddingLeft: 25
 	},
 	fieldEditIcon: {
-		paddingRight: 5,
+		paddingRight: 2,
 		backgroundColor: paleBlue,
 	},
+	fieldEditText: {
+		color: brightBlue,
+		fontSize: 16
+	},
 	fieldText: {
-		fontSize: 16,
+		fontSize: 20,
 		flex: 1
 	},
 	textField: {
 		backgroundColor: white,
-		fontSize: 14,
-		height: 20,
+		fontSize: 20,
+		height: 28,
 		margin: 4,
 		paddingVertical: 2,
 		paddingHorizontal: 8,
 		textDecorationLine: 'none',
 		borderColor: lightBlue,
 		borderWidth: 1,
-		flex: 1
+		flex: 1,
+		lineHeight: 28
 	},
 	editTray: {
 		flexDirection: 'row',
@@ -277,9 +288,18 @@ const styles = StyleSheet.create({
 	},
 	addMore: {
 		flex: 0,
+		alignSelf: 'center',
+		textAlign: 'center',
 		borderWidth: 1,
 		borderColor: brightBlue,
-		backgroundColor: lightBlue
+		backgroundColor: lightBlue,
+		borderRadius: 5,
+		width: 200,
+		overflow: 'hidden',
+		fontSize: 18,
+	},
+	tileButtonText: {
+		fontSize: 20
 	}
 });
 
