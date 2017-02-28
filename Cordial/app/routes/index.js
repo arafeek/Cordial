@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Actions,
   Scene,
-  ActionConst,
+  ActionConst
 } from 'react-native-router-flux';
 import { StyleSheet } from 'react-native';
 

@@ -5,24 +5,33 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-
-import { connect } from 'react-redux';
+import {Actions} from 'react-native-router-flux';
 import Camera from 'react-native-camera';
-import {Base64String} from '../compression/Base64String';
+import jsonpack from 'jsonpack'
+import {Card, User} from '../models/Model';
+import ConnectToModel from '../models/connect-to-model';
 
 class QRCodeScannerContainer extends Component {
 
-  onBarCodeRead(barcode) {
-    var uncompressed = Base64String.decompressFromUTF16(barcode.data);
-    alert('Data: ' + uncompressed);
+
+  onBarCodeReadAddToContacts(barcode) {
+    var compressedData = (barcode.data);
+    const extractJSONObject = jsonpack.unpack(compressedData);
+    var id = extractJSONObject.id;
+    id = id.split('_').join('*');
+    Card.put(id, extractJSONObject);
+    const u = User.me();
+    User.put(u.id, {...u, contacts: [...u.contacts, extractJSONObject.id]});
+    alert("Contact Added");
   }
 
   render() {
+
     return (
       <View style={{flex: 1}}>
         <Camera ref={(camera) => { this._camera = camera; }}
           style={styles.previewStyles}
-          onBarCodeRead={this.onBarCodeRead.bind(this)}>
+          onBarCodeRead={this.onBarCodeReadAddToContacts.bind(this)}>
           </Camera>
       </View>
     );
@@ -38,4 +47,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default connect()(QRCodeScannerContainer);
+export default ConnectToModel(QRCodeScannerContainer, Card);
