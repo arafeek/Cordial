@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import _ from 'lodash';
-import {white, lightBlue, HEADER_HEIGHT} from '../consts/styles';
+import {FOOTER_HEIGHT} from '../consts/styles';
 
 const styles = StyleSheet.create({
 	buttonContainer: {
@@ -9,18 +9,11 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		flex: 1,
-		height: HEADER_HEIGHT,
-		backgroundColor: lightBlue,
-		justifyContent: 'flex-start',
+		height: FOOTER_HEIGHT,
+		justifyContent: 'center',
 		alignItems: 'center',
 		padding: 10
 	},
-	buttonPressed: {
-		backgroundColor: white
-	},
-	buttonText: {
-		fontSize: 24
-	}
 });
 
 export default class TileButton extends Component {
@@ -34,7 +27,7 @@ export default class TileButton extends Component {
 		}
 	}
 	render() {
-		const style = _.concat(this.props.style || {}, this.props.isActive ? styles.button : [styles.button, styles.buttonPressed]);
+		const style = _.concat(this.props.style || {}, styles.button);
 		return (
 			<TouchableOpacity	style={styles.buttonContainer} onPress={this.onPress}>
 				<View style={style}>

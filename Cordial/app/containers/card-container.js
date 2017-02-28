@@ -65,7 +65,8 @@ class EditableField extends Component {
 				{deleteAllowed &&
 					<TouchableIcon
 						style={styles.fieldEditIcon}
-						size={16} name='trash'
+						color={brightBlue}
+						size={20} name='trash-o'
 						onPress={this.onDelete}/>
 				}
 			</View>
@@ -177,17 +178,17 @@ class CardContainer extends Component {
 					</View>
 				</View>
 				{ editMode &&
-					<TouchableOpacity	onPress={this.openFieldPicker}>
+					<TouchableOpacity	style={{paddingTop: 10}}onPress={this.openFieldPicker}>
 						<Text style={styles.addMore}>Add More</Text>
 					</TouchableOpacity>
 				}
 				{ editMode &&
 				<View style={styles.editTray}>
-					<TileButton style={styles.submitButton} onPress={this.submitEdit}>
-						<Text >Save</Text>
+					<TileButton style={[styles.submitButton, {backgroundColor: lightBlue}]} onPress={this.submitEdit}>
+						<Text style={styles.tileButtonText}>Save</Text>
 					</TileButton>
 					<TileButton style={styles.submitButton} onPress={this.cancelEdit}>
-						<Text >Cancel</Text>
+						<Text style={styles.tileButtonText}>Cancel</Text>
 					</TileButton>
 				</View>
 				}
@@ -260,15 +261,16 @@ const styles = StyleSheet.create({
 	},
 	textField: {
 		backgroundColor: white,
-		fontSize: 14,
-		height: 20,
+		fontSize: 20,
+		height: 28,
 		margin: 4,
 		paddingVertical: 2,
 		paddingHorizontal: 8,
 		textDecorationLine: 'none',
 		borderColor: lightBlue,
 		borderWidth: 1,
-		flex: 1
+		flex: 1,
+		lineHeight: 28
 	},
 	editTray: {
 		flexDirection: 'row',
@@ -286,9 +288,18 @@ const styles = StyleSheet.create({
 	},
 	addMore: {
 		flex: 0,
+		alignSelf: 'center',
+		textAlign: 'center',
 		borderWidth: 1,
 		borderColor: brightBlue,
-		backgroundColor: lightBlue
+		backgroundColor: lightBlue,
+		borderRadius: 5,
+		width: 200,
+		overflow: 'hidden',
+		fontSize: 18,
+	},
+	tileButtonText: {
+		fontSize: 20
 	}
 });
 
