@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import Camera from 'react-native-camera';
-import jsonpack from 'jsonpack'
+import jsonpack from 'jsonpack';
 import {Card, User} from '../models/Model';
 import ConnectToModel from '../models/connect-to-model';
 
