@@ -15,6 +15,7 @@ import TouchableIcon from '../components/touchable-icon';
 import StatusBarBackground from '../components/statusbar-background';
 import {brightBlue, lightBlue} from '../consts/styles';
 import Communications from 'react-native-communications';
+import {draftEmail} from '../utils/emaildraft'
 
 class ProfileContainer extends Component {
 
@@ -34,7 +35,7 @@ class ProfileContainer extends Component {
             key={'envelope'}
             name={'envelope'}
             size={30}
-            onPress={() => {Communications.email(['', ''],null,null,'Contact Shared Via Cordial', JSON.stringify(_.sample(cards), ['displayName', 'fields','displayName','value'], 4));}}
+            onPress={() => {Communications.email(['', ''],null,null,'Contact Shared Via Cordial', draftEmail(_.sample(cards)));}}
           />
           <TouchableIcon
             style={styles.icon}
