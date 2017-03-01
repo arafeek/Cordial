@@ -126,6 +126,7 @@ class CardContainer extends Component {
 		const card = editMode ? this.state.card : this.props.Card.byId()[this.props.id];
 		const Field = editMode ? EditableField : ReadOnlyField;
 		const {
+			id,
 			profilePhoto,
 			displayPhoto,
 			displayName,
@@ -135,6 +136,14 @@ class CardContainer extends Component {
 			<View style={styles.cardContainer}>
 				<DisplayPicture style={styles.displayPicture} uri={displayPhoto}/>
 				<View style={styles.displayPictureBorder}/>
+				{!readOnly &&
+					<TouchableOpacity	onPress={() => {Actions.qrcode({id, displayName});}}>
+						<View style={styles.editButton}>
+							<Icon style={styles.fieldEditIcon} color={brightBlue} size={17} name='share'/>
+							<Text style={styles.fieldEditText} >Share</Text>
+						</View>
+					</TouchableOpacity>
+				}
 				{ !readOnly && !editMode &&
 					<TouchableOpacity	onPress={this.enableEdit}>
 						<View style={styles.editButton}>
@@ -143,17 +152,18 @@ class CardContainer extends Component {
 						</View>
 					</TouchableOpacity>
 				}
-				<ProfilePicture
-					size={profilePictureSize}
-					uri={profilePhoto}
-					style={styles.profilePicture}
-				/>
-				<Field
-					style={styles.displayName}
-					textStyle={{fontSize: 24}}
-					value={displayName}
-					onChange={(v) => this.onChangeProp('displayName', v)}
-				/>
+
+					<ProfilePicture
+						size={profilePictureSize}
+						uri={profilePhoto}
+						style={styles.profilePicture}
+					/>
+					<Field
+						style={styles.displayName}
+						textStyle={{fontSize: 24}}
+						value={displayName}
+						onChange={(v) => this.onChangeProp('displayName', v)}
+					/>
 				<View style={styles.fieldGrid}>
 					<View style={styles.fieldKeys}>
 						{
@@ -202,7 +212,8 @@ const styles = StyleSheet.create({
 	cardContainer: {
 		justifyContent: 'flex-start',
 		backgroundColor: paleBlue,
-		flex: 1
+		flex: 1,
+		opacity: 1
 	},
 	editButton: {
 		position: 'relative',
