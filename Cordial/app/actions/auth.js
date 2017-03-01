@@ -1,4 +1,8 @@
 import _ from 'lodash';
+import {
+  Actions as RouteActions,
+  ActionConst as RouteActionConst
+} from 'react-native-router-flux';
 import * as actionTypes from '../consts/actions';
 import * as modelActions from '../actions/model';
 import {
@@ -75,7 +79,8 @@ export function logout() {
     dispatch(modelActions.removeModelFromStorage(DEVICE_USER_KEY, DEVICE_USER_ID));
     dispatch(modelActions.removeModel('User'));
     dispatch(logoutUser());
-  }
+    RouteActions.welcome({type: RouteActionConst.RESET});
+  };
 }
 
 function logoutUser() {
