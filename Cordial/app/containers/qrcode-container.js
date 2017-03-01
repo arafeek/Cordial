@@ -20,7 +20,7 @@ import StatusBarBackground from '../components/statusbar-background';
 import { Actions, ActionConst} from 'react-native-router-flux';
 import {Card, User} from '../models/Model';
 import ConnectToModel from '../models/connect-to-model';
-import jsonpack from 'jsonpack'
+import jsonpack from 'jsonpack';
 
 const contactHeight = DEVICE_WIDTH / DISPLAY_PHOTO_ASPECT_RATIO;
 
