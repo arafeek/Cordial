@@ -31,8 +31,8 @@ class ProfileContainer extends Component {
           <Text style={styles.titleText}>Your Contact Card</Text>
           <TouchableIcon
             style={styles.icon}
-            key={'qrcode'}
-            name={'qrcode'}
+            key={'envelope'}
+            name={'envelope'}
             size={30}
             onPress={() => {Communications.email(['', ''],null,null,'Contact Shared Via Cordial', JSON.stringify(_.sample(cards), ['displayName', 'fields','displayName','value'], 4));}}
           />
