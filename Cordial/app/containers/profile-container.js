@@ -15,7 +15,12 @@ import TouchableIcon from '../components/touchable-icon';
 import StatusBarBackground from '../components/statusbar-background';
 import {brightBlue, lightBlue} from '../consts/styles';
 import Communications from 'react-native-communications';
+<<<<<<< HEAD
 import {draftEmail} from '../utils/jsondataextraction';
+=======
+import {draftEmail} from '../utils/jsondataextraction'
+import {draftEmail} from '../utils/emaildraft'
+>>>>>>> More Fixes
 
 class ProfileContainer extends Component {
 
