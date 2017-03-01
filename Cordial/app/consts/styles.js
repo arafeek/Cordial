@@ -9,6 +9,7 @@ export const deepBlue = '#153f65';
 export const almostBlack = '#03131f';
 
 export const DEVICE_WIDTH = Dimensions.get('window').width;
+export const DEVICE_HEIGHT = Dimensions.get('window').height;
 export const HEADER_HEIGHT = Navigator.NavigationBar.Styles.General.TotalNavHeight;
 export const FOOTER_HEIGHT = 50;
 
