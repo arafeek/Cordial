@@ -69,7 +69,7 @@ class QRCodeContainer extends Component {
           <ActivityIndicator animating = {this.state.animating} color='#000000' />
           <QRCode
             value={compressedJsonString}
-            size={200}
+            size={DEVICE_WIDTH - 20}
             bgColor='blue'
             fgColor='white'/>
         </View>
