@@ -170,8 +170,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		backgroundColor: paleBlue,
 		flex: 1,
-		paddingBottom: 5,
-		opacity: 1
+		paddingBottom: 5
 	},
 	editButton: {
 		flexDirection: 'row',
@@ -238,6 +237,19 @@ const styles = StyleSheet.create({
 	fieldText: {
 		fontSize: 20,
 		flex: 0
+	},
+	textField: {
+		backgroundColor: white,
+		fontSize: 20,
+		height: 28,
+		margin: 0,
+		paddingVertical: 1,
+		paddingHorizontal: 8,
+		textDecorationLine: 'none',
+		borderColor: lightBlue,
+		borderWidth: 1,
+		flex: 1,
+		lineHeight: 28,
 	},
 	editTray: {
 		flexDirection: 'row',
