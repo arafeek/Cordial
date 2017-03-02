@@ -10,6 +10,11 @@ import Camera from 'react-native-camera';
 import jsonpack from 'jsonpack';
 import {Card, User} from '../models/Model';
 import ConnectToModel from '../models/connect-to-model';
+import {
+  DEVICE_WIDTH,
+  DEVICE_HEIGHT,
+  brightBlue,
+} from '../consts/styles';
 
 class QRCodeScannerContainer extends Component {
 
@@ -28,23 +33,35 @@ class QRCodeScannerContainer extends Component {
   render() {
 
     return (
-      <View style={{flex: 1}}>
+      <View style={styles.container}>
         <Camera ref={(camera) => { this._camera = camera; }}
           style={styles.previewStyles}
           onBarCodeRead={this.onBarCodeReadAddToContacts.bind(this)}>
-          </Camera>
+        </Camera>
+        <View style={styles.cameraOverlay}></View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-    previewStyles: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      alignItems: 'center'
-    },
-
+  container: {
+    flex: 1,
+  },
+  previewStyles: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  cameraOverlay: {
+    position: 'absolute',
+    borderWidth: 5,
+    borderColor: brightBlue,
+    top: (DEVICE_HEIGHT * 0.5) - (0.5 * (DEVICE_WIDTH * 0.75)),
+    left: (DEVICE_WIDTH * 0.5) - (0.5 * (DEVICE_WIDTH * 0.75)),
+    height: DEVICE_WIDTH * 0.75,
+    width: DEVICE_WIDTH * 0.75,
+  },
 });
 
 export default ConnectToModel(QRCodeScannerContainer, Card);

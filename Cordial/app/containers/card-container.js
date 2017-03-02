@@ -64,7 +64,7 @@ class EditableField extends Component {
 				/>
 				{deleteAllowed &&
 					<TouchableIcon
-						style={styles.fieldEditIcon}
+						style={styles.clickableIcon}
 						color={brightBlue}
 						size={20} name='trash-o'
 						onPress={this.onDelete}/>
@@ -126,6 +126,7 @@ class CardContainer extends Component {
 		const card = editMode ? this.state.card : this.props.Card.byId()[this.props.id];
 		const Field = editMode ? EditableField : ReadOnlyField;
 		const {
+			id,
 			profilePhoto,
 			displayPhoto,
 			displayName,
@@ -135,25 +136,34 @@ class CardContainer extends Component {
 			<View style={styles.cardContainer}>
 				<DisplayPicture style={styles.displayPicture} uri={displayPhoto}/>
 				<View style={styles.displayPictureBorder}/>
-				{ !readOnly && !editMode &&
-					<TouchableOpacity	onPress={this.enableEdit}>
-						<View style={styles.editButton}>
-							<Icon style={styles.fieldEditIcon} color={brightBlue} size={20} name='pencil'/>
-							<Text style={styles.fieldEditText} >Edit</Text>
-						</View>
-					</TouchableOpacity>
+				{!readOnly && !editMode &&
+					<View style={styles.optionButtons}>
+						<TouchableOpacity	onPress={() => {Actions.qrcode({id, displayName});}}>
+							<View style={styles.shareButton}>
+								<Icon style={styles.clickableIcon} color={brightBlue} size={20} name='share'/>
+								<Text style={styles.clickableText} >Share</Text>
+							</View>
+						</TouchableOpacity>
+						<TouchableOpacity	onPress={this.enableEdit}>
+							<View style={styles.editButton}>
+								<Icon style={styles.clickableIcon} color={brightBlue} size={20} name='pencil'/>
+								<Text style={styles.clickableText} >Edit</Text>
+							</View>
+						</TouchableOpacity>
+					</View>
 				}
-				<ProfilePicture
-					size={profilePictureSize}
-					uri={profilePhoto}
-					style={styles.profilePicture}
-				/>
-				<Field
-					style={styles.displayName}
-					textStyle={{fontSize: 24}}
-					value={displayName}
-					onChange={(v) => this.onChangeProp('displayName', v)}
-				/>
+
+					<ProfilePicture
+						size={profilePictureSize}
+						uri={profilePhoto}
+						style={styles.profilePicture}
+					/>
+					<Field
+						style={styles.displayName}
+						textStyle={{fontSize: 24}}
+						value={displayName}
+						onChange={(v) => this.onChangeProp('displayName', v)}
+					/>
 				<View style={styles.fieldGrid}>
 					<View style={styles.fieldKeys}>
 						{
@@ -202,15 +212,19 @@ const styles = StyleSheet.create({
 	cardContainer: {
 		justifyContent: 'flex-start',
 		backgroundColor: paleBlue,
-		flex: 1
+		flex: 1,
+		opacity: 1
 	},
 	editButton: {
-		position: 'relative',
-		justifyContent: 'flex-end',
-		right: 0,
 		flexDirection: 'row',
 		paddingTop: 10,
 		paddingRight: 15,
+		zIndex: 1000,
+	},
+	shareButton: {
+		flexDirection: 'row',
+		paddingTop: 10,
+		paddingLeft: 15,
 		zIndex: 1000,
 	},
 	profilePicture: {
@@ -247,11 +261,11 @@ const styles = StyleSheet.create({
 		padding: 6,
 		paddingLeft: 25
 	},
-	fieldEditIcon: {
+	clickableIcon: {
 		paddingRight: 2,
 		backgroundColor: paleBlue,
 	},
-	fieldEditText: {
+	clickableText: {
 		color: brightBlue,
 		fontSize: 16
 	},
@@ -300,6 +314,10 @@ const styles = StyleSheet.create({
 	},
 	tileButtonText: {
 		fontSize: 20
+	},
+	optionButtons: {
+		flexDirection: 'row',
+		justifyContent: 'space-between'
 	}
 });
 
