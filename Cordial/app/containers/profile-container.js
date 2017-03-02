@@ -14,7 +14,8 @@ import CardContainer from '../containers/card-container';
 import TouchableIcon from '../components/touchable-icon';
 import StatusBarBackground from '../components/statusbar-background';
 import {brightBlue, lightBlue} from '../consts/styles';
-
+import Communications from 'react-native-communications';
+import {draftEmail} from '../utils/jsondataextraction'
 
 class ProfileContainer extends Component {
 
@@ -29,6 +30,13 @@ class ProfileContainer extends Component {
         <StatusBarBackground />
         <View style={styles.titleContainer}>
           <Text style={styles.titleText}>Your Contact Card</Text>
+          <TouchableIcon
+            style={styles.icon}
+            key={'envelope'}
+            name={'envelope'}
+            size={30}
+            onPress={() => {Communications.email(['', ''],null,null,'Contact Shared Via Cordial', draftEmail(_.sample(cards)));}}
+          />
           <TouchableIcon
             style={styles.icon}
             key={'qrcode'}
