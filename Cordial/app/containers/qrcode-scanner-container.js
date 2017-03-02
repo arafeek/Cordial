@@ -20,14 +20,14 @@ class QRCodeScannerContainer extends Component {
 
 
   onBarCodeReadAddToContacts(barcode) {
-    var compressedData = (barcode.data);
+    const compressedData = (barcode.data);
     const extractJSONObject = jsonpack.unpack(compressedData);
-    var id = extractJSONObject.id;
-    id = id.split('_').join('*');
-    Card.put(id, extractJSONObject);
+    const cardId = extractJSONObject.id;
+    Card.put(cardId, extractJSONObject);
     const u = User.me();
-    User.put(u.id, {...u, contacts: [...u.contacts, extractJSONObject.id]});
-    alert("Contact Added");
+    User.put(u.id, {...u, contacts: [...u.contacts, cardId]});
+    Actions.pop();
+    Actions.contact({id: cardId});
   }
 
   render() {
