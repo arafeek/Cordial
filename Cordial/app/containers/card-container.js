@@ -4,11 +4,13 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	TextInput,
+	ScrollView
 } from 'react-native';
 import React, {Component} from 'react';
 import _ from 'lodash';
 import {Actions} from 'react-native-router-flux';
 
+import WithKeyboard from '../hoc/with-keyboard';
 import ConnectToModel from '../models/connect-to-model';
 import TouchableIcon, {Icon} from '../components/touchable-icon';
 import DisplayPicture from '../components/display-picture';
@@ -122,7 +124,7 @@ class CardContainer extends Component {
 		this.setState({card:{...card, fields: newFields}});
 	}
 	render() {
-		const {readOnly, editMode} = this.props;
+		const {readOnly, editMode, keyboardOpen} = this.props;
 		const card = editMode ? this.state.card : this.props.Card.byId()[this.props.id];
 		const Field = editMode ? EditableField : ReadOnlyField;
 		const {
@@ -132,7 +134,17 @@ class CardContainer extends Component {
 			fields
 		} = card;
 		return (
-			<View style={styles.cardContainer}>
+			<View style={[styles.cardContainer, {marginBottom: editMode ? 0 : FOOTER_HEIGHT}]}>
+				{ editMode  && !keyboardOpen &&
+				<View style={styles.editTray}>
+					<TileButton style={[styles.submitButton, {backgroundColor: lightBlue}]} onPress={this.submitEdit}>
+						<Text style={styles.tileButtonText}>Save</Text>
+					</TileButton>
+					<TileButton style={[styles.submitButton, {backgroundColor: paleBlue}]} onPress={this.cancelEdit}>
+						<Text style={styles.tileButtonText}>Cancel</Text>
+					</TileButton>
+				</View>
+				}
 				<DisplayPicture style={styles.displayPicture} uri={displayPhoto}/>
 				<View style={styles.displayPictureBorder}/>
 				{ !readOnly && !editMode &&
@@ -154,44 +166,38 @@ class CardContainer extends Component {
 					value={displayName}
 					onChange={(v) => this.onChangeProp('displayName', v)}
 				/>
-				<View style={styles.fieldGrid}>
-					<View style={styles.fieldKeys}>
-						{
-							_.map(fields, (f, key) => <Text style={[styles.fieldText, styles.field]} key={key}>{f.displayName + ':'}</Text>)
-						}
+				<ScrollView style={{flex: 1}} contentContainerStyle={styles.scrollContainer}>
+					<View style={styles.fieldGrid}>
+						<View style={styles.fieldKeys}>
+							{
+								_.map(fields, (f, key) => <Text style={[styles.field, styles.fieldText, {height: 36}]} key={key}>{f.displayName + ':'}</Text>)
+							}
+						</View>
+						<View style={styles.fieldValues}>
+							{
+								_.map(fields, (props, key) => (
+									<Field
+										readOnly={readOnly}
+										deleteAllowed
+										key={key}
+										{...props}
+										onChange={(val) => this.onChangeField(key, val)}
+										onDelete={() => this.onDeleteField(key)}
+										style={styles.field}
+										textStyle={styles.fieldText}
+									/>
+								))
+							}
+						</View>
 					</View>
-					<View style={styles.fieldValues}>
-						{
-							_.map(fields, (props, key) => (
-								<Field
-									readOnly={readOnly}
-									deleteAllowed
-									key={key}
-									{...props}
-									onChange={(val) => this.onChangeField(key, val)}
-									onDelete={() => this.onDeleteField(key)}
-									style={styles.field}
-									textStyle={styles.fieldText}
-								/>
-							))
-						}
-					</View>
-				</View>
-				{ editMode &&
-					<TouchableOpacity	style={{paddingTop: 10}}onPress={this.openFieldPicker}>
-						<Text style={styles.addMore}>Add More</Text>
-					</TouchableOpacity>
-				}
-				{ editMode &&
-				<View style={styles.editTray}>
-					<TileButton style={[styles.submitButton, {backgroundColor: lightBlue}]} onPress={this.submitEdit}>
-						<Text style={styles.tileButtonText}>Save</Text>
-					</TileButton>
-					<TileButton style={styles.submitButton} onPress={this.cancelEdit}>
-						<Text style={styles.tileButtonText}>Cancel</Text>
-					</TileButton>
-				</View>
-				}
+					{ editMode &&
+						<View>
+						<TouchableOpacity	style={{paddingTop: 10}}onPress={this.openFieldPicker}>
+							<Text style={styles.addMore}>Add More</Text>
+						</TouchableOpacity>
+						</View>
+					}
+				</ScrollView>
 			</View>
 		);
 
@@ -202,7 +208,8 @@ const styles = StyleSheet.create({
 	cardContainer: {
 		justifyContent: 'flex-start',
 		backgroundColor: paleBlue,
-		flex: 1
+		flex: 1,
+		paddingBottom: 5
 	},
 	editButton: {
 		position: 'relative',
@@ -220,7 +227,7 @@ const styles = StyleSheet.create({
 	},
 	displayName: {
 		alignSelf: 'center',
-		marginTop: profilePictureSize / -2,
+		marginTop: profilePictureSize / -2 -10,
 		paddingHorizontal: 5,
 		flexDirection: 'row',
 	},
@@ -228,24 +235,32 @@ const styles = StyleSheet.create({
 		borderWidth: 2, // borderBottomWidth doesn't seem to work
 		borderColor: brightBlue,
 	},
+	scrollContainer: {
+		justifyContent: 'flex-start',
+	},
 	fieldGrid: {
 		flexDirection: 'row',
-		justifyContent: 'flex-start',
 		paddingHorizontal: 10,
-		marginTop: 20
+		marginTop: 20,
 	},
 	fieldKeys: {
 		flex: 0,
-		marginLeft: 5
+		marginLeft: 5,
+		justifyContent: 'flex-start',
+		alignItems: 'flex-start'
 	},
 	fieldValues: {
-		flex: 1
+		flex: 1,
+		justifyContent: 'flex-start',
+		alignItems: 'flex-start'
 	},
 	field: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
-		padding: 6,
-		paddingLeft: 25
+		justifyContent: 'flex-start',
+		paddingVertical: 2,
+		flex: 1,
+		paddingLeft: 5,
+		height: 36
 	},
 	fieldEditIcon: {
 		paddingRight: 2,
@@ -257,28 +272,24 @@ const styles = StyleSheet.create({
 	},
 	fieldText: {
 		fontSize: 20,
-		flex: 1
+		flex: 0
 	},
 	textField: {
 		backgroundColor: white,
 		fontSize: 20,
 		height: 28,
-		margin: 4,
-		paddingVertical: 2,
+		margin: 0,
+		paddingVertical: 1,
 		paddingHorizontal: 8,
 		textDecorationLine: 'none',
 		borderColor: lightBlue,
 		borderWidth: 1,
 		flex: 1,
-		lineHeight: 28
+		lineHeight: 28,
 	},
 	editTray: {
 		flexDirection: 'row',
 		flex: 0,
-		position: 'absolute',
-		bottom: 0,
-		left: 0,
-		right: 0,
 		height: FOOTER_HEIGHT,
 		alignItems: 'center',
 	},
@@ -303,4 +314,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default ConnectToModel(CardContainer, Card);
+export default ConnectToModel(WithKeyboard(CardContainer), Card);

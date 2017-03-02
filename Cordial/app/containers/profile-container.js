@@ -23,7 +23,7 @@ class ProfileContainer extends Component {
     const cards = Card.myCards();
     console.log('Cards:', Card.byId());
     console.log('Users:', User.byId());
-    if (cards.length === 0) return <Text>No Card Found</Text>;
+    if (cards.length === 0) return <Text>Loading...</Text>;
     return (
       <View style={{flex: 1}}>
         <StatusBarBackground />

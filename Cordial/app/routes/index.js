@@ -64,8 +64,7 @@ const routes = Actions.create(
       key="cardeditor"
       component={CardEditorContainer}
       title="Card Editor"
-      hideNavBar={true}
-      direction="vertical" />
+      hideNavBar={true}/>
     <Scene
       key="contact"
       component={ContactContainer}

@@ -53,7 +53,7 @@ class Model {
   // subscribe to updates from the model.
   // Returns an id that can be used to unsubscribe
   subscribe(callback) {
-    this.subscribers[this._id++] = callback;
+    this.subscribers[++this._id] = callback;
     return this._id;
   }
   unsubscribe(id) {
