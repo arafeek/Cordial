@@ -29,9 +29,6 @@ import {User} from '../models/Model';
 class WelcomeContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      logInComplete: false
-    };
   }
   componentWillMount() {
     this.props.actions.loadModelFromStorage(DEVICE_USER_KEY, DEVICE_USER_ID);
@@ -46,9 +43,7 @@ class WelcomeContainer extends Component {
   _isLoggedIn() {
     // TODO: check for token in local storage
     const { state } = this.props;
-    if (User.me() && !this.state.logInComplete) {
-      // go to profile page
-      this.setState({logInComplete: true});
+    if (User.me()) {
       Actions.tabbar();
     }
   }
