@@ -10,6 +10,7 @@ import React, {Component} from 'react';
 import _ from 'lodash';
 import {Actions} from 'react-native-router-flux';
 
+import AutoLinkText from '../components/auto-link-text';
 import WithKeyboard from '../hoc/with-keyboard';
 import ConnectToModel from '../models/connect-to-model';
 import TouchableIcon, {Icon} from '../components/touchable-icon';
@@ -26,16 +27,18 @@ import {
 	FOOTER_HEIGHT
 } from '../consts/styles';
 
-const ReadOnlyField = (props) => (
-	<View style={props.style}>
-		<Text
-			style={props.textStyle}
-			numberOfLines={1}
-			ellipsizeMode='tail'
-		>{props.value}</Text>
-	</View>
-);
-
+class ReadOnlyField extends Component {
+	render() {
+		const {style, textStyle, value} = this.props;
+		return (
+			<View style={style}>
+				<AutoLinkText style={textStyle} numberOfLines={1}>
+					{value}
+				</AutoLinkText>
+			</View>
+		);
+	}
+}
 
 class EditableField extends Component {
 	constructor(props) {
