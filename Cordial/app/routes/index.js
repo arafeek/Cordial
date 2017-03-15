@@ -45,20 +45,23 @@ const routes = Actions.create(
       <Scene
         key="profile"
         icon={TabIcon}
+        iconName="user"
+        title="User"
         component={ProfileContainer}
-        title="user"
         hideNavBar={true} />
       <Scene
         key="contacts"
         icon={TabIcon}
+        iconName="address-book-o"
+        title="Contacts"
         component={ContactsContainer}
-        title="address-book-o"
         hideNavBar={true} />
       <Scene
         key="settings"
         icon={TabIcon}
+        iconName="cog"
         component={SettingsContainer}
-        title="cog" />
+        title="Settings"/>
     </Scene>
     <Scene
       key="cardeditor"
