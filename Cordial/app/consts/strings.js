@@ -10,3 +10,4 @@ export const DEVICE_USER_ID = 'ME';
 
 export const DEVICE_CARD_KEY = '@CardStorage';
 
+export const DEVICE_SETTINGS_KEY = '@Settings';

@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
+
 import {Icon} from '../components/touchable-icon';
 import { paleBlue, brightBlue, deepBlue } from '../consts/styles';
 

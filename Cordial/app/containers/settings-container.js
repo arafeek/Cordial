@@ -11,7 +11,6 @@ import {
 import * as authActions from '../actions/auth';
 import * as settingsActions from '../actions/settings';
 import SettingsItem from '../components/settings-button';
-import TileButton from '../components/tile-button';
 import { HEADER_HEIGHT } from '../consts/styles';
 
 class SettingsContainer extends Component {

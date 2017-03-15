@@ -14,7 +14,6 @@ const initialState = {
 export default function SettingsReducer(state = initialState, action = {}) {
 	switch (action.type) {
 		case actions.TOGGLE_SETTING: {
-		console.log(action);
 			const {key} = action;
 			return {
 				...state,
