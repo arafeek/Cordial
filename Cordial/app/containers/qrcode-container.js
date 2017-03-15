@@ -7,7 +7,6 @@ import {
   View,
   StyleSheet,
   Button,
-  ActivityIndicator
 } from 'react-native';
 
 import {
@@ -29,20 +28,8 @@ class QRCodeContainer extends Component {
 
   constructor(props){
     super(props);
-    this.state = {
-      animating: true
-    };
   }
 
-  closeActivityIndicator() {
-      setTimeout(() => {
-        this.setState({animating: false});
-      }, 1500);
-  }
-
-  componentDidMount() {
-      this.closeActivityIndicator();
-  }
 
   render() {
     const {id, displayName} = this.props;
@@ -57,16 +44,12 @@ class QRCodeContainer extends Component {
           <Text> Sharing... {displayName}</Text>
 
           <Button
-              onPress={() => {
-                Actions.tabbar({type:ActionConst.RESET});
-                Actions.contacts();
-              }}
+              onPress={Actions.pop}
               title="Done"
               color="blue"
           />
         </View>
         <View style={{flex: 1, alignItems: 'center', height: 40, justifyContent: 'center'}}>
-          <ActivityIndicator animating = {this.state.animating} color='#000000' />
           <QRCode
             value={compressedJsonString}
             size={DEVICE_WIDTH - 20}

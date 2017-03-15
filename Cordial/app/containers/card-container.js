@@ -10,7 +10,8 @@ import React, {Component} from 'react';
 import _ from 'lodash';
 import {Actions} from 'react-native-router-flux';
 
-import AutoLinkText from '../components/auto-link-text';
+import ReadOnlyField from '../components/read-only-field';
+import EditableField from '../components/editable-field';
 import WithKeyboard from '../hoc/with-keyboard';
 import ConnectToModel from '../models/connect-to-model';
 import TouchableIcon, {Icon} from '../components/touchable-icon';
@@ -26,58 +27,6 @@ import {
 	white,
 	FOOTER_HEIGHT
 } from '../consts/styles';
-
-class ReadOnlyField extends Component {
-	render() {
-		const {style, textStyle, value} = this.props;
-		return (
-			<View style={style}>
-				<AutoLinkText style={textStyle} numberOfLines={1}>
-					{value}
-				</AutoLinkText>
-			</View>
-		);
-	}
-}
-
-class EditableField extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			input: this.props.value,
-		};
-		this.onFieldChange = this.onFieldChange.bind(this);
-		this.onDelete = this.onDelete.bind(this);
-	}
-	onDelete() {
-		this.props.onDelete();
-	}
-	onFieldChange(v) {
-		this.setState({input: v});
-		this.props.onChange(v);
-	}
-	render() {
-		const {deleteAllowed} = this.props;
-
-		return (
-			<View style={this.props.style}>
-				<TextInput
-					style={styles.textField}
-					value={this.state.input}
-					onChangeText={this.onFieldChange}
-					onSubmitEditing={this.onEndEditing}
-				/>
-				{deleteAllowed &&
-					<TouchableIcon
-						style={styles.clickableIcon}
-						color={brightBlue}
-						size={20} name='trash-o'
-						onPress={this.onDelete}/>
-				}
-			</View>
-		);
-	}
-}
 
 const profilePictureSize= DEVICE_WIDTH / 2.5;
 
@@ -289,19 +238,6 @@ const styles = StyleSheet.create({
 	fieldText: {
 		fontSize: 20,
 		flex: 0
-	},
-	textField: {
-		backgroundColor: white,
-		fontSize: 20,
-		height: 28,
-		margin: 0,
-		paddingVertical: 1,
-		paddingHorizontal: 8,
-		textDecorationLine: 'none',
-		borderColor: lightBlue,
-		borderWidth: 1,
-		flex: 1,
-		lineHeight: 28,
 	},
 	editTray: {
 		flexDirection: 'row',
