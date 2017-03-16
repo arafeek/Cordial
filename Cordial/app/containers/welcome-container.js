@@ -11,10 +11,11 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import StatusBarBackground from '../components/statusbar-background';
 
+import StatusBarBackground from '../components/statusbar-background';
 import * as authActions from '../actions/auth';
 import * as modelActions from '../actions/model';
+import * as settingsActions from '../actions/settings';
 import * as baseStyles from '../consts/styles';
 import {
   DEVICE_USER_KEY,
@@ -32,6 +33,7 @@ class WelcomeContainer extends Component {
   }
   componentWillMount() {
     this.props.actions.loadModelFromStorage(DEVICE_USER_KEY, DEVICE_USER_ID);
+    this.props.actions.loadSettingsFromStorage();
     this._isLoggedIn();
   }
 
@@ -123,6 +125,7 @@ export default connect(
     actions: bindActionCreators({
       ...authActions,
       ...modelActions,
+      ...settingsActions
     }, dispatch)
   })
 )(WelcomeContainer);
