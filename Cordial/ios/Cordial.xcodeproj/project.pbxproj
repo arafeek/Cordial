@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -37,6 +36,7 @@
 		D2979D26B4C04D048E424D97 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB1D7B4D02943E6B3F98F0B /* libRNVectorIcons.a */; };
 		E5B004E84D824AF581831537 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76A521F02F9A4088A75C9F8E /* Entypo.ttf */; };
 		E5F2FC4CEB0844FF930E0192 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E27A56EF1A1B45688F64D732 /* libBVLinearGradient.a */; };
+		A9BFCCBE51E941FB89A7B13F /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 644032D7A68D474D9E10428B /* libRNImagePicker.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -284,6 +284,8 @@
 		E229D7F9FB95449D915E2096 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		E27A56EF1A1B45688F64D732 /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 		E4162E749A134A3F9181362A /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		B0187D5B95E74FD8B53471CD /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; name = "RNImagePicker.xcodeproj"; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		644032D7A68D474D9E10428B /* libRNImagePicker.a */ = {isa = PBXFileReference; name = "libRNImagePicker.a"; path = "libRNImagePicker.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -313,6 +315,7 @@
 				E5F2FC4CEB0844FF930E0192 /* libBVLinearGradient.a in Frameworks */,
 				D2979D26B4C04D048E424D97 /* libRNVectorIcons.a in Frameworks */,
 				64B93D9588A34ABD8C2F01C7 /* libRCTCamera.a in Frameworks */,
+				A9BFCCBE51E941FB89A7B13F /* libRNImagePicker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +480,7 @@
 				CB3BE75515A24BABABA1BCEF /* BVLinearGradient.xcodeproj */,
 				DA5BFB5B7A134EC29FB0C232 /* RNVectorIcons.xcodeproj */,
 				7F589C422C0145E29B2E8B27 /* RCTCamera.xcodeproj */,
+				B0187D5B95E74FD8B53471CD /* RNImagePicker.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -972,6 +976,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cordial.app/Cordial";
@@ -988,6 +993,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
