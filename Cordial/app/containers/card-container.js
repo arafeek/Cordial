@@ -2,23 +2,24 @@ import {
 	View,
 	Text,
 	StyleSheet,
+	Modal,
 	TouchableOpacity,
-	TextInput,
 	ScrollView
 } from 'react-native';
 import React, {Component} from 'react';
 import _ from 'lodash';
 import {Actions} from 'react-native-router-flux';
-
+import Communications from 'react-native-communications';
+import {draftEmail} from '../utils/emaildraft';
 import ReadOnlyField from '../components/read-only-field';
 import EditableField from '../components/editable-field';
 import WithKeyboard from '../hoc/with-keyboard';
 import ConnectToModel from '../models/connect-to-model';
-import TouchableIcon, {Icon} from '../components/touchable-icon';
 import DisplayPicture from '../components/display-picture';
 import ProfilePicture from '../components/profile-picture';
 import TileButton from '../components/tile-button';
 import {Card} from '../models/Model';
+import {Icon} from '../components/touchable-icon';
 import {
 	DEVICE_WIDTH,
 	brightBlue,
@@ -31,10 +32,12 @@ import {
 const profilePictureSize= DEVICE_WIDTH / 2.5;
 
 class CardContainer extends Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
-			card: this.props.Card.byId()[this.props.id]
+			card: this.props.Card.byId()[this.props.id],
+			modalVisible: false
 		};
 		this.enableEdit = this.enableEdit.bind(this);
 		this.cancelEdit = this.cancelEdit.bind(this);
@@ -75,17 +78,36 @@ class CardContainer extends Component {
 		const newFields = _.filter(card.fields, (f, i) => (i !== fieldIndex));
 		this.setState({card:{...card, fields: newFields}});
 	}
+
+	setModalVisible(visible) {
+		this.setState({modalVisible: visible});
+	}
+
+	sendEmail(cards){
+		this.setModalVisible(!this.state.modalVisible);
+		Communications.email(['', ''],null,null,'Contact Shared Via Cordial', draftEmail(_.sample(cards)));
+	}
+
+	openQRCode(){
+		this.setModalVisible(!this.state.modalVisible);
+		Actions.qrcodescanner();
+	}
+
 	render() {
 		const {readOnly, editMode, keyboardOpen} = this.props;
 		const card = editMode ? this.state.card : this.props.Card.byId()[this.props.id];
 		const Field = editMode ? EditableField : ReadOnlyField;
 		const {
-			id,
 			profilePhoto,
 			displayPhoto,
 			displayName,
 			fields
 		} = card;
+
+
+
+		const cards = Card.myCards();
+		
 		return (
 			<View style={[styles.cardContainer, {marginBottom: editMode ? 0 : FOOTER_HEIGHT}]}>
 				{ editMode  && !keyboardOpen &&
@@ -101,19 +123,63 @@ class CardContainer extends Component {
 				<DisplayPicture style={styles.displayPicture} uri={displayPhoto}/>
 				<View style={styles.displayPictureBorder}/>
 				{!readOnly && !editMode &&
-					<View style={styles.optionButtons}>
-						<TouchableOpacity	onPress={() => {Actions.qrcode({id, displayName});}}>
-							<View style={styles.shareButton}>
-								<Icon style={styles.clickableIcon} color={brightBlue} size={20} name='share'/>
-								<Text style={styles.clickableText} >Share</Text>
-							</View>
-						</TouchableOpacity>
-						<TouchableOpacity	onPress={this.enableEdit}>
-							<View style={styles.editButton}>
-								<Icon style={styles.clickableIcon} color={brightBlue} size={20} name='pencil'/>
-								<Text style={styles.clickableText} >Edit</Text>
-							</View>
-						</TouchableOpacity>
+					<View >
+						<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+							<Modal
+							animationType={'slide'}
+							transparent={true}
+							visible={this.state.modalVisible}
+							onRequestClose={()=>{alert('Modal has been closed.');}}
+							>
+								<View style={styles.modal}>
+									<View style={{backgroundColor: lightBlue, borderColor: brightBlue, borderWidth: 10}}>
+										<View style={styles.sharingPanel}>
+											<TouchableOpacity onPress={() => {this.sendEmail(cards);}}>
+												<View style={{alignItems:'center'}}>
+												<Icon 
+													style={styles.shareicon}
+													key={'envelope'}
+													name={'envelope'}
+													size={60}
+												/>
+												<Text style={styles.clickableText} >Email</Text>
+												</View>
+											</TouchableOpacity>
+											<TouchableOpacity onPress={() => {this.openQRCode();}}>
+												<View style={{alignItems:'center'}}>
+													<Icon 
+														style={styles.shareicon}
+														key={'qrcode'}
+														name={'qrcode'}
+														size={60}	
+													/>
+													<Text style={styles.clickableText} >QR Code</Text>
+												</View>
+											</TouchableOpacity>
+										</View>
+										<View style={{alignItems: 'center'}}>
+											<TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
+												<Text style={{fontSize: 20}}>Close</Text>
+											</TouchableOpacity>
+										</View>
+									</View>
+								</View>
+							</Modal>
+						</View>
+						<View style={styles.optionButtons}>
+							<TouchableOpacity	onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
+								<View style={styles.shareButton}>
+									<Icon style={styles.clickableIcon} color={brightBlue} size={20} name='share'/>
+									<Text style={styles.clickableText} >Share</Text>
+								</View>
+							</TouchableOpacity>
+							<TouchableOpacity	onPress={this.enableEdit}>
+								<View style={styles.editButton}>
+									<Icon style={styles.clickableIcon} color={brightBlue} size={20} name='pencil'/>
+									<Text style={styles.clickableText} >Edit</Text>
+								</View>
+							</TouchableOpacity>
+						</View>
 					</View>
 				}
 				<ProfilePicture
@@ -279,7 +345,31 @@ const styles = StyleSheet.create({
 	optionButtons: {
 		flexDirection: 'row',
 		justifyContent: 'space-between'
+	},
+	modal: {	
+		flex: 1, 
+		flexDirection: 'column', 
+		justifyContent: 'center', 
+		alignItems: 'center',
+	},
+	closeButton:{
+		flex: 0.10,
+		backgroundColor: lightBlue,
+		alignItems: 'center'
+	},
+	shareicon: {
+		backgroundColor: lightBlue
+	},
+	sharingPanel: {
+		width: 300,
+		height: 100,
+		backgroundColor: lightBlue,
+		paddingLeft: 40,
+		paddingRight: 40,
+		justifyContent: 'space-between',
+		flexDirection:'row'
 	}
+
 });
 
 export default ConnectToModel(WithKeyboard(CardContainer), Card);
