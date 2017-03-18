@@ -88,9 +88,14 @@ class CardContainer extends Component {
 		Communications.email(['', ''],null,null,'Contact Shared Via Cordial', draftEmail(_.sample(cards)));
 	}
 
-	openQRCode(){
+	openCamera(){
 		this.setModalVisible(!this.state.modalVisible);
 		Actions.qrcodescanner();
+	}
+
+	shareCard(id, displayName){
+		this.setModalVisible(!this.state.modalVisible);
+		Actions.qrcode({id, displayName});
 	}
 
 	render() {
@@ -98,13 +103,12 @@ class CardContainer extends Component {
 		const card = editMode ? this.state.card : this.props.Card.byId()[this.props.id];
 		const Field = editMode ? EditableField : ReadOnlyField;
 		const {
+			id,
 			profilePhoto,
 			displayPhoto,
 			displayName,
 			fields
 		} = card;
-
-
 
 		const cards = Card.myCards();
 		
@@ -134,6 +138,17 @@ class CardContainer extends Component {
 								<View style={styles.modal}>
 									<View style={{backgroundColor: lightBlue, borderColor: brightBlue, borderWidth: 10}}>
 										<View style={styles.sharingPanel}>
+											<TouchableOpacity onPress={() => {this.shareCard(id, displayName);}}>
+												<View style={{alignItems:'center'}}>
+													<Icon 
+														style={styles.shareicon}
+														key={'qrcode'}
+														name={'qrcode'}
+														size={60}	
+													/>
+													<Text style={styles.clickableText} >Share Card</Text>
+												</View>
+											</TouchableOpacity>
 											<TouchableOpacity onPress={() => {this.sendEmail(cards);}}>
 												<View style={{alignItems:'center'}}>
 												<Icon 
@@ -145,15 +160,15 @@ class CardContainer extends Component {
 												<Text style={styles.clickableText} >Email</Text>
 												</View>
 											</TouchableOpacity>
-											<TouchableOpacity onPress={() => {this.openQRCode();}}>
+											<TouchableOpacity onPress={() => {this.openCamera();}}>
 												<View style={{alignItems:'center'}}>
 													<Icon 
 														style={styles.shareicon}
-														key={'qrcode'}
-														name={'qrcode'}
+														key={'camera'}
+														name={'camera'}
 														size={60}	
 													/>
-													<Text style={styles.clickableText} >QR Code</Text>
+													<Text style={styles.clickableText} >Scan QR</Text>
 												</View>
 											</TouchableOpacity>
 										</View>
@@ -364,8 +379,8 @@ const styles = StyleSheet.create({
 		width: 300,
 		height: 100,
 		backgroundColor: lightBlue,
-		paddingLeft: 40,
-		paddingRight: 40,
+		paddingLeft: 30,
+		paddingRight: 20,
 		justifyContent: 'space-between',
 		flexDirection:'row'
 	}
