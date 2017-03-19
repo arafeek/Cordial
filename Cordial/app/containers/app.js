@@ -5,6 +5,8 @@ import {
   Scene,
 } from 'react-native-router-flux';
 import { Router } from 'react-native-router-flux';
+import { setCustomText } from 'react-native-global-props';
+import { Platform } from 'react-native';
 
 import routes from '../routes';
 import {User, Card} from '../models/Model';
@@ -25,9 +27,16 @@ cards.forEach(c => store.dispatch(putModel('Card', c.id, c)));
 
 
 const RouterWithRedux = connect()(Router);
+const customTextProps = {
+  style: {
+    fontFamily: Platform.OS === 'ios' ? 'Iowan Old Style' : 'serif'
+  }
+};
 
 export default class App extends Component {
-  render() {
+	render() {
+		setCustomText(customTextProps);
+
     return (
       <Provider store={store}>
         <RouterWithRedux scenes={routes} />
