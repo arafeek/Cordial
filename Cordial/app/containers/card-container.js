@@ -388,21 +388,21 @@ const styles = StyleSheet.create({
 	},
 	closeButton:{
 		flex: 0.10,
-		backgroundColor: lightBlue,
+		backgroundColor: brightBlue,
 		alignItems: 'center'
 	},
 	shareicon: {
-		backgroundColor: lightBlue
+		backgroundColor: brightBlue
 	},
 	sharingPanel: {
 		width: 320,
 		height: 250,
-		backgroundColor: lightBlue,
+		backgroundColor: brightBlue,
 		flexDirection:'column',
 	},
 	clickableShareText: {
-		color: brightBlue,
-		fontSize: 20,
+		color: lightBlue,
+		fontSize: 25,
 	},
 	shareOptionsButton:{
 		justifyContent:'space-between',
