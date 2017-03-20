@@ -139,36 +139,55 @@ class CardContainer extends Component {
 									<View style={{backgroundColor: lightBlue, borderColor: brightBlue, borderWidth: 10}}>
 										<View style={styles.sharingPanel}>
 											<TouchableOpacity onPress={() => {this.shareCard(id, displayName);}}>
-												<View style={{alignItems:'center'}}>
+												<View style={styles.shareOptionsButton}>
 													<Icon 
 														style={styles.shareicon}
 														key={'qrcode'}
 														name={'qrcode'}
-														size={60}	
+														size={55}	
 													/>
-													<Text style={styles.clickableText} >Share Card</Text>
+													<View style={styles.shareTextButton}>
+														<Text style={styles.clickableShareText} >Share Card</Text>
+													</View>
 												</View>
 											</TouchableOpacity>
 											<TouchableOpacity onPress={() => {this.sendEmail(cards);}}>
-												<View style={{alignItems:'center'}}>
-												<Icon 
-													style={styles.shareicon}
-													key={'envelope'}
-													name={'envelope'}
-													size={60}
-												/>
-												<Text style={styles.clickableText} >Email</Text>
+												<View style={styles.shareOptionsButton}>
+													<Icon 
+														style={styles.shareicon}
+														key={'envelope'}
+														name={'envelope'}
+														size={55}
+													/>
+													<View style={styles.shareTextButton}>
+														<Text style={styles.clickableShareText} >Email Contact</Text>
+													</View>
 												</View>
 											</TouchableOpacity>
 											<TouchableOpacity onPress={() => {this.openCamera();}}>
-												<View style={{alignItems:'center'}}>
+												<View style={styles.shareOptionsButton}>
 													<Icon 
 														style={styles.shareicon}
 														key={'camera'}
 														name={'camera'}
-														size={60}	
+														size={55}	
 													/>
-													<Text style={styles.clickableText} >Scan QR</Text>
+													<View style={styles.shareTextButton}>
+														<Text style={styles.clickableShareText} >Scan QR Code</Text>
+													</View>
+												</View>
+											</TouchableOpacity>
+											<TouchableOpacity onPress={() => {this.shareCard(id, displayName);}}>
+												<View style={styles.shareOptionsButton}>
+													<Icon 
+														style={styles.shareicon}
+														key={'share-alt-square'}
+														name={'share-alt-square'}
+														size={55}	
+													/>
+													<View style={styles.shareTextButton}>
+														<Text style={styles.clickableShareText} >NFC</Text>
+													</View>
 												</View>
 											</TouchableOpacity>
 										</View>
@@ -376,13 +395,27 @@ const styles = StyleSheet.create({
 		backgroundColor: lightBlue
 	},
 	sharingPanel: {
-		width: 300,
-		height: 100,
+		width: 320,
+		height: 250,
 		backgroundColor: lightBlue,
-		paddingLeft: 30,
+		flexDirection:'column',
+	},
+	clickableShareText: {
+		color: brightBlue,
+		fontSize: 20,
+	},
+	shareOptionsButton:{
+		justifyContent:'space-between',
+		flexDirection:'row',
+		borderWidth: 1,
+		borderColor: brightBlue,
 		paddingRight: 20,
-		justifyContent: 'space-between',
-		flexDirection:'row'
+		paddingLeft: 20
+
+	},
+	shareTextButton: {
+		alignItems:'center',
+		justifyContent: 'center'
 	}
 
 });
