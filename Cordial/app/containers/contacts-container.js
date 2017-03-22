@@ -7,7 +7,7 @@ import {
 	TextInput,
 	StyleSheet,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+
 import {Actions} from 'react-native-router-flux';
 import _ from 'lodash';
 import StatusBarBackground from '../components/statusbar-background';
@@ -92,44 +92,30 @@ class Contact extends Component {
 		Actions.contact({id: this.props.id});
 	}
 	render() {
-		const {id, displayName, profilePhoto, displayPhoto, style} = this.props;
+		const {id, displayName, profilePhoto, displayPhoto} = this.props;
 
-		const name =
-		<Text style={styles.name}
-		onPress={() => {
-			Actions.qrcode({id, displayName});
-		}}>{displayName}</Text>;
-
-		const profilePicture = <ProfilePicture
-			size={contactHeight / GOLDEN_RATIO}
-			imgID={profilePhoto}
-			style={styles.profilePicture}
-		/>;
-
-		if (displayPhoto) {
-			return (
-				<TouchableHighlight style={styles.contact} onPress={this.openContact}>
-					<View style={styles.background}>
-						<DisplayPicture
-							imgID={displayPhoto}
-							style={[styles.displayPhoto, styles.background]}
-						/>
-						{name}
-						{profilePicture}
-					</View>
-				</TouchableHighlight>
-			);
-		} else {
-			const colors = [style.header.startColor, style.header.endColor];
-			return (
-				<TouchableHighlight style={styles.contact} onPress={this.openContact}>
-					<LinearGradient style={styles.background}	colors={colors}>
-						{profilePicture}
-						{name}
-					</LinearGradient>
-				</TouchableHighlight>
-			);
-		}
+		return (
+			<TouchableHighlight style={styles.contact} onPress={this.openContact}>
+				<View style={styles.background}>
+					<DisplayPicture
+						imgID={displayPhoto}
+						style={[styles.displayPhoto, styles.background]}
+					/>
+					<Text
+						style={styles.name}
+						onPress={() => {
+						Actions.qrcode({id, displayName});
+					}}>
+						{displayName}
+					</Text>
+					<ProfilePicture
+						size={contactHeight / GOLDEN_RATIO}
+						imgID={profilePhoto}
+						style={styles.profilePicture}
+					/>
+				</View>
+			</TouchableHighlight>
+		);
 	}
 }
 
@@ -139,7 +125,6 @@ class ContactsContainer extends Component {
 		this.state = {
 			input: ''
 		};
-		//this.props = props;
 		this.handleSearch = this.handleSearch.bind(this);
 		this.toggleMode = this.toggleMode.bind(this);
 	}

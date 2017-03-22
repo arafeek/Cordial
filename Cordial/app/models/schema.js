@@ -1,10 +1,5 @@
 import {Validator} from 'jsonschema';
 
-const hexCode = {
-  type: 'string',
-  pattern: '^#(\d{6})|^#([A-F]{6})|^#([A-F]|[0-9]){6}'
-};
-
 const email = {
   type: 'string',
   pattern: '/^[A-Z0-9._-]+@[A-Z0-9.-]+\.[A-Z0-9.-]+$/i'
@@ -54,25 +49,6 @@ export const cardSchema = {
     type: {type: 'string'},
     profilePhoto: GUID,
     displayPhoto: GUID,
-    style: {
-      type: 'object',
-      properties: {
-        header: {
-          type: 'object',
-          properties: {
-            startColor: hexCode,
-            endColor: hexCode,
-          }
-        },
-        body: {
-          type: 'object',
-          properties: {
-            startColor: hexCode,
-            endColor: hexCode,
-          }
-        }
-      }
-    },
     fields: {
       type: 'array',
       items: {type: '/Field'}
