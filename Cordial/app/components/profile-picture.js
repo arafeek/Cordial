@@ -3,10 +3,16 @@ import {
   View,
   Image,
   TouchableOpacity,
+  StyleSheet,
+  Text,
 } from 'react-native';
 var ImagePicker = require('react-native-image-picker');
 
-import {brightBlue, DEFAULT_PROFILE_IMAGE} from '../consts/styles';
+import {
+  brightBlue,
+  DEFAULT_PROFILE_IMAGE,
+  overlayBlack,
+} from '../consts/styles';
 
 export default class ProfilePicture extends Component {
 	constructor(props) {
@@ -62,7 +68,7 @@ export default class ProfilePicture extends Component {
             borderRadius: size,
             borderWidth: borderWidth,
             padding: 0,
-            margin: 0
+            margin: 0,
           },
             this.props.style
           ]}
@@ -70,9 +76,27 @@ export default class ProfilePicture extends Component {
           <TouchableOpacity
             onPress={() => {this.loadImagePicker()}}
             activeOpacity={0.7}>
+            <View>
+              <View style={{
+                height: size - 2 * borderWidth,
+                width: size - 2 * borderWidth,
+                position: 'absolute',
+                backgroundColor: overlayBlack,
+                borderRadius: size,
+                margin: 0,
+                padding: 0,
+                top: 0,
+                zIndex: 2,
+                alignItems: 'center',
+                justifyContent: 'center',
+                }}>
+                <Text style={styles.editOverlayText}>
+                  Edit
+                </Text>
+              </View>
 
-            { ImageElement }
-
+              { ImageElement }
+            </View>
           </TouchableOpacity>
         </View>
       );
@@ -99,4 +123,11 @@ export default class ProfilePicture extends Component {
 
 	}
 }
+
+const styles = StyleSheet.create({
+  editOverlayText: {
+    color: 'white',
+    alignSelf: 'center',
+  },
+});
 

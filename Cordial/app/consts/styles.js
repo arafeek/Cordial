@@ -7,6 +7,7 @@ export const lightBlue = '#c1e3ff';
 export const brightBlue = '#70bdf2';
 export const deepBlue = '#153f65';
 export const almostBlack = '#03131f';
+export const overlayBlack = 'rgba(0, 0, 0, 0.4)';
 
 export const DEVICE_WIDTH = Dimensions.get('window').width;
 export const DEVICE_HEIGHT = Dimensions.get('window').height;
