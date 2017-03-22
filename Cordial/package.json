@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "autolinker": "1.4.2",
     "jsonpack": "^1.1.5",
     "jsonschema": "^1.1.1",
     "lodash": "^4.17.4",
