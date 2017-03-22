@@ -220,6 +220,8 @@ class CardContainer extends Component {
 					size={profilePictureSize}
 					uri={profilePhoto}
 					style={styles.profilePicture}
+          editable={editMode && !readOnly}
+          onChange={(v) => this.onChangeProp('profilePhoto', v)}
 				/>
 				<Field
 					style={styles.displayName}

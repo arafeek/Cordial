@@ -50,8 +50,16 @@ export default function model(state = initialState, action = {}) {
           [model]: undefined, // meh
         };
       }
-    case actions.SAVE_TO_STORAGE: 
-    case actions.LOAD_FROM_STORAGE:
+    case actions.LOAD_FROM_STORAGE_SUCCESS:
+      return {
+        ...state,
+        modelsLoaded: true,
+      };
+    case actions.LOAD_FROM_STORAGE_FAILURE:
+      return {
+        ...state,
+        modelsLoaded: false,
+      };
     default:
       return state;
   }
