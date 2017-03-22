@@ -1,6 +1,6 @@
 import React from 'react';
 import Autolinker from 'autolinker';
-import { Linking, Alert } from 'react-native';
+import { Linking } from 'react-native';
 
 import TouchableIcon from './touchable-icon';
 

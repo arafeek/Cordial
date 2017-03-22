@@ -12,6 +12,11 @@ import { lightBlue, brightBlue } from '../consts/styles';
 export default class SharingModal extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.shareCard = this.shareCard.bind(this);
+		this.sendEmail = this.sendEmail.bind(this);
+		this.openCamera = this.openCamera.bind(this);
+
 		this.sharingOptions = [
 			{
 				name: 'Share Card',
@@ -37,17 +42,17 @@ export default class SharingModal extends React.Component {
 	}
 
 	sendEmail(){
-		this.setModalVisible(!this.state.modalVisible);
+		this.props.onRequestClose();
 		const {card} = this.props;
 		Communications.email(['', ''],null,null,'Contact Shared Via Cordial', draftEmail(card));
 	}
 	openCamera(){
-		this.setModalVisible(!this.state.modalVisible);
+		this.props.onRequestClose();
 		Actions.qrcodescanner();
 	}
 	shareCard(){
 		const {id, displayName} = this.props.card;
-		this.setModalVisible(!this.state.modalVisible);
+		this.props.onRequestClose();
 		Actions.qrcode({id, displayName});
 	}
 	render() {
