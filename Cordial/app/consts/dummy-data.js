@@ -7,16 +7,6 @@ export const JohnDoeCard1 = {
 	type: 'Business',
 	profilePhoto: null,
 	displayPhoto: 'someID',
-	style: {
-		header: {
-			startColor: '#ffffff',
-			endColor: '#888888'
-		},
-		body: {
-			startColor: '#beef1e',
-			endColor: '#ffffff'
-		}
-	},
 	fields: [
 		{
 			custom: false,
@@ -40,16 +30,6 @@ export const LinusTorvaldsCard1 = {
 	type: 'Business',
 	profilePhoto: null,
 	displayPhoto: null,
-	style: {
-		header: {
-			startColor: '#ff0000',
-			endColor: '#888800'
-		},
-		body: {
-			startColor: '#beef1e',
-			endColor: '#ffffff'
-		}
-	},
 	fields: [
 		{
 			custom: false,
@@ -73,16 +53,6 @@ export const TinusLorvaldsCard1 = {
 	type: 'Business',
 	profilePhoto: null,
 	displayPhoto: null,
-	style: {
-		header: {
-			startColor: '#00ff00',
-			endColor: '#0000ff'
-		},
-		body: {
-			startColor: '#beef1e',
-			endColor: '#ffffff'
-		}
-	},
 	fields: [
 		{
 			custom: false,
@@ -106,16 +76,6 @@ export const CharlieCard1 = {
 	type: 'Business',
 	profilePhoto: null,
 	displayPhoto: null,
-	style: {
-		header: {
-			startColor: '#000000',
-			endColor: '#abcdef'
-		},
-		body: {
-			startColor: '#beef1e',
-			endColor: '#ffffff'
-		}
-	},
 	fields: []
 };
 
@@ -126,16 +86,6 @@ export const DennisCard1 = {
 	type: 'Personal',
 	profilePhoto: null,
 	displayPhoto: null,
-	style: {
-		header: {
-			startColor: '#ffffff',
-			endColor: '#abcdef'
-		},
-		body: {
-			startColor: '#beef1e',
-			endColor: '#ffffff'
-		}
-	},
 	fields: []
 };
 
