@@ -36,6 +36,8 @@
 		D2979D26B4C04D048E424D97 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB1D7B4D02943E6B3F98F0B /* libRNVectorIcons.a */; };
 		E5B004E84D824AF581831537 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 76A521F02F9A4088A75C9F8E /* Entypo.ttf */; };
 		A9BFCCBE51E941FB89A7B13F /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 644032D7A68D474D9E10428B /* libRNImagePicker.a */; };
+		CD06804843DE42C0B0D537A9 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BC60B05ADD14664A7D3701D /* libRNFetchBlob.a */; };
+		EAE8F7EF5D2A45D9A9B2364F /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E615B09768C40758BB56F50 /* libRCTActionSheet.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -276,6 +278,10 @@
 		E4162E749A134A3F9181362A /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		B0187D5B95E74FD8B53471CD /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; name = "RNImagePicker.xcodeproj"; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		644032D7A68D474D9E10428B /* libRNImagePicker.a */ = {isa = PBXFileReference; name = "libRNImagePicker.a"; path = "libRNImagePicker.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		C47DE6829A2B49208D152774 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; name = "RNFetchBlob.xcodeproj"; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		0BC60B05ADD14664A7D3701D /* libRNFetchBlob.a */ = {isa = PBXFileReference; name = "libRNFetchBlob.a"; path = "libRNFetchBlob.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		416B33A433C549339D68CEF1 /* ReactNativeGlobalProps.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeGlobalProps.xcodeproj"; path = "../node_modules/react-native-global-props/ios/ReactNativeGlobalProps.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		9E615B09768C40758BB56F50 /* libRCTActionSheet.a */ = {isa = PBXFileReference; name = "libRCTActionSheet.a"; path = "libRCTActionSheet.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,6 +311,8 @@
 				D2979D26B4C04D048E424D97 /* libRNVectorIcons.a in Frameworks */,
 				64B93D9588A34ABD8C2F01C7 /* libRCTCamera.a in Frameworks */,
 				A9BFCCBE51E941FB89A7B13F /* libRNImagePicker.a in Frameworks */,
+				CD06804843DE42C0B0D537A9 /* libRNFetchBlob.a in Frameworks */,
+				EAE8F7EF5D2A45D9A9B2364F /* libRCTActionSheet.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +477,8 @@
 				DA5BFB5B7A134EC29FB0C232 /* RNVectorIcons.xcodeproj */,
 				7F589C422C0145E29B2E8B27 /* RCTCamera.xcodeproj */,
 				B0187D5B95E74FD8B53471CD /* RNImagePicker.xcodeproj */,
+				C47DE6829A2B49208D152774 /* RNFetchBlob.xcodeproj */,
+				416B33A433C549339D68CEF1 /* ReactNativeGlobalProps.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -946,6 +956,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cordial.app/Cordial";
@@ -962,6 +974,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
