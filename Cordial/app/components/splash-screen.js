@@ -36,11 +36,13 @@ export class Splash extends React.Component {
 export default class SplashScreen extends React.Component {
 	componentDidMount() {
 		const redirectOptions = {type: ActionConst.REPLACE};
-		if (User.me()) {
-			setTimeout(() => Actions.tabbar(redirectOptions), SPLASH_TIME);
-		} else {
-			setTimeout(() => Actions.welcome(redirectOptions), SPLASH_TIME);
-		}
+			setTimeout(() => {
+			if (User.me()) {
+				Actions.tabbar(redirectOptions);
+			} else {
+				Actions.welcome(redirectOptions);
+			}
+		}, SPLASH_TIME);
 	}
 	render() {
 		return <Splash/>;
