@@ -28,6 +28,8 @@ import {
 	brightBlue,
 	lightBlue,
 	paleBlue,
+	brightRed,
+	lightRed,
 	white,
 	FOOTER_HEIGHT
 } from '../consts/styles';
@@ -120,6 +122,8 @@ class CardContainer extends Component {
 		} = card;
 		const userCompactProfileView = this.props.settings.useCompactProfileView.value;
 
+		const cards = Card.myCards();
+
 		return (
 			<View style={[styles.cardContainer, {marginBottom: editMode ? 0 : FOOTER_HEIGHT}]}>
 
@@ -135,6 +139,15 @@ class CardContainer extends Component {
 						<Text style={styles.tileButtonText}>Cancel</Text>
 					</TileButton>
 				</View>
+				}
+				{!readOnly && !editMode &&
+					<TouchableOpacity
+						style={{zIndex: 1000, position: 'relative'}}
+						onPress={() => {console.log('clicked my cards');}}>
+						<View style={styles.myCards}>
+							<Text style={styles.myCardsText}>My Cards</Text>
+						</View>
+					</TouchableOpacity>
 				}
 				<DisplayPicture style={styles.displayPicture} uri={displayPhoto}/>
 				<View style={styles.displayPictureBorder}/>
@@ -171,6 +184,21 @@ class CardContainer extends Component {
 								</View>
 							</TouchableOpacity>
 						</View>
+					</View>
+				}
+				{!readOnly && editMode &&
+					<View style={styles.optionButtons}>
+						<TouchableOpacity	onPress={() => {console.log('clicked delete card');}}>
+							<View style={styles.deleteCard}>
+								<Text style={styles.deleteCardText}>Delete Card</Text>
+							</View>
+						</TouchableOpacity>
+						<TouchableOpacity	onPress={this.enableEdit}>
+							<View style={styles.editButton}>
+								<Icon style={styles.clickableIcon} color={brightBlue} size={20} name='pencil'/>
+								<Text style={styles.clickableText} >Edit</Text>
+							</View>
+						</TouchableOpacity>
 					</View>
 				}
 				<ProfilePicture
@@ -277,6 +305,9 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 5,
 		flexDirection: 'row',
 	},
+	displayPicture: {
+		zIndex: 0
+	},
 	displayPictureBorder: { // I am sorry for these hax
 		borderWidth: 2, // borderBottomWidth doesn't seem to work
 		borderColor: brightBlue,
@@ -376,6 +407,73 @@ const styles = StyleSheet.create({
   },
 	linkIcon: {
 		backgroundColor: paleBlue,
+	},
+	modal: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	closeButton:{
+		flex: 0.10,
+		backgroundColor: brightBlue,
+		alignItems: 'center'
+	},
+	shareicon: {
+		backgroundColor: brightBlue
+	},
+	sharingPanel: {
+		width: 320,
+		height: 250,
+		backgroundColor: brightBlue,
+		flexDirection:'column',
+	},
+	clickableShareText: {
+		color: lightBlue,
+		fontSize: 25,
+	},
+	shareOptionsButton:{
+		justifyContent:'space-between',
+		flexDirection:'row',
+		borderWidth: 1,
+		borderColor: brightBlue,
+		paddingRight: 20,
+		paddingLeft: 20
+	},
+	myCards: {
+		position: 'absolute',
+		borderWidth: 1,
+		borderRadius: 8,
+		borderColor: brightBlue,
+		backgroundColor: lightBlue,
+		height: 25,
+		width: 100,
+		top: 25,
+		left: 10,
+		justifyContent: 'space-around',
+		overflow: 'hidden',
+		zIndex: 1000
+	},
+	myCardsText: {
+		fontSize: 12,
+		alignSelf: 'center'
+	},
+	deleteCard: {
+		flexDirection: 'row',
+		marginTop: 10,
+		marginLeft: 10,
+		borderWidth: 1,
+		borderRadius: 8,
+		borderColor: brightRed,
+		backgroundColor: lightRed,
+		height: 25,
+		width: 85,
+		justifyContent: 'space-around',
+		overflow: 'hidden',
+	},
+	deleteCardText: {
+		fontSize: 12,
+		alignSelf: 'center'
 	}
 });
 
