@@ -4,6 +4,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	ScrollView,
+	TextInput
 } from 'react-native';
 import React, {Component} from 'react';
 import _ from 'lodash';
@@ -123,6 +124,8 @@ class CardContainer extends Component {
 		const userCompactProfileView = this.props.settings.useCompactProfileView.value;
 
 		const cards = Card.myCards();
+		console.log('THIS IS MY CARD');
+		console.log(card);
 
 		return (
 			<View style={[styles.cardContainer, {marginBottom: editMode ? 0 : FOOTER_HEIGHT}]}>
@@ -191,12 +194,14 @@ class CardContainer extends Component {
 								<Text style={styles.deleteCardText}>Delete Card</Text>
 							</View>
 						</TouchableOpacity>
-						<TouchableOpacity	onPress={this.enableEdit}>
-							<View style={styles.editButton}>
-								<Icon style={styles.clickableIcon} color={brightBlue} size={20} name='pencil'/>
-								<Text style={styles.clickableText} >Edit</Text>
-							</View>
-						</TouchableOpacity>
+						<View style={styles.cardType}>
+							<TextInput
+								style={styles.cardTypeField}
+								value={card.type}
+								// onChangeText={this.onFieldChange}
+								// onSubmitEditing={this.onEndEditing}
+							/>
+						</View>
 					</View>
 				}
 				<ProfilePicture
@@ -445,7 +450,7 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		borderColor: brightBlue,
 		backgroundColor: lightBlue,
-		height: 50,
+		height: 35,
 		width: 100,
 		top: 20,
 		left: 10,
@@ -472,7 +477,26 @@ const styles = StyleSheet.create({
 	deleteCardText: {
 		fontSize: 12,
 		alignSelf: 'center',
-  },
+	},
+	cardType: {
+		height: 25,
+		width: 85,
+		marginTop: 10,
+		marginRight: 10
+	},
+	cardTypeField: {
+		backgroundColor: white,
+		fontSize: 20,
+		height: 28,
+		margin: 0,
+		paddingVertical: 1,
+		paddingHorizontal: 8,
+		textDecorationLine: 'none',
+		borderColor: lightBlue,
+		borderWidth: 1,
+		flex: 1,
+		lineHeight: 28,
+	},
 });
 
 export default connect(({settings, model}) => ({settings, model}))(WithKeyboard(CardContainer), Card);
