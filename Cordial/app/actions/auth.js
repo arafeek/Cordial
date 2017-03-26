@@ -40,16 +40,6 @@ export function registerUser(name, number, email) {
         type: 'Personal',
         profilePhoto: null,
         displayPhoto: null,
-        style: {
-          header: {
-            startColor: '#ffffff',
-            endColor: '#888888'
-          },
-          body: {
-            startColor: '#beef1e',
-            endColor: '#ffffff'
-          }
-        },
         fields: [
           {
             custom: false,
