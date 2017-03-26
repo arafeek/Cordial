@@ -17,7 +17,8 @@ import DisplayPicture from '../components/display-picture';
 import TileButton from '../components/tile-button';
 import {Card, User} from '../models/Model';
 import ConnectToModel from '../models/connect-to-model';
-
+import { SwipeRow } from 'react-native-swipe-list-view';
+import TouchableIcon from '../components/touchable-icon';
 import {
 	brightBlue,
 	lightBlue,
@@ -80,6 +81,14 @@ const styles = StyleSheet.create({
 		textDecorationLine: 'none',
 		borderRadius: 5,
 		borderWidth: 0
+	},
+	standaloneRowBack: {
+		alignItems: 'center',
+		backgroundColor: '#FF0000',
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		padding: 15
 	}
 });
 
@@ -91,30 +100,58 @@ class Contact extends Component {
 	openContact() {
 		Actions.contact({id: this.props.id});
 	}
+
+	onDeleteContact(cardId){
+		var cards = Card.myContacts();
+		
+		var newCards = _.map(cards, function(card) {
+			if (card.id !== cardId) return card.id;
+		});
+
+		newCards = _.without(newCards, undefined);
+
+		const u = User.me();
+		User.put(u.id, {...u, contacts: newCards});
+		Actions.pop();
+		Actions.contacts();
+	}
+
 	render() {
 		const {id, displayName, profilePhoto, displayPhoto} = this.props;
 
 		return (
-			<TouchableHighlight style={styles.contact} onPress={this.openContact}>
-				<View style={styles.background}>
-					<DisplayPicture
-						imgID={displayPhoto}
-						style={[styles.displayPhoto, styles.background]}
-					/>
-					<Text
-						style={styles.name}
-						onPress={() => {
-						Actions.qrcode({id, displayName});
-					}}>
-						{displayName}
-					</Text>
-					<ProfilePicture
-						size={contactHeight / GOLDEN_RATIO}
-						imgID={profilePhoto}
-						style={styles.profilePicture}
-					/>
+		<SwipeRow
+				leftOpenValue={0}
+				rightOpenValue={-75}
+		>
+				<View style={styles.standaloneRowBack}>
+					<Text style={styles.backTextWhite}></Text>
+						<TouchableIcon 
+						style={{backgroundColor:'#FF0000'}}
+						size={30} name='trash-o'
+						onPress={ () => {this.onDeleteContact(id);}}/>
 				</View>
-			</TouchableHighlight>
+				<TouchableHighlight style={styles.contact} onPress={this.openContact}>
+					<View style={styles.background}>
+						<DisplayPicture
+							imgID={displayPhoto}
+							style={[styles.displayPhoto, styles.background]}
+						/>
+						<Text
+							style={styles.name}
+							onPress={() => {
+							Actions.qrcode({id, displayName});
+						}}>
+							{displayName}
+						</Text>
+						<ProfilePicture
+							size={contactHeight / GOLDEN_RATIO}
+							imgID={profilePhoto}
+							style={styles.profilePicture}
+						/>
+					</View>
+				</TouchableHighlight>
+			</SwipeRow>
 		);
 	}
 }
