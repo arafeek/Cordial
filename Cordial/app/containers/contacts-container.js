@@ -112,8 +112,6 @@ class Contact extends Component {
 
 		const u = User.me();
 		User.put(u.id, {...u, contacts: newCards});
-		Actions.pop();
-		Actions.contacts();
 	}
 
 	render() {
