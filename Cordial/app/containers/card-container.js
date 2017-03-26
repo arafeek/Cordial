@@ -140,13 +140,11 @@ class CardContainer extends Component {
 					</TileButton>
 				</View>
 				}
-				{!readOnly && !editMode &&
+				{!readOnly &&!editMode &&
 					<TouchableOpacity
-						style={{zIndex: 1000, position: 'relative'}}
+						style={styles.myCards}
 						onPress={() => {console.log('clicked my cards');}}>
-						<View style={styles.myCards}>
 							<Text style={styles.myCardsText}>My Cards</Text>
-						</View>
 					</TouchableOpacity>
 				}
 				<DisplayPicture style={styles.displayPicture} uri={displayPhoto}/>
@@ -441,18 +439,18 @@ const styles = StyleSheet.create({
 		paddingLeft: 20
 	},
 	myCards: {
-		position: 'absolute',
+    position: 'absolute',
+    zIndex: 3,
 		borderWidth: 1,
 		borderRadius: 8,
 		borderColor: brightBlue,
 		backgroundColor: lightBlue,
-		height: 25,
+		height: 50,
 		width: 100,
-		top: 25,
+		top: 20,
 		left: 10,
 		justifyContent: 'space-around',
 		overflow: 'hidden',
-		zIndex: 1000
 	},
 	myCardsText: {
 		fontSize: 12,
@@ -473,8 +471,8 @@ const styles = StyleSheet.create({
 	},
 	deleteCardText: {
 		fontSize: 12,
-		alignSelf: 'center'
-	}
+		alignSelf: 'center',
+  },
 });
 
 export default connect(({settings, model}) => ({settings, model}))(WithKeyboard(CardContainer), Card);
