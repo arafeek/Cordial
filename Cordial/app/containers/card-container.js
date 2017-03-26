@@ -3,7 +3,7 @@ import {
 	Text,
 	StyleSheet,
 	TouchableOpacity,
-	ScrollView
+	ScrollView,
 } from 'react-native';
 import React, {Component} from 'react';
 import _ from 'lodash';
@@ -16,6 +16,7 @@ import WithKeyboard from '../hoc/with-keyboard';
 import DisplayPicture from '../components/display-picture';
 import ProfilePicture from '../components/profile-picture';
 import TileButton from '../components/tile-button';
+import ActivityIndicatorOverlay from '../components/activity-indicator-overlay';
 import {Card} from '../models/Model';
 import {Icon} from '../components/touchable-icon';
 import AutolinkIcon from '../components/auto-link-icon';
@@ -30,6 +31,7 @@ import {
 	white,
 	FOOTER_HEIGHT
 } from '../consts/styles';
+import * as onlineStorage from '../firebase';
 
 const profilePictureSize= DEVICE_WIDTH / 2.5;
 
@@ -40,7 +42,8 @@ class CardContainer extends Component {
 		this.state = {
 			card: Card.byId()[this.props.id],
 			modalVisible: false,
-			fieldModal: {visible: false}
+			fieldModal: {visible: false},
+      loading: false,
 		};
 		this.enableEdit = this.enableEdit.bind(this);
 		this.cancelEdit = this.cancelEdit.bind(this);
@@ -55,9 +58,30 @@ class CardContainer extends Component {
 		Actions.pop();
 	}
 	submitEdit() {
+    this.setState({
+      loading: true,
+    })
 		const id = this.props.id;
-		Card.put(id, this.state.card);
-		this.cancelEdit();
+    onlineStorage.uploadImage(this.state.card.id,this.state.card.profilePhoto)
+      .then((url) => {
+        // TODO: show loading indicator
+        console.log('Image uploaded! Can be found at:', url);
+        Card.put(id, {
+          ...this.state.card,
+          profilePhoto: url,
+        });
+        this.cancelEdit();
+      })
+      .catch((error) => {
+        // TODO: tell the user their photo wasn't uploaded
+        Card.put(id, this.state.card);
+        this.cancelEdit();
+      })
+      .finally(() => {
+        this.setState({
+          loading: false,
+        });
+      });
 	}
 	openFieldPicker() {
 		Actions.fieldpicker({onSelect: this.addField});
@@ -98,6 +122,10 @@ class CardContainer extends Component {
 
 		return (
 			<View style={[styles.cardContainer, {marginBottom: editMode ? 0 : FOOTER_HEIGHT}]}>
+
+        <ActivityIndicatorOverlay animating={this.state.loading}
+          style={styles.loadingIndicator} />
+
 				{ editMode  && !keyboardOpen &&
 				<View style={styles.editTray}>
 					<TileButton style={[styles.submitButton, {backgroundColor: lightBlue}]} onPress={this.submitEdit}>
@@ -342,10 +370,13 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 		backgroundColor: paleBlue,
 	},
+	shareTextButton: {
+		alignItems:'center',
+		justifyContent: 'center',
+  },
 	linkIcon: {
 		backgroundColor: paleBlue,
 	}
-
 });
 
 export default connect(({settings, model}) => ({settings, model}))(WithKeyboard(CardContainer), Card);

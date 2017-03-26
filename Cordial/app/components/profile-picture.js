@@ -52,7 +52,6 @@ export default class ProfilePicture extends Component {
             style={{
               height: size - 2 * borderWidth,
               width: size - 2 * borderWidth,
-              resizeMode: 'stretch',
               borderRadius: (size / 2) - 5
             }}
           />);
@@ -69,6 +68,7 @@ export default class ProfilePicture extends Component {
             borderWidth: borderWidth,
             padding: 0,
             margin: 0,
+            backgroundColor: 'white',
           },
             this.props.style
           ]}
@@ -111,7 +111,8 @@ export default class ProfilePicture extends Component {
             borderRadius: size,
             borderWidth: borderWidth,
             padding: 0,
-            margin: 0
+            margin: 0,
+            backgroundColor: 'white',
           },
             this.props.style
           ]}
