@@ -2,25 +2,27 @@ import {
 	View,
 	Text,
 	StyleSheet,
-	Modal,
 	TouchableOpacity,
 	ScrollView,
 } from 'react-native';
 import React, {Component} from 'react';
 import _ from 'lodash';
 import {Actions} from 'react-native-router-flux';
-import Communications from 'react-native-communications';
-import {draftEmail} from '../utils/emaildraft';
+import { connect } from 'react-redux';
+
 import ReadOnlyField from '../components/read-only-field';
 import EditableField from '../components/editable-field';
 import WithKeyboard from '../hoc/with-keyboard';
-import ConnectToModel from '../models/connect-to-model';
 import DisplayPicture from '../components/display-picture';
 import ProfilePicture from '../components/profile-picture';
 import TileButton from '../components/tile-button';
 import ActivityIndicatorOverlay from '../components/activity-indicator-overlay';
 import {Card} from '../models/Model';
 import {Icon} from '../components/touchable-icon';
+import AutolinkIcon from '../components/auto-link-icon';
+import SharingModal from '../components/sharing-modal';
+import CordialModal from '../components/cordial-modal';
+
 import {
 	DEVICE_WIDTH,
 	brightBlue,
@@ -38,8 +40,9 @@ class CardContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			card: this.props.Card.byId()[this.props.id],
+			card: Card.byId()[this.props.id],
 			modalVisible: false,
+			fieldModal: {visible: false},
       loading: false,
 		};
 		this.enableEdit = this.enableEdit.bind(this);
@@ -102,40 +105,21 @@ class CardContainer extends Component {
 		const newFields = _.filter(card.fields, (f, i) => (i !== fieldIndex));
 		this.setState({card:{...card, fields: newFields}});
 	}
-
 	setModalVisible(visible) {
 		this.setState({modalVisible: visible});
 	}
-
-	sendEmail(cards){
-		this.setModalVisible(!this.state.modalVisible);
-		Communications.email(['', ''],null,null,'Contact Shared Via Cordial', draftEmail(_.sample(cards)));
-	}
-
-	openCamera(){
-		this.setModalVisible(!this.state.modalVisible);
-		Actions.qrcodescanner();
-	}
-
-	shareCard(id, displayName){
-		this.setModalVisible(!this.state.modalVisible);
-		Actions.qrcode({id, displayName});
-	}
-
 	render() {
 		const {readOnly, editMode, keyboardOpen} = this.props;
-		const card = editMode ? this.state.card : this.props.Card.byId()[this.props.id];
+		const card = editMode ? this.state.card : Card.byId()[this.props.id];
 		const Field = editMode ? EditableField : ReadOnlyField;
 		const {
-			id,
 			profilePhoto,
 			displayPhoto,
 			displayName,
 			fields
 		} = card;
+		const userCompactProfileView = this.props.settings.useCompactProfileView.value;
 
-		const cards = Card.myCards();
-		
 		return (
 			<View style={[styles.cardContainer, {marginBottom: editMode ? 0 : FOOTER_HEIGHT}]}>
 
@@ -157,76 +141,21 @@ class CardContainer extends Component {
 				{!readOnly && !editMode &&
 					<View >
 						<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-							<Modal
-							animationType={'slide'}
-							transparent={true}
-							visible={this.state.modalVisible}
-							onRequestClose={()=>{alert('Modal has been closed.');}}
+							<SharingModal
+								onRequestClose={() => this.setModalVisible(!this.state.modalVisible)}
+								visible={this.state.modalVisible}
+								card={card}
+							/>
+							<CordialModal
+								visible={this.state.fieldModal.visible}
+								onRequestClose={() => this.setState({fieldModal: {...this.state.fieldModal, visible: false}})}
+								closeButtonText='Ok'
 							>
-								<View style={styles.modal}>
-									<View style={{backgroundColor: lightBlue, borderColor: brightBlue, borderWidth: 10}}>
-										<View style={styles.sharingPanel}>
-											<TouchableOpacity onPress={() => {this.shareCard(id, displayName);}}>
-												<View style={styles.shareOptionsButton}>
-													<Icon 
-														style={styles.shareicon}
-														key={'qrcode'}
-														name={'qrcode'}
-														size={55}	
-													/>
-													<View style={styles.shareTextButton}>
-														<Text style={styles.clickableShareText} >Share Card</Text>
-													</View>
-												</View>
-											</TouchableOpacity>
-											<TouchableOpacity onPress={() => {this.sendEmail(cards);}}>
-												<View style={styles.shareOptionsButton}>
-													<Icon 
-														style={styles.shareicon}
-														key={'envelope'}
-														name={'envelope'}
-														size={55}
-													/>
-													<View style={styles.shareTextButton}>
-														<Text style={styles.clickableShareText} >Email Contact</Text>
-													</View>
-												</View>
-											</TouchableOpacity>
-											<TouchableOpacity onPress={() => {this.openCamera();}}>
-												<View style={styles.shareOptionsButton}>
-													<Icon 
-														style={styles.shareicon}
-														key={'camera'}
-														name={'camera'}
-														size={55}	
-													/>
-													<View style={styles.shareTextButton}>
-														<Text style={styles.clickableShareText} >Scan QR Code</Text>
-													</View>
-												</View>
-											</TouchableOpacity>
-											<TouchableOpacity onPress={() => {this.shareCard(id, displayName);}}>
-												<View style={styles.shareOptionsButton}>
-													<Icon 
-														style={styles.shareicon}
-														key={'share-alt-square'}
-														name={'share-alt-square'}
-														size={55}	
-													/>
-													<View style={styles.shareTextButton}>
-														<Text style={styles.clickableShareText} >NFC</Text>
-													</View>
-												</View>
-											</TouchableOpacity>
-										</View>
-										<View style={{alignItems: 'center'}}>
-											<TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
-												<Text style={{fontSize: 20}}>Close</Text>
-											</TouchableOpacity>
-										</View>
-									</View>
+								<View style={{width: 320, height: 100, justifyContent: 'space-around', alignItems: 'center'}}>
+									<Text style={{fontSize: 30}}>{this.state.fieldModal.title}</Text>
+									<Text style={{fontSize: 20}}>{this.state.fieldModal.text}</Text>
 								</View>
-							</Modal>
+							</CordialModal>
 						</View>
 						<View style={styles.optionButtons}>
 							<TouchableOpacity	onPress={() => {this.setModalVisible(!this.state.modalVisible);}}>
@@ -258,6 +187,28 @@ class CardContainer extends Component {
 					onChange={(v) => this.onChangeProp('displayName', v)}
 				/>
 				<ScrollView style={{flex: 1}} contentContainerStyle={styles.scrollContainer}>
+					{(userCompactProfileView && !editMode) ?
+						<View style={styles.iconsContainer}>
+							{
+							_.map(fields, (f, key) => (
+								<AutolinkIcon
+									key={key}
+									style={styles.linkIcon}
+									size={DEVICE_WIDTH / 4}
+									name={f.icon}
+									value={f.value}
+									noLinkOnPress={() => this.setState({
+										fieldModal: {
+											visible: true,
+											title: f.displayName,
+											text: f.value
+										}
+									})}
+									displayName={f.displayName}/>
+							))
+							}
+						</View>
+						:
 					<View style={styles.fieldGrid}>
 						<View style={styles.fieldKeys}>
 							{
@@ -281,6 +232,7 @@ class CardContainer extends Component {
 							}
 						</View>
 					</View>
+					}
 					{ editMode &&
 						<View>
 						<TouchableOpacity	style={{paddingTop: 10}}onPress={this.openFieldPicker}>
@@ -410,44 +362,21 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between'
 	},
-	modal: {	
-		flex: 1, 
-		flexDirection: 'column', 
-		justifyContent: 'center', 
-		alignItems: 'center',
-	},
-	closeButton:{
-		flex: 0.10,
-		backgroundColor: brightBlue,
-		alignItems: 'center'
-	},
-	shareicon: {
-		backgroundColor: brightBlue
-	},
-	sharingPanel: {
-		width: 320,
-		height: 250,
-		backgroundColor: brightBlue,
-		flexDirection:'column',
-	},
-	clickableShareText: {
-		color: lightBlue,
-		fontSize: 25,
-	},
-	shareOptionsButton:{
-		justifyContent:'space-between',
-		flexDirection:'row',
-		borderWidth: 1,
-		borderColor: brightBlue,
-		paddingRight: 20,
-		paddingLeft: 20
-
+	iconsContainer: {
+		flex: 1,
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		justifyContent: 'space-around',
+		alignItems: 'flex-start',
+		backgroundColor: paleBlue,
 	},
 	shareTextButton: {
 		alignItems:'center',
 		justifyContent: 'center',
   },
-
+	linkIcon: {
+		backgroundColor: paleBlue,
+	}
 });
 
-export default ConnectToModel(WithKeyboard(CardContainer), Card);
+export default connect(({settings, model}) => ({settings, model}))(WithKeyboard(CardContainer), Card);

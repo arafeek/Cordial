@@ -16,10 +16,10 @@ import {
 } from '../consts/styles';
 import StatusBarBackground from '../components/statusbar-background';
 
-import { Actions, ActionConst} from 'react-native-router-flux';
+import { Actions} from 'react-native-router-flux';
 import {Card, User} from '../models/Model';
 import ConnectToModel from '../models/connect-to-model';
-import jsonpack from 'jsonpack';
+import custompack from '../utils/custompack';
 
 const contactHeight = DEVICE_WIDTH / DISPLAY_PHOTO_ASPECT_RATIO;
 
@@ -29,14 +29,12 @@ class QRCodeContainer extends Component {
   constructor(props){
     super(props);
   }
-
-
   render() {
-    const {id, displayName} = this.props;
+    const {displayName} = this.props;
+
+    const {id} = this.props;
     const jsonObject = this.props.Card.byId()[id];
-
-    const compressedJsonString = jsonpack.pack(jsonObject);
-
+    const compressedJsonString = custompack.pack(jsonObject);
     return (
       <View style={{flex: 1}}>
         <StatusBarBackground />
@@ -52,7 +50,7 @@ class QRCodeContainer extends Component {
         <View style={{flex: 1, alignItems: 'center', height: 40, justifyContent: 'center'}}>
           <QRCode
             value={compressedJsonString}
-            size={DEVICE_WIDTH - 20}
+            size={DEVICE_WIDTH - 40}
             bgColor='blue'
             fgColor='white'/>
         </View>
