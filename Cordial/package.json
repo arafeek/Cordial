@@ -15,9 +15,9 @@
     "react-native-autolink": "1.0.0",
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
     "react-native-communications": "^2.2.1",
-    "react-native-image-picker": "^0.26.2",
+    "react-native-contacts": "^0.8.0",
     "react-native-global-props": "^1.1.1",
-
+    "react-native-image-picker": "^0.26.2",
     "react-native-router-flux": "^3.37.0",
     "react-native-storage": "^0.1.5",
     "react-native-vector-icons": "^4.0.0",
