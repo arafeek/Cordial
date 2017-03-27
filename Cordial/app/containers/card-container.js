@@ -4,13 +4,13 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	ScrollView,
-	TextInput
 } from 'react-native';
+import { bindActionCreators } from 'redux';
 import React, {Component} from 'react';
 import _ from 'lodash';
 import {Actions} from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import {createCard} from '../actions/auth';
+import * as authActions from '../actions/auth';
 
 import Communications from 'react-native-communications';
 import {draftEmail} from '../utils/emaildraft';
@@ -26,6 +26,7 @@ import {Icon} from '../components/touchable-icon';
 import AutolinkIcon from '../components/auto-link-icon';
 import SharingModal from '../components/sharing-modal';
 import CordialModal from '../components/cordial-modal';
+import CardSelector from '../components/card-selector';
 
 import {
 	DEVICE_WIDTH,
@@ -47,9 +48,11 @@ class CardContainer extends Component {
 		super(props);
 		this.state = {
 			card: Card.byId()[this.props.id],
+			id: this.props.id,
 			modalVisible: false,
 			fieldModal: {visible: false},
       loading: false,
+      showCards: false
 		};
 		this.enableEdit = this.enableEdit.bind(this);
 		this.cancelEdit = this.cancelEdit.bind(this);
@@ -57,6 +60,8 @@ class CardContainer extends Component {
 		this.addField = this.addField.bind(this);
 		this.openFieldPicker = this.openFieldPicker.bind(this);
 		this.createNewCard = this.createNewCard.bind(this);
+		this.toggleCards = this.toggleCards.bind(this);
+		this.selectCard = this.selectCard.bind(this);
 	}
 	enableEdit() {
 		Actions.cardeditor();
@@ -68,7 +73,7 @@ class CardContainer extends Component {
     this.setState({
       loading: true,
     })
-		const id = this.props.id;
+		const id = this.state.id;
     onlineStorage.uploadImage(this.state.card.id,this.state.card.profilePhoto)
       .then((url) => {
         // TODO: show loading indicator
@@ -116,9 +121,23 @@ class CardContainer extends Component {
 		this.setState({modalVisible: visible});
 	}
 
+	createNewCard(name, number, email) {
+		this.props.actions.createCard(name, number, email);
+		// this.createNewCard(card.displayName, card.fields[0].value, card.fields[1].value);
+	}
+
+	toggleCards(){
+		this.setState({showCards: !this.state.showCards});
+	}
+
+	selectCard(id){
+		this.setState({id});
+	}
+
 	render() {
 		const {readOnly, editMode, keyboardOpen} = this.props;
-		const card = editMode ? this.state.card : Card.byId()[this.props.id];
+		const showCards = this.state.showCards;
+		const card = editMode ? this.state.card : Card.byId()[this.state.id];
 		const Field = editMode ? EditableField : ReadOnlyField;
 		const {
 			profilePhoto,
@@ -132,8 +151,8 @@ class CardContainer extends Component {
 		const cards = Card.myCards();
 		// console.log('THIS IS MY CARD');
 		// console.log(card);
-		console.log('*****************');
-		console.log(cards);
+		// console.log('*****************');
+		// console.log(cards);
 
 		return (
 			<View style={[styles.cardContainer, {marginBottom: editMode ? 0 : FOOTER_HEIGHT}]}>
@@ -151,14 +170,22 @@ class CardContainer extends Component {
 					</TileButton>
 				</View>
 				}
-				{!readOnly &&!editMode &&
+				{!readOnly && !editMode && !showCards &&
 					<TouchableOpacity
 						style={styles.myCards}
-						onPress={() => {this.createNewCard(card.displayName, card.fields[0].value, card.fields[1].value);}}>
+						onPress={this.toggleCards}>
 							<View style={{height: 35, justifyContent: 'space-around'}}>
 								<Text style={styles.myCardsText}>My Cards</Text>
 							</View>
 					</TouchableOpacity>
+				}
+				{!readOnly && !editMode && showCards &&
+					<CardSelector
+						createCard={this.createNewCard}
+						closeTray={this.toggleCards}
+						currentCard={card.id}
+						selectCard={this.selectCard}
+					/>
 				}
 				<DisplayPicture style={styles.displayPicture} uri={displayPhoto}/>
 				<View style={styles.displayPictureBorder}/>
@@ -507,4 +534,15 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default connect(({settings, model}) => ({settings, model}))(WithKeyboard(CardContainer), Card);
+export default connect(
+	({settings, model, auth}) => ({
+		settings,
+		model,
+		auth
+	}),
+	(dispatch) => ({
+		actions: bindActionCreators({
+			...authActions,
+		}, dispatch)
+	})
+)(WithKeyboard(CardContainer), Card);

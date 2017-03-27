@@ -1,20 +1,25 @@
 import React, {Component} from 'react';
 import {
   View,
-  Text
+  Text,
+  StyleSheet,
+  TouchableOpacity
 } from 'react-native';
 import _ from 'lodash';
 
 import {Card} from '../models/Model';
 
-import {lightBlue, brightBlue} from '../consts/styles';
+import {paleBlue, lightBlue, brightBlue} from '../consts/styles';
 
 class CardOption extends Component {
   render() {
     return(
-      <View style={styles.cardOption}>
+      <TouchableOpacity
+        style={[styles.cardOption, this.props.style]}
+        onPress={this.props.onPress}
+      >
         <Text style={styles.cardText}>{this.props.value}</Text>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -26,13 +31,24 @@ export default class CardSelector extends Component {
     return(
       <View style={styles.cardSelector}>
       {
-        _.map(cards, (card) =>
+        _.map(cards, (card, key) =>
           <CardOption
+            style={{backgroundColor: (card.id === this.props.currentCard) ? lightBlue : paleBlue}}
             value={card.type}
             id={card.id}
+            key={key}
+            onPress={() => this.props.selectCard(card.id)}
           />
         )
       }
+      <CardOption
+        value='Create Card'
+      />
+      <CardOption
+        style={{borderBottomWidth: 0}}
+        value='Cancel'
+        onPress={this.props.closeTray}
+      />
       </View>
     );
 	}
@@ -46,7 +62,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     borderColor: brightBlue,
-    backgroundColor: lightBlue,
+    backgroundColor: paleBlue,
     width: 100,
     top: 20,
     left: 10,
@@ -55,7 +71,9 @@ const styles = StyleSheet.create({
   },
   cardOption: {
     height: 35,
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    borderBottomWidth: 1,
+    borderBottomColor: brightBlue,
   },
   cardText: {
     fontSize: 12,
