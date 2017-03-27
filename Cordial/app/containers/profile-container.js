@@ -22,7 +22,7 @@ class ProfileContainer extends Component {
     if (cards.length === 0) return <Splash/>;
     return (
       <View style={{flex: 1}}>
-        <CardContainer readOnly={false} id={_.sample(cards).id}/>
+        <CardContainer readOnly={false} id={cards[0].id}/>
       </View>
     );
   }

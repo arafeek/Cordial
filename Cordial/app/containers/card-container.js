@@ -62,9 +62,10 @@ class CardContainer extends Component {
 		this.createNewCard = this.createNewCard.bind(this);
 		this.toggleCards = this.toggleCards.bind(this);
 		this.selectCard = this.selectCard.bind(this);
+		this.deleteCard = this.deleteCard.bind(this);
 	}
 	enableEdit() {
-		Actions.cardeditor();
+		Actions.cardeditor(this.state.id);
 	}
 	cancelEdit() {
 		Actions.pop();
@@ -123,7 +124,6 @@ class CardContainer extends Component {
 
 	createNewCard(name, number, email) {
 		this.props.actions.createCard(name, number, email);
-		// this.createNewCard(card.displayName, card.fields[0].value, card.fields[1].value);
 	}
 
 	toggleCards(){
@@ -132,6 +132,13 @@ class CardContainer extends Component {
 
 	selectCard(id){
 		this.setState({id});
+		this.toggleCards();
+	}
+
+	deleteCard(){
+		console.log('ATTEMPTING TO DELETE CARD'); // cannot read property 'actions' of undefined...
+		console.log(this.props);
+		this.props.actions.deleteCard(this.state.card.id);
 	}
 
 	render() {
@@ -226,11 +233,13 @@ class CardContainer extends Component {
 				}
 				{!readOnly && editMode &&
 					<View style={styles.optionButtons}>
-						<TouchableOpacity	onPress={() => {console.log('clicked delete card');}}>
-							<View style={styles.deleteCard}>
-								<Text style={styles.deleteCardText}>Delete Card</Text>
-							</View>
-						</TouchableOpacity>
+						{cards.length > 1 &&
+							<TouchableOpacity	onPress={this.deleteCard}>
+								<View style={styles.deleteCard}>
+									<Text style={styles.deleteCardText}>Delete Card</Text>
+								</View>
+							</TouchableOpacity>
+						}
 						<Field
 							style={styles.cardType}
 							textStyle={{fontSize: 12, lineHeight: 12}}

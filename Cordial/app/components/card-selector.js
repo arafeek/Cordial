@@ -27,6 +27,7 @@ class CardOption extends Component {
 export default class CardSelector extends Component {
 	render() {
     const cards = Card.myCards();
+    const card = _.sample(cards);
 
     return(
       <View style={styles.cardSelector}>
@@ -43,6 +44,7 @@ export default class CardSelector extends Component {
       }
       <CardOption
         value='Create Card'
+        onPress={() => this.props.createCard(card.displayName, card.fields[0].value, card.fields[1].value)}
       />
       <CardOption
         style={{borderBottomWidth: 0}}

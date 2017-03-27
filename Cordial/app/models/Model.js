@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import getUUID from 'uuid-by-string';
 
-import {putModel} from '../actions/model';
+import {putModel, removeModel} from '../actions/model';
 import store from '../containers/store';
 import {registerModel} from '../actions/model';
 import * as modelActions from '../actions/model';
@@ -75,6 +75,17 @@ class Model {
       const localStorageId = this.model === 'User' ? DEVICE_USER_ID : getUUID(id);
       store.dispatch(putModel(this.model, id, data));
       store.dispatch(modelActions.saveModelToStorage(localStorageKey, localStorageId, data));
+    }
+  }
+  delete(id){
+    const res = this._validateSchema();
+    if(!res.valid) {
+      throw new Error(`${this.model}: data failed schema validation. ${res}`);
+    } else {
+      const localStorageKey = KEY[this.model];
+      const localStorageId = this.model === 'User' ? DEVICE_USER_ID : getUUID(id);
+      store.dispatch(removeModel(this.model, id));
+      store.dispatch(modelActions.saveModelToStorage(localStorageKey, localStorageId));
     }
   }
 }

@@ -110,6 +110,16 @@ export function createCard(name, number, email) {
   };
 }
 
+export function deleteCard(cardId) {
+  // attempts to delete a card
+  return dispatch => {
+    dispatch(createUserPending());
+    setTimeout(() => {
+      Card.delete(cardId);
+    }, 1500);
+  };
+}
+
 export function logout() {
   return dispatch => {
     //TODO: uncomment this when we actually want to delete the user
