@@ -47,40 +47,35 @@ const styles = StyleSheet.create({
 		paddingTop: 5,
 		paddingBottom: 5,
 	},
-	background: {
+  contactBackground: {
 		flex: 1,
-		height: contactHeight
 	},
 	contact: {
-		flex: 0,
-		height:contactHeight
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    padding: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
 	},
 	displayPhoto: {
 		flex: 0,
 	},
 	profilePicture: {
 		alignSelf: 'flex-end',
-		right: 5,
-		bottom: 5,
-		position: 'absolute',
-	},
-	textInputContainer: {
-		backgroundColor: brightBlue,
-		padding: 8,
-		paddingLeft: 20,
-		paddingRight: 20,
 	},
 	textInput: {
-		backgroundColor: lightBlue,
-		height: 25,
+		backgroundColor: 'white',
+		height: 60,
 		fontSize: 14,
 		margin: 0,
 		padding: 2,
 		paddingLeft: 8,
 		paddingRight: 8,
 		textDecorationLine: 'none',
-		borderRadius: 5,
-		borderWidth: 0
+    borderTopWidth: 1,
+    borderBottomWidth: 5,
+    borderColor: '#f2f2f2',
 	},
 	standaloneRowBack: {
 		alignItems: 'center',
@@ -130,11 +125,7 @@ class Contact extends Component {
 						onPress={ () => {this.onDeleteContact(id);}}/>
 				</View>
 				<TouchableHighlight style={styles.contact} onPress={this.openContact}>
-					<View style={styles.background}>
-						<DisplayPicture
-							imgID={displayPhoto}
-							style={[styles.displayPhoto, styles.background]}
-						/>
+					<View style={styles.contactBackground}>
 						<Text
 							style={styles.name}
 							onPress={() => {
@@ -144,7 +135,7 @@ class Contact extends Component {
 						</Text>
 						<ProfilePicture
 							size={contactHeight / GOLDEN_RATIO}
-							imgID={profilePhoto}
+							uri={profilePhoto}
 							style={styles.profilePicture}
 						/>
 					</View>
@@ -161,20 +152,15 @@ class ContactsContainer extends Component {
 			input: ''
 		};
 		this.handleSearch = this.handleSearch.bind(this);
-		this.toggleMode = this.toggleMode.bind(this);
 	}
 	handleSearch(text) {
 		this.setState({
 			input: text
 		});
 	}
-	toggleMode() {
-		this.setState({
-			viewPending: !this.state.viewPending
-		});
-	}
+
 	render() {
-		const cards = this.state.viewPending ? this.props.Card.pendingContacts() : this.props.Card.myContacts();
+		const cards = this.props.Card.myContacts();
 		return (
 			<View style={{
 				flex: 1,
@@ -182,14 +168,6 @@ class ContactsContainer extends Component {
 			}}
 			>
 				<StatusBarBackground />
-				<View style={{flex: 0, flexDirection: 'row', height: 40, justifyContent: 'center'}}>
-					<TileButton onPress={this.toggleMode} isActive={!this.state.viewPending}>
-						<Text>My Contacts</Text>
-					</TileButton>
-					<TileButton onPress={this.toggleMode} isActive={this.state.viewPending}>
-						<Text>Pending Contacts</Text>
-					</TileButton>
-				</View>
 
 				<View style={styles.textInputContainer}>
 					<TextInput /* TODO: Add a search icon */

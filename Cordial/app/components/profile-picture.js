@@ -30,7 +30,11 @@ export default class ProfilePicture extends Component {
   loadImagePicker() {
     let { editable, onChange } = this.props;
     if (editable) {
-      ImagePicker.showImagePicker({}, (response) => {
+      let options = {
+        quality: 0.3,
+      };
+      ImagePicker.showImagePicker(options, (response) => {
+        console.log(response);
         if (response.uri) {
           this.setState({
             uri: response.uri,
