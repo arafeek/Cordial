@@ -20,7 +20,9 @@ export function registerUser(name, number, email) {
     setTimeout(() => {
       // TODO: this is a stub, actually need to validate user
       dispatch(createUserSuccess(name));
-      const cardId = email + '@0'; // TODO: Literally anything but this
+
+      const randomID = Math.floor(Math.random() * 1000000);
+      const cardId = email + '@' + randomID; // TODO: Literally anything but this
 
       const user = {
         id: email,
@@ -57,6 +59,52 @@ export function registerUser(name, number, email) {
       };
 
       User.put(email, user);
+      Card.put(cardId, card);
+    }, 1500);
+  };
+}
+
+export function createCard(name, number, email) {
+  // attempts to create card
+  return dispatch => {
+    dispatch(createUserPending());
+    setTimeout(() => {
+      const randomID = Math.floor(Math.random() * 1000000);
+      const cardId = email + '@' + randomID; // TODO: Literally anything but this
+
+      const card = {
+        displayName: name,
+        user: email,
+        id: cardId,
+        type: 'Personal',
+        profilePhoto: null,
+        displayPhoto: null,
+        style: {
+          header: {
+            startColor: '#ffffff',
+            endColor: '#888888'
+          },
+          body: {
+            startColor: '#beef1e',
+            endColor: '#ffffff'
+          }
+        },
+        fields: [
+          {
+            custom: false,
+            value: number,
+            displayName: 'Phone',
+            icon: 'phone-square'
+          },
+          {
+            custom: false,
+            value: email,
+            displayName: 'Email',
+            icon: 'envelope-square'
+          }
+        ]
+      };
+
       Card.put(cardId, card);
     }, 1500);
   };

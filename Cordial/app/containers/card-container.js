@@ -10,7 +10,10 @@ import React, {Component} from 'react';
 import _ from 'lodash';
 import {Actions} from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import {createCard} from '../actions/auth';
 
+import Communications from 'react-native-communications';
+import {draftEmail} from '../utils/emaildraft';
 import ReadOnlyField from '../components/read-only-field';
 import EditableField from '../components/editable-field';
 import WithKeyboard from '../hoc/with-keyboard';
@@ -53,6 +56,7 @@ class CardContainer extends Component {
 		this.submitEdit = this.submitEdit.bind(this);
 		this.addField = this.addField.bind(this);
 		this.openFieldPicker = this.openFieldPicker.bind(this);
+		this.createNewCard = this.createNewCard.bind(this);
 	}
 	enableEdit() {
 		Actions.cardeditor();
@@ -111,6 +115,7 @@ class CardContainer extends Component {
 	setModalVisible(visible) {
 		this.setState({modalVisible: visible});
 	}
+
 	render() {
 		const {readOnly, editMode, keyboardOpen} = this.props;
 		const card = editMode ? this.state.card : Card.byId()[this.props.id];
@@ -119,13 +124,16 @@ class CardContainer extends Component {
 			profilePhoto,
 			displayPhoto,
 			displayName,
-			fields
+			fields,
+			type
 		} = card;
 		const userCompactProfileView = this.props.settings.useCompactProfileView.value;
 
 		const cards = Card.myCards();
-		console.log('THIS IS MY CARD');
-		console.log(card);
+		// console.log('THIS IS MY CARD');
+		// console.log(card);
+		console.log('*****************');
+		console.log(cards);
 
 		return (
 			<View style={[styles.cardContainer, {marginBottom: editMode ? 0 : FOOTER_HEIGHT}]}>
@@ -146,8 +154,10 @@ class CardContainer extends Component {
 				{!readOnly &&!editMode &&
 					<TouchableOpacity
 						style={styles.myCards}
-						onPress={() => {console.log('clicked my cards');}}>
-							<Text style={styles.myCardsText}>My Cards</Text>
+						onPress={() => {this.createNewCard(card.displayName, card.fields[0].value, card.fields[1].value);}}>
+							<View style={{height: 35, justifyContent: 'space-around'}}>
+								<Text style={styles.myCardsText}>My Cards</Text>
+							</View>
 					</TouchableOpacity>
 				}
 				<DisplayPicture style={styles.displayPicture} uri={displayPhoto}/>
@@ -194,14 +204,13 @@ class CardContainer extends Component {
 								<Text style={styles.deleteCardText}>Delete Card</Text>
 							</View>
 						</TouchableOpacity>
-						<View style={styles.cardType}>
-							<TextInput
-								style={styles.cardTypeField}
-								value={card.type}
-								// onChangeText={this.onFieldChange}
-								// onSubmitEditing={this.onEndEditing}
-							/>
-						</View>
+						<Field
+							style={styles.cardType}
+							textStyle={{fontSize: 12, lineHeight: 12}}
+							customStyle={true}
+							value={type}
+							onChange={(v) => this.onChangeProp('type', v)}
+						/>
 					</View>
 				}
 				<ProfilePicture
@@ -450,7 +459,6 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		borderColor: brightBlue,
 		backgroundColor: lightBlue,
-		height: 35,
 		width: 100,
 		top: 20,
 		left: 10,
@@ -482,12 +490,12 @@ const styles = StyleSheet.create({
 		height: 25,
 		width: 85,
 		marginTop: 10,
-		marginRight: 10
+		marginRight: 10,
 	},
 	cardTypeField: {
 		backgroundColor: white,
-		fontSize: 20,
-		height: 28,
+		fontSize: 12,
+		height: 25,
 		margin: 0,
 		paddingVertical: 1,
 		paddingHorizontal: 8,
@@ -495,7 +503,7 @@ const styles = StyleSheet.create({
 		borderColor: lightBlue,
 		borderWidth: 1,
 		flex: 1,
-		lineHeight: 28,
+		lineHeight: 25,
 	},
 });
 

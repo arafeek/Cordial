@@ -30,12 +30,12 @@ export default class EditableField extends Component {
 		this.props.onChange(v);
 	}
 	render() {
-		const {deleteAllowed} = this.props;
+		const {deleteAllowed, textStyle, customStyle} = this.props;
 
 		return (
 			<View style={this.props.style}>
 				<TextInput
-					style={styles.textField}
+					style={customStyle ? [styles.textField, textStyle] : styles.textField}
 					value={this.state.input}
 					onChangeText={this.onFieldChange}
 					onSubmitEditing={this.onEndEditing}
