@@ -5,6 +5,7 @@ import {
   View,
   Text,
   StyleSheet,
+  StatusBar
 } from 'react-native';
 import ConnectToModel from '../models/connect-to-model';
 import {Card, User} from '../models/Model';
@@ -22,6 +23,7 @@ class ProfileContainer extends Component {
     if (cards.length === 0) return <Splash/>;
     return (
       <View style={{flex: 1}}>
+        <StatusBar backgroundColor={brightBlue} />
         <CardContainer readOnly={false} id={_.sample(cards).id}/>
       </View>
     );
