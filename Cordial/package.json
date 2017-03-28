@@ -17,6 +17,7 @@
     "react-native-autolink": "1.0.0",
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
     "react-native-communications": "^2.2.1",
+    "react-native-contacts": "^0.8.0",
     "react-native-fetch-blob": "^0.10.2",
     "react-native-global-props": "^1.1.1",
     "react-native-image-picker": "^0.26.2",

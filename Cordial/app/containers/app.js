@@ -29,7 +29,7 @@ cards.forEach(c => store.dispatch(putModel('Card', c.id, c)));
 const RouterWithRedux = connect()(Router);
 const customTextProps = {
   style: {
-    fontFamily: Platform.OS === 'ios' ? 'Iowan Old Style' : 'serif'
+    fontFamily: Platform.OS === 'ios' ? 'Arial' : 'Roboto'
   }
 };
 
