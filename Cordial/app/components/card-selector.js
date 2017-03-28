@@ -3,7 +3,8 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from 'react-native';
 import _ from 'lodash';
 
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
   cardSelector: {
     flexDirection: 'column',
     position: 'absolute',
-    zIndex: 3,
+    ...Platform.select({ios: {zIndex: 3}, android: {elevation: 3}}),
     borderWidth: 1,
     borderRadius: 8,
     borderColor: brightBlue,

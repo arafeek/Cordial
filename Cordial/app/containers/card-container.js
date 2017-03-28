@@ -4,6 +4,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	ScrollView,
+	Platform
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import React, {Component} from 'react';
@@ -12,8 +13,6 @@ import {Actions} from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as authActions from '../actions/auth';
 
-import Communications from 'react-native-communications';
-import {draftEmail} from '../utils/emaildraft';
 import ReadOnlyField from '../components/read-only-field';
 import EditableField from '../components/editable-field';
 import WithKeyboard from '../hoc/with-keyboard';
@@ -133,12 +132,14 @@ class CardContainer extends Component {
 	selectCard(id){
 		this.setState({id});
 		this.toggleCards();
+		//Actions.profile({id});
 	}
 
 	deleteCard(){
 		console.log('ATTEMPTING TO DELETE CARD'); // cannot read property 'actions' of undefined...
 		console.log(this.props);
 		this.props.actions.deleteCard(this.state.card.id);
+		Actions.profile({id: _.sample(Card.myCards()).id});
 	}
 
 	render() {
@@ -166,7 +167,6 @@ class CardContainer extends Component {
 
         <ActivityIndicatorOverlay animating={this.state.loading}
           style={styles.loadingIndicator} />
-
 				{ editMode  && !keyboardOpen &&
 				<View style={styles.editTray}>
 					<TileButton style={[styles.submitButton, {backgroundColor: lightBlue}]} onPress={this.submitEdit}>
@@ -176,23 +176,6 @@ class CardContainer extends Component {
 						<Text style={styles.tileButtonText}>Cancel</Text>
 					</TileButton>
 				</View>
-				}
-				{!readOnly && !editMode && !showCards &&
-					<TouchableOpacity
-						style={styles.myCards}
-						onPress={this.toggleCards}>
-							<View style={{height: 35, justifyContent: 'space-around'}}>
-								<Text style={styles.myCardsText}>My Cards</Text>
-							</View>
-					</TouchableOpacity>
-				}
-				{!readOnly && !editMode && showCards &&
-					<CardSelector
-						createCard={this.createNewCard}
-						closeTray={this.toggleCards}
-						currentCard={card.id}
-						selectCard={this.selectCard}
-					/>
 				}
 				<DisplayPicture style={styles.displayPicture} uri={displayPhoto}/>
 				<View style={styles.displayPictureBorder}/>
@@ -230,6 +213,23 @@ class CardContainer extends Component {
 							</TouchableOpacity>
 						</View>
 					</View>
+				}
+				{!readOnly && !editMode && !showCards &&
+					<TouchableOpacity
+						style={styles.myCards}
+						onPress={this.toggleCards}>
+							<View style={{height: 35, justifyContent: 'space-around'}}>
+								<Text style={styles.myCardsText}>My Cards</Text>
+							</View>
+					</TouchableOpacity>
+				}
+				{!readOnly && !editMode && showCards &&
+					<CardSelector
+						createCard={this.createNewCard}
+						closeTray={this.toggleCards}
+						currentCard={card.id}
+						selectCard={this.selectCard}
+					/>
 				}
 				{!readOnly && editMode &&
 					<View style={styles.optionButtons}>
@@ -334,13 +334,11 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		paddingTop: 10,
 		paddingRight: 15,
-		zIndex: 1000,
 	},
 	shareButton: {
 		flexDirection: 'row',
 		paddingTop: 10,
 		paddingLeft: 15,
-		zIndex: 1000,
 	},
 	profilePicture: {
 		alignSelf: 'center',
@@ -354,7 +352,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	displayPicture: {
-		zIndex: 0
+		//zIndex: 0
 	},
 	displayPictureBorder: { // I am sorry for these hax
 		borderWidth: 2, // borderBottomWidth doesn't seem to work
@@ -490,7 +488,7 @@ const styles = StyleSheet.create({
 	},
 	myCards: {
     position: 'absolute',
-    zIndex: 3,
+    ...Platform.select({ios: {zIndex: 3}, android: {elevation: 3}}),
 		borderWidth: 1,
 		borderRadius: 8,
 		borderColor: brightBlue,

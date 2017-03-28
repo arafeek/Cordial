@@ -78,15 +78,7 @@ class Model {
     }
   }
   delete(id){
-    const res = this._validateSchema();
-    if(!res.valid) {
-      throw new Error(`${this.model}: data failed schema validation. ${res}`);
-    } else {
-      const localStorageKey = KEY[this.model];
-      const localStorageId = this.model === 'User' ? DEVICE_USER_ID : getUUID(id);
-      store.dispatch(removeModel(this.model, id));
-      store.dispatch(modelActions.saveModelToStorage(localStorageKey, localStorageId));
-    }
+    store.dispatch(removeModel(this.model, id));
   }
 }
 
