@@ -3,7 +3,7 @@ import Autolinker from 'autolinker';
 import { Linking } from 'react-native';
 
 import TouchableIcon from './touchable-icon';
-
+import { sanitizePhoneNumber } from '../utils/utils';
 
 export default class AutolinkIcon extends React.Component {
 	constructor(props) {
@@ -22,8 +22,10 @@ export default class AutolinkIcon extends React.Component {
 
 	getMatches(text) {
 		const matches = [];
+    // TODO: This could be bad, but really what else looks like a phone number?
+    let sample = sanitizePhoneNumber(text); // should only affect poorly formatted phone numbers
 		try {
-			Autolinker.link(text || '', {
+			Autolinker.link(sample || '', {
 				email: true,
 				phone: true,
 				urls: true,
