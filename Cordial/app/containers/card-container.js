@@ -101,6 +101,8 @@ class CardContainer extends Component {
 		this.setState({card: {...card, [prop]: value}});
 	}
 	onDeleteField(fieldIndex) {
+		
+		this.onChangeField(fieldIndex, 'newValue');
 		const {card} = this.state;
 		const newFields = _.filter(card.fields, (f, i) => (i !== fieldIndex));
 		this.setState({card:{...card, fields: newFields}});
