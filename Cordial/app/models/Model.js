@@ -103,7 +103,9 @@ export const User = modelCreator('User', userSchema, userSelectors);
 const cardSelectors = {
   myCards: (byId) => {
     const me = User.me().id;
-    return _.filter(byId, card => card.user === me);
+    console.log('asfdadf', User.me());
+    console.log('byID ', byId);
+    return _.filter(byId, card => card.user === me && (_.indexOf(User.me().cards, card.id) > -1));
   },
   myContacts: (byId) => {
     const contacts = (User.me() || {}).contacts;

@@ -29,6 +29,7 @@ export default class CardSelector extends Component {
 	render() {
     const cards = Card.myCards();
     const card = _.sample(cards);
+    console.log('card selector: ', card);
 
     return(
       <View style={styles.cardSelector}>

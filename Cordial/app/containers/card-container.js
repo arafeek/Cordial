@@ -9,7 +9,7 @@ import {
 import { bindActionCreators } from 'redux';
 import React, {Component} from 'react';
 import _ from 'lodash';
-import {Actions} from 'react-native-router-flux';
+import {Actions, ActionConst} from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as authActions from '../actions/auth';
 
@@ -20,7 +20,7 @@ import DisplayPicture from '../components/display-picture';
 import ProfilePicture from '../components/profile-picture';
 import TileButton from '../components/tile-button';
 import ActivityIndicatorOverlay from '../components/activity-indicator-overlay';
-import {Card} from '../models/Model';
+import {User, Card} from '../models/Model';
 import {Icon} from '../components/touchable-icon';
 import AutolinkIcon from '../components/auto-link-icon';
 import SharingModal from '../components/sharing-modal';
@@ -63,8 +63,8 @@ class CardContainer extends Component {
 		this.selectCard = this.selectCard.bind(this);
 		this.deleteCard = this.deleteCard.bind(this);
 	}
-	enableEdit() {
-		Actions.cardeditor(this.state.id);
+	enableEdit(id) {
+		Actions.cardeditor(id);
 	}
 	cancelEdit() {
 		Actions.pop();
@@ -136,16 +136,46 @@ class CardContainer extends Component {
 	}
 
 	deleteCard(){
-		console.log('ATTEMPTING TO DELETE CARD'); // cannot read property 'actions' of undefined...
-		console.log(this.props);
+		// Actions.profile({type: ActionConst.REPLACE});
+		var cards = Card.myCards();
+		console.log('CARDS: ', cards);
+
+		var newCards = _.map(cards, (card) => {
+			if (card.id !== this.state.id) return card.id;
+		});
+
+		newCards = _.without(newCards, undefined);
+
+		const u = User.me();
+		User.put(u.id, {...u, cards: newCards});
+
+		this.cancelEdit();
+		//this.selectCard(newCards[0]);
+		// Actions.profile({id: newCards[0], type: ActionConst.REFRESH});
 		this.props.actions.deleteCard(this.state.card.id);
-		Actions.profile({id: _.sample(Card.myCards()).id});
+		console.log('NEW ID: ', newCards[0]);
+		// this.setState({id: newCards[0]});
+		// Actions.profile({id: newCards[0].id, type: ActionConst.REPLACE});
 	}
+
+	// shouldComponentUpdate(nextProps, nextState) {
+	// 	if (!Card.byId()[nextState.id]) {
+	// 		return false;
+	// 	}
+	// 	return true;
+	// }
 
 	render() {
 		const {readOnly, editMode, keyboardOpen} = this.props;
 		const showCards = this.state.showCards;
-		const card = editMode ? this.state.card : Card.byId()[this.state.id];
+		console.log('ID: ', this.state.id);
+		let card = editMode ? this.state.card : Card.byId()[this.state.id];
+		const cards = Card.myCards();
+		if (!card) {
+			console.log('changing card');
+			card = Card.byId()[cards[0].id];
+			console.log('new cards ', card);
+		}
 		const Field = editMode ? EditableField : ReadOnlyField;
 		const {
 			profilePhoto,
@@ -156,7 +186,7 @@ class CardContainer extends Component {
 		} = card;
 		const userCompactProfileView = this.props.settings.useCompactProfileView.value;
 
-		const cards = Card.myCards();
+
 		// console.log('THIS IS MY CARD');
 		// console.log(card);
 		// console.log('*****************');
@@ -205,7 +235,7 @@ class CardContainer extends Component {
 									<Text style={styles.clickableText} >Share</Text>
 								</View>
 							</TouchableOpacity>
-							<TouchableOpacity	onPress={this.enableEdit}>
+							<TouchableOpacity	onPress={() => {this.enableEdit(card.id);}}>
 								<View style={styles.editButton}>
 									<Icon style={styles.clickableIcon} color={brightBlue} size={20} name='pencil'/>
 									<Text style={styles.clickableText} >Edit</Text>

@@ -105,7 +105,9 @@ export function createCard(name, number, email) {
         ]
       };
 
+      const u = User.me();
       Card.put(cardId, card);
+      User.put(u.id, {...u, cards: [...u.cards, cardId]});
     }, 1500);
   };
 }
