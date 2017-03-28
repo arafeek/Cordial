@@ -9,6 +9,7 @@ import {
 import ConnectToModel from '../models/connect-to-model';
 import {Card, User} from '../models/Model';
 import CardContainer from '../containers/card-container';
+import { Splash } from '../components/splash-screen';
 
 //import StatusBarBackground from '../components/statusbar-background';
 import {brightBlue, lightBlue} from '../consts/styles';
@@ -18,7 +19,7 @@ class ProfileContainer extends Component {
   render() {
     // TODO: This assumes user only has one card
     const cards = Card.myCards();
-    if (cards.length === 0) return <Text>Loading...</Text>;
+    if (cards.length === 0) return <Splash/>;
     return (
       <View style={{flex: 1}}>
         <CardContainer readOnly={false} id={_.sample(cards).id}/>

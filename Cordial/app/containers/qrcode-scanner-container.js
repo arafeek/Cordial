@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import Camera from 'react-native-camera';
-import jsonpack from 'jsonpack';
+import custompack from '../utils/custompack';
 import {Card, User} from '../models/Model';
 import ConnectToModel from '../models/connect-to-model';
 import {
@@ -21,7 +21,7 @@ class QRCodeScannerContainer extends Component {
 
   onBarCodeReadAddToContacts(barcode) {
     const compressedData = (barcode.data);
-    const extractJSONObject = jsonpack.unpack(compressedData);
+    const extractJSONObject = custompack.unpack(compressedData);
     const cardId = extractJSONObject.id;
     Card.put(cardId, extractJSONObject);
     const u = User.me();

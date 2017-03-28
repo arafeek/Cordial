@@ -16,6 +16,7 @@ import QRCodeScannerContainer from '../containers/qrcode-scanner-container';
 import WelcomeContainer from '../containers/welcome-container';
 import LoginContainer from '../containers/login-container';
 import CardEditorContainer from '../containers/card-editor-container';
+import SplashScreen from '../components/splash-screen';
 import FieldPicker from '../containers/field-picker';
 import { FOOTER_HEIGHT, paleBlue, brightBlue } from '../consts/styles';
 
@@ -30,11 +31,15 @@ const styles = StyleSheet.create({
 });
 const routes = Actions.create(
   <Scene key="root">
+    <Scene key="splash"
+      component={SplashScreen}
+      title='Splash Screen'
+      hideNavBar={true}
+      initial={true}/>
     <Scene key="welcome"
       component={WelcomeContainer}
       title="Welcome"
-      hideNavBar={true}
-      initial={true} />
+      hideNavBar={true}/>
     <Scene key="login"
       component={LoginContainer}
       hideNavBar={true} />

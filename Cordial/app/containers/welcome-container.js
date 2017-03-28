@@ -22,6 +22,7 @@ import {
   DEVICE_USER_ID
 } from '../consts/strings';
 import RegisterForm from '../components/register-form';
+import { Splash } from '../components/splash-screen';
 
 import {User} from '../models/Model';
 
@@ -53,7 +54,7 @@ class WelcomeContainer extends Component {
   render() {
     const { state, actions } = this.props;
     if (state.auth.loading) {
-      return <Text> Loading ... </Text>
+      return <Splash/>;
     }
     return (
       <View style={styles.container}>

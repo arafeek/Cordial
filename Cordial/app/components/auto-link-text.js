@@ -4,7 +4,7 @@ import Autolink from 'react-native-autolink';
 
 export default class AutoLinkText extends Component {
 	render() {
-		const {style, numberOfLines, children} = this.props;
+		const {style, numberOfLines, children = ''} = this.props;
 		return (
 			<Autolink
 				phone email

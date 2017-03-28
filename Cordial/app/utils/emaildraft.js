@@ -1,5 +1,5 @@
 
-export function draftEmail(jsonObj){
+export default function draftEmail(jsonObj){
   var jsonInformationArray = [];
 
     var fieldsObj=jsonObj['fields'];
