@@ -12,6 +12,7 @@ import { Field, reduxForm } from 'redux-form';
 
 import * as baseStyles from '../consts/styles';
 import TextField from './text-field';
+import { sanitizePhoneNumber } from '../utils/utils';
 
 // TODO: remove this stub for a real action
 
@@ -19,7 +20,7 @@ const RegisterForm = props => {
   const { handleSubmit, onSubmit } = props;
 
   const submit = (vals) => {
-    onSubmit(vals.name, vals.phone, vals.email);
+    onSubmit(vals.name, sanitizePhoneNumber(vals.phone), vals.email);
   }
   return (
     <View style={styles.container}>
