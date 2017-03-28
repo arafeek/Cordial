@@ -32,12 +32,7 @@ export default class SharingModal extends React.Component {
 				name: 'Scan QR Code',
 				onPress: this.openCamera,
 				icon: 'camera'
-			},
-			{
-				name: 'NFC',
-				onPress: this.shareCard, // TODO: change for NFC
-				icon: 'share-alt-square'
-			},
+			}
 		];
 	}
 
@@ -104,7 +99,7 @@ const styles = StyleSheet.create({
 	},
 	sharingPanel: {
 		width: 320,
-		height: 250,
+		height: 200,
 		backgroundColor: brightBlue,
 		flexDirection:'column',
 	},
