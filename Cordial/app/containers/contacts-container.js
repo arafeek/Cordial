@@ -19,6 +19,7 @@ import {Card, User} from '../models/Model';
 import ConnectToModel from '../models/connect-to-model';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import TouchableIcon from '../components/touchable-icon';
+import AutoLinkIcon from '../components/auto-link-icon.js';
 import {
 	brightBlue,
 	lightBlue,
@@ -32,23 +33,13 @@ const contactHeight = DEVICE_WIDTH / DISPLAY_PHOTO_ASPECT_RATIO;
 
 const styles = StyleSheet.create({
 	name: {
-		flex: 1,
-		alignSelf: 'flex-start',
-		borderRadius: 8,
-		borderWidth: 1,
-		borderColor: brightBlue,
-		backgroundColor: lightBlue,
-		overflow: 'hidden',
-		left: 5,
-		bottom: 5,
-		position: 'absolute',
-		paddingLeft: 15,
-		paddingRight: 15,
-		paddingTop: 5,
-		paddingBottom: 5,
+    paddingTop: 20,
+    fontSize: 32,
+    fontWeight: 'bold',
 	},
   contactBackground: {
 		flex: 1,
+    flexDirection: 'row',
 	},
 	contact: {
     backgroundColor: 'white',
@@ -59,11 +50,23 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
 	},
 	displayPhoto: {
-		flex: 0,
+		flex: 1,
 	},
+  flexLeftContainer: {
+    flexDirection: 'column-reverse',
+    justifyContent: 'space-between',
+    paddingLeft: 15,
+    flex: 1,
+  },
 	profilePicture: {
 		alignSelf: 'flex-end',
 	},
+  iconContainer: {
+    flexDirection: 'row',
+  },
+  icon: {
+    marginLeft: 10,
+  },
 	textInput: {
 		backgroundColor: 'white',
 		height: 60,
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		padding: 15
+		padding: 15,
 	}
 });
 
@@ -110,7 +113,13 @@ class Contact extends Component {
 	}
 
 	render() {
-		const {id, displayName, profilePhoto, displayPhoto} = this.props;
+    const {
+      id,
+      displayName,
+      profilePhoto,
+      displayPhoto,
+      fields,
+    } = this.props;
 
 		return (
 		<SwipeRow
@@ -126,13 +135,21 @@ class Contact extends Component {
 				</View>
 				<TouchableHighlight style={styles.contact} onPress={this.openContact}>
 					<View style={styles.contactBackground}>
-						<Text
-							style={styles.name}
-							onPress={() => {
-							Actions.qrcode({id, displayName});
-						}}>
-							{displayName}
-						</Text>
+            <View style={styles.flexLeftContainer}>
+              <View style={styles.iconContainer}>
+                <TouchableIcon size={50}
+                  name="qrcode"
+                  onPress={() => { Actions.qrcode({id, displayName})}}
+                  style={styles.contactIcon} />
+                {
+                _.take(fields, 3)
+                .map((field, key) => <AutoLinkIcon size={50} name={field.icon} value={field.value} key={key} style={styles.icon} />)
+                }
+              </View>
+              <Text style={styles.name}>
+                {displayName}
+              </Text>
+            </View>
 						<ProfilePicture
 							size={contactHeight / GOLDEN_RATIO}
 							uri={profilePhoto}
