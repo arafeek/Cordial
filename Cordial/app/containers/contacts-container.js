@@ -34,7 +34,7 @@ const contactHeight = DEVICE_WIDTH / DISPLAY_PHOTO_ASPECT_RATIO;
 const styles = StyleSheet.create({
 	name: {
     paddingTop: 20,
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
 	},
   contactBackground: {
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 	contact: {
     backgroundColor: 'white',
     borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
+    borderBottomColor: '#dddddd',
     padding: 5,
     paddingTop: 10,
     paddingBottom: 10,
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 		textDecorationLine: 'none',
     borderTopWidth: 1,
     borderBottomWidth: 5,
-    borderColor: '#f2f2f2',
+    borderColor: '#dddddd',
 	},
 	standaloneRowBack: {
 		alignItems: 'center',
