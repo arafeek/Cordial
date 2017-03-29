@@ -4,11 +4,14 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	ScrollView,
+	Platform
 } from 'react-native';
+import { bindActionCreators } from 'redux';
 import React, {Component} from 'react';
 import _ from 'lodash';
-import {Actions} from 'react-native-router-flux';
+import {Actions, ActionConst} from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import * as authActions from '../actions/auth';
 
 import ReadOnlyField from '../components/read-only-field';
 import EditableField from '../components/editable-field';
@@ -17,17 +20,20 @@ import DisplayPicture from '../components/display-picture';
 import ProfilePicture from '../components/profile-picture';
 import TileButton from '../components/tile-button';
 import ActivityIndicatorOverlay from '../components/activity-indicator-overlay';
-import {Card} from '../models/Model';
+import {User, Card} from '../models/Model';
 import {Icon} from '../components/touchable-icon';
 import AutolinkIcon from '../components/auto-link-icon';
 import SharingModal from '../components/sharing-modal';
 import CordialModal from '../components/cordial-modal';
+import CardSelector from '../components/card-selector';
 
 import {
 	DEVICE_WIDTH,
 	brightBlue,
 	lightBlue,
 	paleBlue,
+	brightRed,
+	lightRed,
 	white,
 	FOOTER_HEIGHT
 } from '../consts/styles';
@@ -41,18 +47,24 @@ class CardContainer extends Component {
 		super(props);
 		this.state = {
 			card: Card.byId()[this.props.id],
+			id: this.props.id,
 			modalVisible: false,
 			fieldModal: {visible: false},
       loading: false,
+      showCards: false
 		};
 		this.enableEdit = this.enableEdit.bind(this);
 		this.cancelEdit = this.cancelEdit.bind(this);
 		this.submitEdit = this.submitEdit.bind(this);
 		this.addField = this.addField.bind(this);
 		this.openFieldPicker = this.openFieldPicker.bind(this);
+		this.createNewCard = this.createNewCard.bind(this);
+		this.toggleCards = this.toggleCards.bind(this);
+		this.selectCard = this.selectCard.bind(this);
+		this.deleteCard = this.deleteCard.bind(this);
 	}
-	enableEdit() {
-		Actions.cardeditor();
+	enableEdit(id) {
+		Actions.cardeditor(id);
 	}
 	cancelEdit() {
 		Actions.pop();
@@ -60,8 +72,8 @@ class CardContainer extends Component {
 	submitEdit() {
     this.setState({
       loading: true,
-    })
-		const id = this.props.id;
+    });
+		const id = this.state.id;
     onlineStorage.uploadImage(this.state.card.id,this.state.card.profilePhoto)
       .then((url) => {
         // TODO: show loading indicator
@@ -110,15 +122,51 @@ class CardContainer extends Component {
 	setModalVisible(visible) {
 		this.setState({modalVisible: visible});
 	}
+
+	createNewCard(name, number, email) {
+		this.props.actions.createCard(name, number, email);
+	}
+
+	toggleCards(){
+		this.setState({showCards: !this.state.showCards});
+	}
+
+	selectCard(id){
+		this.setState({id});
+		this.toggleCards();
+	}
+
+	deleteCard(){
+		var cards = Card.myCards();
+		var newCards = _.map(cards, (card) => {
+			if (card.id !== this.state.id) return card.id;
+		});
+
+		newCards = _.without(newCards, undefined);
+
+		const u = User.me();
+		User.put(u.id, {...u, cards: newCards});
+
+		this.cancelEdit();
+		this.props.actions.deleteCard(this.state.card.id);
+		alert('Card Delete!');
+	}
+
 	render() {
 		const {readOnly, editMode, keyboardOpen} = this.props;
-		const card = editMode ? this.state.card : Card.byId()[this.props.id];
+		const showCards = this.state.showCards;
+		let card = editMode ? this.state.card : Card.byId()[this.state.id];
+		const cards = Card.myCards();
+		if (!card) {
+			card = Card.byId()[cards[0].id];
+		}
 		const Field = editMode ? EditableField : ReadOnlyField;
 		const {
 			profilePhoto,
 			displayPhoto,
 			displayName,
-			fields
+			fields,
+			type
 		} = card;
 		const userCompactProfileView = this.props.settings.useCompactProfileView.value;
 
@@ -127,7 +175,6 @@ class CardContainer extends Component {
 
         <ActivityIndicatorOverlay animating={this.state.loading}
           style={styles.loadingIndicator} />
-
 				{ editMode  && !keyboardOpen &&
 				<View style={styles.editTray}>
 					<TileButton style={[styles.submitButton, {backgroundColor: lightBlue}]} onPress={this.submitEdit}>
@@ -166,13 +213,48 @@ class CardContainer extends Component {
 									<Text style={styles.clickableText} >Share</Text>
 								</View>
 							</TouchableOpacity>
-							<TouchableOpacity	onPress={this.enableEdit}>
+							<TouchableOpacity	onPress={() => {this.enableEdit(card.id);}}>
 								<View style={styles.editButton}>
 									<Icon style={styles.clickableIcon} color={brightBlue} size={20} name='pencil'/>
 									<Text style={styles.clickableText} >Edit</Text>
 								</View>
 							</TouchableOpacity>
 						</View>
+					</View>
+				}
+				{!readOnly && !editMode && !showCards &&
+					<TouchableOpacity
+						style={styles.myCards}
+						onPress={this.toggleCards}>
+							<View style={{height: 35, justifyContent: 'space-around'}}>
+								<Text style={styles.myCardsText}>{card.type}</Text>
+							</View>
+					</TouchableOpacity>
+				}
+				{!readOnly && !editMode && showCards &&
+					<CardSelector
+						createCard={this.createNewCard}
+						closeTray={this.toggleCards}
+						currentCard={card.id}
+						selectCard={this.selectCard}
+					/>
+				}
+				{!readOnly && editMode &&
+					<View style={cards.length > 1 ? styles.optionButtons : [styles.optionButtons, {justifyContent: 'flex-end'}]}>
+						{cards.length > 1 &&
+							<TouchableOpacity	onPress={this.deleteCard}>
+								<View style={styles.deleteCard}>
+									<Text style={styles.deleteCardText}>Delete Card</Text>
+								</View>
+							</TouchableOpacity>
+						}
+						<Field
+							style={styles.cardType}
+							textStyle={{fontSize: 12, lineHeight: 12}}
+							customStyle={true}
+							value={type}
+							onChange={(v) => this.onChangeProp('type', v)}
+						/>
 					</View>
 				}
 				<ProfilePicture
@@ -260,13 +342,11 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		paddingTop: 10,
 		paddingRight: 15,
-		zIndex: 1000,
 	},
 	shareButton: {
 		flexDirection: 'row',
 		paddingTop: 10,
 		paddingLeft: 15,
-		zIndex: 1000,
 	},
 	profilePicture: {
 		alignSelf: 'center',
@@ -278,6 +358,9 @@ const styles = StyleSheet.create({
 		marginTop: profilePictureSize / -2 -10,
 		paddingHorizontal: 5,
 		flexDirection: 'row',
+	},
+	displayPicture: {
+		//zIndex: 0
 	},
 	displayPictureBorder: { // I am sorry for these hax
 		borderWidth: 2, // borderBottomWidth doesn't seem to work
@@ -378,7 +461,103 @@ const styles = StyleSheet.create({
   },
 	linkIcon: {
 		backgroundColor: paleBlue,
-	}
+	},
+	modal: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	closeButton:{
+		flex: 0.10,
+		backgroundColor: brightBlue,
+		alignItems: 'center'
+	},
+	shareicon: {
+		backgroundColor: brightBlue
+	},
+	sharingPanel: {
+		width: 320,
+		height: 250,
+		backgroundColor: brightBlue,
+		flexDirection:'column',
+	},
+	clickableShareText: {
+		color: lightBlue,
+		fontSize: 25,
+	},
+	shareOptionsButton:{
+		justifyContent:'space-between',
+		flexDirection:'row',
+		borderWidth: 1,
+		borderColor: brightBlue,
+		paddingRight: 20,
+		paddingLeft: 20
+	},
+	myCards: {
+    position: 'absolute',
+    ...Platform.select({ios: {zIndex: 3}, android: {elevation: 3}}),
+		borderWidth: 1,
+		borderRadius: 8,
+		borderColor: brightBlue,
+		backgroundColor: lightBlue,
+		width: 100,
+		top: 20,
+		left: 10,
+		justifyContent: 'space-around',
+		overflow: 'hidden',
+	},
+	myCardsText: {
+		fontSize: 12,
+		alignSelf: 'center'
+	},
+	deleteCard: {
+		flexDirection: 'row',
+		marginTop: 10,
+		marginLeft: 10,
+		borderWidth: 1,
+		borderRadius: 8,
+		borderColor: brightRed,
+		backgroundColor: lightRed,
+		height: 25,
+		width: 85,
+		justifyContent: 'space-around',
+		overflow: 'hidden',
+	},
+	deleteCardText: {
+		fontSize: 12,
+		alignSelf: 'center',
+	},
+	cardType: {
+		height: 25,
+		width: 85,
+		marginTop: 10,
+		marginRight: 10,
+	},
+	cardTypeField: {
+		backgroundColor: white,
+		fontSize: 12,
+		height: 25,
+		margin: 0,
+		paddingVertical: 1,
+		paddingHorizontal: 8,
+		textDecorationLine: 'none',
+		borderColor: lightBlue,
+		borderWidth: 1,
+		flex: 1,
+		lineHeight: 25,
+	},
 });
 
-export default connect(({settings, model}) => ({settings, model}))(WithKeyboard(CardContainer), Card);
+export default connect(
+	({settings, model, auth}) => ({
+		settings,
+		model,
+		auth
+	}),
+	(dispatch) => ({
+		actions: bindActionCreators({
+			...authActions,
+		}, dispatch)
+	})
+)(WithKeyboard(CardContainer), Card);

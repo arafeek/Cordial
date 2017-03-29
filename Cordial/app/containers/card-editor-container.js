@@ -8,11 +8,10 @@ import CardContainer from '../containers/card-container';
 
 class CardEditorContainer extends Component {
   render() {
-    // TODO: This assumes user only has one card
-    const cards = Card.myCards();
+    const id = this.props.navigationState.data;
     return (
       <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-        <CardContainer readOnly={false} editMode id={_.sample(cards).id}/>
+        <CardContainer readOnly={false} editMode id={id}/>
       </View>
     );
   }

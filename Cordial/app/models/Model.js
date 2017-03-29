@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import getUUID from 'uuid-by-string';
 
-import {putModel} from '../actions/model';
+import {putModel, removeModel} from '../actions/model';
 import store from '../containers/store';
 import {registerModel} from '../actions/model';
 import * as modelActions from '../actions/model';
@@ -77,6 +77,9 @@ class Model {
       store.dispatch(modelActions.saveModelToStorage(localStorageKey, localStorageId, data));
     }
   }
+  delete(id){
+    store.dispatch(removeModel(this.model, id));
+  }
 }
 
 // customSelectors get model.byId() as input and produce some transformation.
@@ -100,7 +103,7 @@ export const User = modelCreator('User', userSchema, userSelectors);
 const cardSelectors = {
   myCards: (byId) => {
     const me = User.me().id;
-    return _.filter(byId, card => card.user === me);
+    return _.filter(byId, card => card.user === me && (_.indexOf(User.me().cards, card.id) > -1));
   },
   myContacts: (byId) => {
     const contacts = (User.me() || {}).contacts;

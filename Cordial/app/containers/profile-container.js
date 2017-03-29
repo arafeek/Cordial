@@ -24,7 +24,7 @@ class ProfileContainer extends Component {
     return (
       <View style={{flex: 1}}>
         <StatusBar backgroundColor={brightBlue} />
-        <CardContainer readOnly={false} id={_.sample(cards).id}/>
+        <CardContainer readOnly={false} id={cards[0].id}/>
       </View>
     );
   }
