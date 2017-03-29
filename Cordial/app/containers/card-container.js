@@ -262,7 +262,7 @@ class CardContainer extends Component {
 					/>
 				}
 				{!readOnly && editMode &&
-					<View style={styles.optionButtons}>
+					<View style={cards.length > 1 ? styles.optionButtons : [styles.optionButtons, {justifyContent: 'flex-end'}]}>
 						{cards.length > 1 &&
 							<TouchableOpacity	onPress={this.deleteCard}>
 								<View style={styles.deleteCard}>

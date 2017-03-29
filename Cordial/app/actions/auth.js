@@ -39,7 +39,7 @@ export function registerUser(name, number, email) {
         displayName: name,
         user: email,
         id: cardId,
-        type: 'Personal',
+        type: 'Card ' + (Card.myCards().length + 1),
         profilePhoto: null,
         displayPhoto: null,
         fields: [
@@ -76,7 +76,7 @@ export function createCard(name, number, email) {
         displayName: name,
         user: email,
         id: cardId,
-        type: 'Personal',
+        type: 'Card ' + (Card.myCards().length + 1),
         profilePhoto: null,
         displayPhoto: null,
         style: {
