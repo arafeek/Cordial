@@ -188,7 +188,6 @@ class ContactsContainer extends Component {
 
 	render() {
 		const cards = this.props.Card.myContacts();
-		console.log(this.state);
 		return (
 			<View style={{
 				flex: 1,

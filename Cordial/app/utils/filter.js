@@ -62,7 +62,6 @@ function strictFilter(collection, queryString) {
 
 
 export default function filter(collection, queryString, options = {}) {
-	console.log(collection, queryString);
 	queryString = queryString.toLowerCase();
 	const {useHamming, hammingThreshold = 0} = options;
 
