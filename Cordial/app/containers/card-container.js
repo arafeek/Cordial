@@ -149,6 +149,7 @@ class CardContainer extends Component {
 
 		this.cancelEdit();
 		this.props.actions.deleteCard(this.state.card.id);
+		alert('Card Delete!');
 	}
 
 	render() {
@@ -226,7 +227,7 @@ class CardContainer extends Component {
 						style={styles.myCards}
 						onPress={this.toggleCards}>
 							<View style={{height: 35, justifyContent: 'space-around'}}>
-								<Text style={styles.myCardsText}>My Cards</Text>
+								<Text style={styles.myCardsText}>{card.type}</Text>
 							</View>
 					</TouchableOpacity>
 				}
