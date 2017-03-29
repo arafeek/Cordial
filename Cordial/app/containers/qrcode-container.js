@@ -39,7 +39,7 @@ class QRCodeContainer extends Component {
       <View style={{flex: 1}}>
         <StatusBarBackground />
         <View style={styles.titleContainer}>
-          <Text> Sharing... {displayName}</Text>
+          <Text style={styles.titleText}> Code For {displayName}</Text>
 
           <Button
               onPress={Actions.pop}
@@ -51,7 +51,7 @@ class QRCodeContainer extends Component {
           <QRCode
             value={compressedJsonString}
             size={DEVICE_WIDTH - 40}
-            bgColor='blue'
+            bgColor='black'
             fgColor='white'/>
         </View>
       </View>
@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
 	titleText: {
 		fontSize: 20,
 		margin: 0,
-		textDecorationLine: 'none'
+		textDecorationLine: 'none',
+    color: '#ffffff',
   },
   qrcontainer: {
         flex: 1,
