@@ -39,7 +39,7 @@ export function registerUser(name, number, email) {
         displayName: name,
         user: email,
         id: cardId,
-        type: 'Card ' + (Card.myCards().length + 1),
+        type: 'Card 1',
         profilePhoto: null,
         displayPhoto: null,
         fields: [
