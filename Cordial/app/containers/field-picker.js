@@ -93,13 +93,14 @@ class FieldPicker extends Component {
 		this.onSelect = this.onSelect.bind(this);
 		this.onFieldChange = this.onFieldChange.bind(this);
 	}
-
-	onSelect({icon, displayName}) {
+  
+	//look up if the selected icon has a default string
+	onSelect({icon, displayName,link}) {
 		Actions.pop();
 		this.props.onSelect({
 			displayName,
 			icon,
-			value: '',
+			value:link,
 			custom: false
 		});
 	}
@@ -123,7 +124,7 @@ class FieldPicker extends Component {
 	}
 
 	render() {
-		const iconList = _.map(Icons, ({displayName}, icon) => ({icon, displayName}));
+		const iconList = _.map(Icons, ({displayName, link}, icon) => ({icon, displayName, link}));
 
 		return (
 			<ScrollView
