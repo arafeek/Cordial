@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 	},
 	contact: {
     backgroundColor: 'white',
-    borderBottomWidth: 1,
+    borderBottomWidth: 3,
     borderBottomColor: '#dddddd',
     padding: 5,
     paddingTop: 10,
@@ -67,9 +67,17 @@ const styles = StyleSheet.create({
   icon: {
     marginLeft: 10,
   },
+	textInputContainer: {
+		backgroundColor: brightBlue,
+		padding: 8,
+		paddingLeft: 20,
+		paddingRight: 20,
+		borderColor: lightBlue,	
+		borderWidth: 2
+	},
 	textInput: {
-		backgroundColor: 'white',
-		height: 60,
+		backgroundColor: lightBlue,
+		height: 30,
 		fontSize: 14,
 		margin: 0,
 		padding: 2,
@@ -79,10 +87,12 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 5,
     borderColor: '#dddddd',
+		borderRadius: 5,
+		borderWidth: 0
 	},
 	standaloneRowBack: {
 		alignItems: 'center',
-		backgroundColor: '#FF0000',
+		backgroundColor: '#8b8b83',
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
@@ -129,7 +139,7 @@ class Contact extends Component {
 				<View style={styles.standaloneRowBack}>
 					<Text style={styles.backTextWhite}></Text>
 						<TouchableIcon 
-						style={{backgroundColor:'#FF0000'}}
+						style={{backgroundColor:'#8b8b83'}}
 						size={30} name='trash-o'
 						onPress={ () => {this.onDeleteContact(id);}}/>
 				</View>
@@ -139,7 +149,7 @@ class Contact extends Component {
               <View style={styles.iconContainer}>
                 <TouchableIcon size={50}
                   name="qrcode"
-                  onPress={() => { Actions.qrcode({id, displayName})}}
+                  onPress={() => { Actions.qrcode({id, displayName});}}
                   style={styles.contactIcon} />
                 {
                 _.take(fields, 3)
