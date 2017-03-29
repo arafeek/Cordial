@@ -54,8 +54,9 @@ function strictFilter(collection, queryString) {
 	function doesMatch(query, tagList) {
 		return _.some(tagList, (str) => str.indexOf(query) !== -1);
 	}
+	const _filter = _.isPlainObject(collection) ? _.pickBy : filter;
 
-	return _.filter(collection, (obj) => doesMatch(queryString, deepObjectToStrings(obj)));
+	return _filter(collection, (obj) => doesMatch(queryString, deepObjectToStrings(obj)));
 
 }
 

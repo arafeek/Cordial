@@ -2,12 +2,10 @@ import React, {Component} from 'react';
 import {
 	View,
 	Text,
+	TextInput,
 	TouchableHighlight,
 	ScrollView,
 	StyleSheet,
-	TouchableOpacity,
-	TextInput,
-	Modal
 } from 'react-native';
 import _ from 'lodash';
 import {Actions} from 'react-native-router-flux';
@@ -15,9 +13,9 @@ import { connect } from 'react-redux';
 
 import {Icon} from '../components/touchable-icon';
 import Icons from '../consts/icons';
-import {white, brightBlue, lightBlue, paleBlue, HEADER_HEIGHT} from '../consts/styles';
+import filter from '../utils/filter';
+import {white, brightBlue, paleBlue, lightBlue, HEADER_HEIGHT} from '../consts/styles';
 import CordialModal from '../components/cordial-modal';
-//TODO: implement custom field creation
 
 const styles = StyleSheet.create({
 	fieldOption:{
@@ -32,6 +30,24 @@ const styles = StyleSheet.create({
 	},
 	fieldOptionChild: {
 		padding: 4
+	},
+	textInputContainer: {
+		backgroundColor: brightBlue,
+		padding: 8,
+		paddingLeft: 20,
+		paddingRight: 20,
+	},
+	textInput: {
+		backgroundColor: lightBlue,
+		height: 25,
+		fontSize: 14,
+		margin: 0,
+		padding: 2,
+		paddingLeft: 8,
+		paddingRight: 8,
+		textDecorationLine: 'none',
+		borderRadius: 5,
+		borderWidth: 0
 	},
 	modal: {
 		flex: 1,
@@ -88,12 +104,18 @@ class FieldPicker extends Component {
 		super(props);
 		this.state = {
 			modalVisible: false,
-			input: ''
+			input: '',
+			searchInput: ''
 		};
+		this.handleSearch = this.handleSearch.bind(this);
 		this.onSelect = this.onSelect.bind(this);
 		this.onFieldChange = this.onFieldChange.bind(this);
 	}
-  
+	handleSearch(text) {
+		this.setState({
+			searchInput: text
+		});
+	}
 	//look up if the selected icon has a default string
 	onSelect({icon, displayName,link}) {
 		Actions.pop();
@@ -124,7 +146,9 @@ class FieldPicker extends Component {
 	}
 
 	render() {
-		const iconList = _.map(Icons, ({displayName, link}, icon) => ({icon, displayName, link}));
+		const iconList = _(filter(Icons, this.state.searchInput))
+			.map(({displayName, link}, icon) => ({icon, displayName, link}))
+			.value();
 
 		return (
 			<ScrollView
@@ -136,6 +160,16 @@ class FieldPicker extends Component {
 					justifyContent: 'flex-start',
 				}}
 			>
+				<View style={styles.textInputContainer}>
+					<TextInput /* TODO: Add a search icon */
+						onChangeText={this.handleSearch}
+						value={this.state.searchInput}
+						style={styles.textInput}
+						placeholder='Search'
+						numberOfLines={1}
+						underlineColorAndroid='rgba(0,0,0,0)'
+					/>
+				</View>
 				<CordialModal
 					visible={this.state.modalVisible}
 					onRequestClose={() => {
