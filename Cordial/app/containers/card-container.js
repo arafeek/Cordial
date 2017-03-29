@@ -72,7 +72,7 @@ class CardContainer extends Component {
 	submitEdit() {
     this.setState({
       loading: true,
-    })
+    });
 		const id = this.state.id;
     onlineStorage.uploadImage(this.state.card.id,this.state.card.profilePhoto)
       .then((url) => {
@@ -132,14 +132,10 @@ class CardContainer extends Component {
 	selectCard(id){
 		this.setState({id});
 		this.toggleCards();
-		//Actions.profile({id});
 	}
 
 	deleteCard(){
-		// Actions.profile({type: ActionConst.REPLACE});
 		var cards = Card.myCards();
-		console.log('CARDS: ', cards);
-
 		var newCards = _.map(cards, (card) => {
 			if (card.id !== this.state.id) return card.id;
 		});
@@ -150,31 +146,16 @@ class CardContainer extends Component {
 		User.put(u.id, {...u, cards: newCards});
 
 		this.cancelEdit();
-		//this.selectCard(newCards[0]);
-		// Actions.profile({id: newCards[0], type: ActionConst.REFRESH});
 		this.props.actions.deleteCard(this.state.card.id);
-		console.log('NEW ID: ', newCards[0]);
-		// this.setState({id: newCards[0]});
-		// Actions.profile({id: newCards[0].id, type: ActionConst.REPLACE});
 	}
-
-	// shouldComponentUpdate(nextProps, nextState) {
-	// 	if (!Card.byId()[nextState.id]) {
-	// 		return false;
-	// 	}
-	// 	return true;
-	// }
 
 	render() {
 		const {readOnly, editMode, keyboardOpen} = this.props;
 		const showCards = this.state.showCards;
-		console.log('ID: ', this.state.id);
 		let card = editMode ? this.state.card : Card.byId()[this.state.id];
 		const cards = Card.myCards();
 		if (!card) {
-			console.log('changing card');
 			card = Card.byId()[cards[0].id];
-			console.log('new cards ', card);
 		}
 		const Field = editMode ? EditableField : ReadOnlyField;
 		const {
@@ -185,12 +166,6 @@ class CardContainer extends Component {
 			type
 		} = card;
 		const userCompactProfileView = this.props.settings.useCompactProfileView.value;
-
-
-		// console.log('THIS IS MY CARD');
-		// console.log(card);
-		// console.log('*****************');
-		// console.log(cards);
 
 		return (
 			<View style={[styles.cardContainer, {marginBottom: editMode ? 0 : FOOTER_HEIGHT}]}>
