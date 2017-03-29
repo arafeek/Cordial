@@ -39,6 +39,7 @@ export default class EditableField extends Component {
 					value={this.state.input}
 					onChangeText={this.onFieldChange}
 					onSubmitEditing={this.onEndEditing}
+					underlineColorAndroid='transparent'
 				/>
 				{deleteAllowed &&
 					<TouchableIcon
