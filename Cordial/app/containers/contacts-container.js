@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 		padding: 8,
 		paddingLeft: 20,
 		paddingRight: 20,
-		borderColor: lightBlue,	
+		borderColor: lightBlue,
 		borderWidth: 2
 	},
 	textInput: {
@@ -111,7 +111,7 @@ class Contact extends Component {
 
 	onDeleteContact(cardId){
 		var cards = Card.myContacts();
-		
+
 		var newCards = _.map(cards, function(card) {
 			if (card.id !== cardId) return card.id;
 		});
@@ -138,7 +138,7 @@ class Contact extends Component {
 		>
 				<View style={styles.standaloneRowBack}>
 					<Text style={styles.backTextWhite}></Text>
-						<TouchableIcon 
+						<TouchableIcon
 						style={{backgroundColor:'#8b8b83'}}
 						size={30} name='trash-o'
 						onPress={ () => {this.onDeleteContact(id);}}/>
@@ -188,6 +188,7 @@ class ContactsContainer extends Component {
 
 	render() {
 		const cards = this.props.Card.myContacts();
+		console.log(this.state);
 		return (
 			<View style={{
 				flex: 1,
