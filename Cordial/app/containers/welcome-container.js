@@ -53,7 +53,7 @@ class WelcomeContainer extends Component {
 
   render() {
     const { state, actions } = this.props;
-    if (state.auth.loading) {
+    if (state.auth.loading && !User.me()) {
       return <Splash/>;
     }
     return (

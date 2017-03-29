@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   },
   text: {
     paddingLeft: 5,
-    flex: 1
+    flex: 1,
+    fontSize: 16,
   }
 });
